@@ -1,0 +1,13 @@
+*.pyc
+*.egg-info
+/*.html
+distribute-*.tar.gz
+distribute-*egg
+dist/*
+build/*
+v/*
+docs/_build/doctrees/*
+.vagrant
+conf/ec2stack.sqlite
+.idea
+*.iml

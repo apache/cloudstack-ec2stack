@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+    <Errors>
+        <Error>
+            <Code>{{error}}</Code>
+            <Message>{{message}}</Message>
+        </Error>
+    </Errors>
+    <RequestID>{{requestid}}</RequestID>
+</Response>

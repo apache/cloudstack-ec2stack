@@ -1,0 +1,16 @@
+include HISTORY.rst
+include LICENSE
+include README.rst
+include conf/ec2stack.conf
+include ec2stack/__init__.py
+include ec2stack/__main__.py
+include ec2stack/controllers/__init__.py
+include ec2stack/controllers/default.py
+include ec2stack/core.py
+include ec2stack/models.py
+include ec2stack/users/__init__.py
+include ec2stack/users/models.py
+include manager.py
+include migrations/env.py
+include migrations/versions/1ee01f19f72f_.py
+include setup.py

@@ -1,0 +1,30 @@
+{
+  "name": "metcalfc-rpmrepos",
+  "version": "0.0.1",
+  "source": "http://github.com/metcalfc/puppet-rpmrepos",
+  "author": "metcalfc",
+  "license": "Apache License, Version 2.0",
+  "summary": "Setup 3rd party RPM repos",
+  "description": "Setup the various third party repos on Centos/RHEL et all",
+  "project_page": "http://github.com/metcalfc/puppet-rpmrepos",
+  "dependencies": [
+
+  ],
+  "types": [
+
+  ],
+  "checksums": {
+    "LICENSE.md": "defb4db0e0909b7bf4cda51cd88ff708",
+    "Modulefile": "7b8a9d9f63183c0a180814b08c489516",
+    "README.md": "5324ba52be3c3b12905db3fffad4670b",
+    "files/RPM-GPG-KEY-EPEL-5": "0466c259781def56dafe0a2cdc9de0c5",
+    "files/RPM-GPG-KEY-EPEL-6": "d865e6b948a74cb03bc3401c0b01b785",
+    "files/RPM-GPG-KEY-rpmforge-dag": "a44f72c72b873d0f8f3021690bb3e52f",
+    "lib/facter/os_maj_version.rb": "0f19c87eca831a094fe83b1a79937b76",
+    "manifests/epel.pp": "df77b78a5eda939de066475ad7dd395f",
+    "manifests/init.pp": "69c80de477dce309f3f43d48ba516851",
+    "manifests/rpm_gpg_key.pp": "e2da85d84dc3c1eb88408b2907e07771",
+    "manifests/rpmforge.pp": "80203fa2ac453f3b00e2ca541688400c",
+    "tests/init.pp": "cfedfc8a0f1929b0e04d15c2b70835d1"
+  }
+}
