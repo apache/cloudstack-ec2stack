@@ -6,7 +6,7 @@ import hmac
 import hashlib
 from uuid import uuid1 as uuid
 from base64 import b64encode
-from urllib import urlencode, quote
+from urllib import urlencode
 from functools import wraps
 
 from flask import request, make_response, render_template
