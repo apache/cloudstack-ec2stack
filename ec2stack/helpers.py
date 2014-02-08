@@ -11,7 +11,7 @@ from functools import wraps
 
 from flask import request, make_response, render_template
 
-from .services import USERS as _users
+from .services import USERS
 from .core import Ec2stackError
 
 
@@ -26,7 +26,11 @@ def authentication_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         try:
-            _require_params()
+            required_params = {'Action', 'AWSAccessKeyId', 'Signature',
+                               'SignatureMethod', 'SignatureVersion',
+                               'Timestamp', 'Version'}
+            _require_parameters(required_params)
+
             _valid_signature_method()
             _valid_signature_version()
             _valid_signature()
@@ -38,14 +42,12 @@ def authentication_required(f):
     return decorated
 
 
-def _require_params():
-    params = {'Action', 'AWSAccessKeyId', 'Signature', 'SignatureMethod',
-              'SignatureVersion', 'Timestamp', 'Version'}
-    for param in params:
-        if (get(param, request.form)) is None:
+def _require_parameters(required_parameters):
+    for parameter in required_parameters:
+        if (get(parameter, request.form)) is None:
             raise Ec2stackError(
                 'MissingParameter',
-                'The request must contain the parameter %s' % param
+                'The request must contain the parameter %s' % parameter
             )
 
 
@@ -72,7 +74,7 @@ def _valid_signature_version():
 
 def _valid_signature():
     apikey = get('AWSAccessKeyId', request.form)
-    secretkey = _users.get(apikey)
+    secretkey = USERS.get(apikey)
 
     params = {}
 
