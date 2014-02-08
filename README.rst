@@ -4,7 +4,7 @@
 Cloudstack EC2 API
 ==================
 
-.. image:: https://travis-ci.org/imduffy15/cloudstack-ec2api.png?branch=master
+.. image:: https://api.travis-ci.org/imduffy15/ec2stack.png?branch=master
 
 Description
 -----------
