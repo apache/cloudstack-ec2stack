@@ -3,8 +3,9 @@
 
 from flask import Blueprint, Response, request
 
-from ..helpers import get, error_response
+from ..helpers import get, error_response, successful_response
 from ..core import Ec2stackError
+from . import images
 
 
 DEFAULT = Blueprint('default', __name__)
@@ -13,15 +14,15 @@ DEFAULT = Blueprint('default', __name__)
 @DEFAULT.route('/', methods=['POST'])
 def index():
     try:
-        print _get_action(get('Action', request.form))()
-        return Response('EC2STACK', status=200, mimetype='text/html')
+        response_content = _get_action(get('Action', request.form))()
+        return successful_response(response_content)
     except Ec2stackError as err:
         return error_response(err.error, err.message)
 
 
 def _get_action(action):
     actions = {
-        'HelloWorld': hello_world,
+        'DescribeImages': images.describe
     }
 
     if action in actions:
@@ -31,10 +32,6 @@ def _get_action(action):
             'InvalidAction',
             'The action %s is not valid for this web service' % (action)
         )
-
-
-def hello_world():
-    return 'Hello World'
 
 
 @DEFAULT.app_errorhandler(404)

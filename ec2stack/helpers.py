@@ -147,3 +147,10 @@ def error_response(error, message):
     response.headers['Content-Type'] = 'application/xml'
     response.status_code = 400
     return response
+
+
+def successful_response(content):
+    response = make_response(content)
+    response.headers['Content-Type'] = 'application/xml'
+    response.status_code = 200
+    return response
