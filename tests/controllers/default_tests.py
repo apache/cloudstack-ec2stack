@@ -15,7 +15,7 @@ class DefaultControllerTestCase(Ec2StackControllerTestCase):
         r = self.post(
             '/',
             data={
-                'Action': 'HelloWorld',
+                'Action': 'DescribeImages'
             }
         )
         self.assertOk(r)
