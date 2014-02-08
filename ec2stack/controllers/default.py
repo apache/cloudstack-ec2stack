@@ -5,7 +5,7 @@ from flask import Blueprint, Response, request
 
 from ..helpers import get, error_response, successful_response
 from ..core import Ec2stackError
-from . import images
+from . import images, instances
 
 
 DEFAULT = Blueprint('default', __name__)
@@ -22,7 +22,8 @@ def index():
 
 def _get_action(action):
     actions = {
-        'DescribeImages': images.describe
+        'DescribeImages': images.describe,
+        'DescribeInstances': instances.describe
     }
 
     if action in actions:
