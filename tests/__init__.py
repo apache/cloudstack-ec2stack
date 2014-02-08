@@ -8,6 +8,7 @@
 """
 
 from unittest import TestCase
+
 from ec2stack import create_app
 from .utils import FlaskTestCaseMixin
 
@@ -17,7 +18,6 @@ class Ec2StackTestCase(TestCase):
 
 
 class Ec2StackAppTestCase(FlaskTestCaseMixin, Ec2StackTestCase):
-
     def _create_app(self):
         return create_app()
 

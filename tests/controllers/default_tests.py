@@ -7,12 +7,10 @@
     api product tests module
 """
 
-
 from . import Ec2StackControllerTestCase
 
 
 class DefaultControllerTestCase(Ec2StackControllerTestCase):
-
     def example_test(self):
         r = self.post(
             '/',
