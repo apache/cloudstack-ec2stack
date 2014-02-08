@@ -3,7 +3,7 @@
 
 from flask import Blueprint, Response, request
 
-from ..helpers import get, authentication_required, error_response
+from ..helpers import get, error_response
 from ..core import Ec2stackError
 
 
@@ -11,9 +11,7 @@ DEFAULT = Blueprint('default', __name__)
 
 
 @DEFAULT.route('/', methods=['POST'])
-@authentication_required
 def index():
-    print 'hello'
     try:
         print _get_action(get('Action', request.form))()
         return Response('EC2STACK', status=200, mimetype='text/html')
