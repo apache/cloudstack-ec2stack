@@ -1,0 +1,12 @@
+<DescribeImagesResponse xmlns="http://ec2.amazonaws.com/doc/2013-10-15/">
+  <requestId>requestid</requestId> 
+  <imagesSet>
+    {% for image in images %}
+    <item>
+      <imageId>{{image.id}}</imageId>
+      <imageState>{{image.state}}</imageState>
+      <name>{{image.name}}</name>
+    </item>
+    {% endfor %}
+  </imagesSet>
+</DescribeImagesResponse>

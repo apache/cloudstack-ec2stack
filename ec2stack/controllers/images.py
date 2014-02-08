@@ -1,11 +1,24 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from flask import Blueprint, render_template
-
-
-IMAGES = Blueprint('images', __name__)
+from flask import render_template
 
 
 def describe():
-    return render_template("describe_images.xml")
+    images = [
+        {
+            'id': '1',
+            'name': 'dummy-image-1',
+            'state': 'available'
+        },
+        {
+            'id': '2',
+            'name': 'dummy-image-2',
+            'state': 'available'
+        }
+    ]
+
+    return render_template(
+        'images/describe_images.xml',
+        images=images
+    )
