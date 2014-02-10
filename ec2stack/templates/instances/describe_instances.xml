@@ -1,4 +1,4 @@
-<DescribeInstancesResponse xmlns="http://ec2.amazonaws.com/doc/2013-10-15/">
+{% extends "describe_items_esponse.xml" %}
   <requestId>requestid</requestId>
     <reservationSet>
       <item>

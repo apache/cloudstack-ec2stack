@@ -4,7 +4,9 @@
     {% for image in images %}
     <item>
       <imageId>{{image.id}}</imageId>
-      <imageState>{{image.state}}</imageState>
+      <imageState>
+              <name>{{image.state}}</name>
+            </imageState>
       <name>{{image.name}}</name>
     </item>
     {% endfor %}

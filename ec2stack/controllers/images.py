@@ -5,7 +5,7 @@ from flask import render_template
 
 
 def describe():
-    images = [
+    items = [
         {
             'id': '1',
             'name': 'dummy-image-1',
@@ -19,6 +19,9 @@ def describe():
     ]
 
     return render_template(
-        'images/describe_images.xml',
-        images=images
+        'describe_items_response.xml',
+        response_type='DescribeImagesResponse',
+        items=items,
+        request_id='dummy_request_id',
+        item_to_describe='image'
     )

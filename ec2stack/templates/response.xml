@@ -1,0 +1,7 @@
+<{{response_type}} xmlns="http://ec2.amazonaws.com/doc/2013-10-15/">
+  {% if request_id %}
+  <requestId>{{request_id}}</requestId> 
+  {% endif %}
+  {% block response_content %}
+  {% endblock %}
+</{{response_type}}>

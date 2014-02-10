@@ -5,7 +5,7 @@ from flask import render_template
 
 
 def describe():
-    instances = [
+    items = [
         {
             'id': '1',
             'state': 'running',
@@ -21,6 +21,11 @@ def describe():
     ]
 
     return render_template(
-        'instances/describe_instances.xml',
-        instances=instances
+        'describe_items_response.xml',
+        response_type='DescribeInstancesResponse',
+        reservation_id='dummy_request_id',
+        owner_id='dummy_owner_id',
+        items=items,
+        request_id='dummy_request_id',
+        item_to_describe='instance'
     )
