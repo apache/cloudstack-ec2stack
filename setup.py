@@ -51,5 +51,6 @@ setup(
     entry_points="""
         [console_scripts]
         ec2stack = ec2stack.__main__:main
+        ec2stack-configure = configure:main
     """,
 )
