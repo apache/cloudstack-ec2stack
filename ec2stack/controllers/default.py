@@ -80,6 +80,7 @@ def removeSecretKey():
             'The given AWSAccessKeyId was not found'
         )
 
+
 @DEFAULT.app_errorhandler(404)
 def not_found(err):
     return Response('Not Found', status=404, mimetype='text/html')
