@@ -37,6 +37,12 @@ def _load_config_file(app):
 
     app.config.from_pyfile(config_file)
 
+    for config_item in ['EC2STACK_BIND_ADDRESS', 'EC2STACK_PORT',
+                        'CLOUDSTACK_HOST', 'CLOUDSTACK_PORT',
+                        'CLOUDSTACK_PROTOCOL', 'CLOUDSTACK_PATH']:
+        if config_item not in app.config:
+            sys.exit('Configuration file is missing %s' % config_item)
+
 
 def _load_database(app):
     database_file = os.path.join(
