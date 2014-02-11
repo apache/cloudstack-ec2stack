@@ -26,8 +26,8 @@ def authentication_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         required_params = {'Action', 'AWSAccessKeyId', 'Signature',
-                               'SignatureMethod', 'SignatureVersion',
-                               'Timestamp', 'Version'}
+                           'SignatureMethod', 'SignatureVersion', 'Timestamp',
+                           'Version'}
         require_parameters(required_params)
 
         _valid_signature_method()
