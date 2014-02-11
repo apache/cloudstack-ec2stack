@@ -25,18 +25,14 @@ def get(item, data):
 def authentication_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        try:
-            required_params = {'Action', 'AWSAccessKeyId', 'Signature',
+        required_params = {'Action', 'AWSAccessKeyId', 'Signature',
                                'SignatureMethod', 'SignatureVersion',
                                'Timestamp', 'Version'}
-            require_parameters(required_params)
+        require_parameters(required_params)
 
-            _valid_signature_method()
-            _valid_signature_version()
-            _valid_signature()
-        except Ec2stackError as err:
-            response = error_response(err.error, err.message)
-            return response
+        _valid_signature_method()
+        _valid_signature_version()
+        _valid_signature()
         return f(*args, **kwargs)
 
     return decorated
