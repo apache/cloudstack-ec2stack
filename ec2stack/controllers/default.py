@@ -5,6 +5,7 @@ from flask import Blueprint, Response, request
 
 from ..helpers import get, error_response, successful_response, require_parameters
 from ..core import Ec2stackError
+from ..services import USERS
 from . import images, instances
 
 
@@ -39,11 +40,30 @@ def _get_action(action):
 
 def registerSecretKey():
     require_parameters({'AWSAccessKeyId', 'AWSSecretKey'})
-    return error_response(200, 'Not fully implemented yet....')
+    found_user = USERS.get(get('AWSAccessKeyId', request.form))
+    if found_user is None:
+        USERS.create(
+            apikey=get('AWSAccessKeyId', request.form),
+            secretkey=get('AWSSecretKey', request.form)
+        )
+        return error_response(200, 'Not fully implemented yet....'
+                                   'User might of been registered...')
+    else:
+        raise Ec2stackError(
+            'DuplicateUser',
+            'The given AWSAccessKeyId is already registered'
+        )
+
 
 def removeSecretKey():
     require_parameters({'AWSAccessKeyId', 'AWSSecretKey'})
-    return error_response(200, 'Not fully implemented yet....')
+    found_user = USERS.get(get('AWSAccessKeyId', request.form))
+    if found_user is not None:
+        USERS.delete(found_user)
+        return error_response(200, 'Not fully implemented yet....'
+                                   'User might of been deleted...')
+    else:
+        return error_response(200, 'Not fully implemented yet....')
 
 
 @DEFAULT.app_errorhandler(404)
