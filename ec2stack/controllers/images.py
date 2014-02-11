@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from flask import render_template
 from ..helpers import authentication_required
 
 
@@ -20,10 +19,9 @@ def describe():
         }
     ]
 
-    return render_template(
-        'describe_items_response.xml',
-        response_type='DescribeImagesResponse',
-        items=items,
-        request_id='dummy_request_id',
-        item_to_describe='image'
-    )
+    return {
+        'template_name_or_list': 'describe_items_response.xml',
+        'response_type': 'DescribeImagesResponse',
+        'items': items,
+        'item_to_describe': 'image'
+    }

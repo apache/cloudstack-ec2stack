@@ -3,7 +3,8 @@
 
 from flask import Blueprint, Response, request
 
-from ..helpers import get, error_response, successful_response, require_parameters
+from ..helpers import get, error_response, successful_response,\
+    require_parameters
 from ..core import Ec2stackError
 from ..services import USERS
 from . import images, instances
@@ -15,8 +16,8 @@ DEFAULT = Blueprint('default', __name__)
 @DEFAULT.route('/', methods=['POST'])
 def index():
     try:
-        response_content = _get_action(get('Action', request.form))()
-        return successful_response(response_content)
+        response_data = _get_action(get('Action', request.form))()
+        return successful_response(**response_data)
     except Ec2stackError as err:
         return error_response(err.code, err.error, err.message)
 
@@ -47,10 +48,15 @@ def registerSecretKey():
             apikey=get('AWSAccessKeyId', request.form),
             secretkey=get('AWSSecretKey', request.form)
         )
-        return error_response(200, 'Not fully implemented yet....',
-                              'User might of been registered...')
+        return {
+            'template_name_or_list': 'secretkey.xml',
+            'response_type': 'RemoveSecretKeyResponse',
+            'apikey': get('AWSAccessKeyId', request.form),
+            'secretkey': get('AWSSecretKey', request.form),
+        }
     else:
         raise Ec2stackError(
+            '400',
             'DuplicateUser',
             'The given AWSAccessKeyId is already registered'
         )
@@ -61,8 +67,12 @@ def removeSecretKey():
     found_user = USERS.get(get('AWSAccessKeyId', request.form))
     if found_user is not None:
         USERS.delete(found_user)
-        return error_response(200, 'Not fully implemented yet....',
-                              'User might of been deleted...')
+        return {
+            'template_name_or_list': 'secretkey.xml',
+            'response_type': 'RemoveSecretKeyResponse',
+            'apikey': get('AWSAccessKeyId', request.form),
+            'secretkey': get('AWSSecretKey', request.form),
+        }
     else:
         return error_response(200, 'Not fully implemented yet....',
                               'User might not be found...')

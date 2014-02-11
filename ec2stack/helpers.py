@@ -29,10 +29,12 @@ def authentication_required(f):
                            'SignatureMethod', 'SignatureVersion', 'Timestamp',
                            'Version'}
         require_parameters(required_params)
+
         _valid_signature_method()
         _valid_signature_version()
         _valid_signature()
         return f(*args, **kwargs)
+
     return decorated
 
 
@@ -157,7 +159,8 @@ def error_response(code, error, message):
     return response
 
 
-def successful_response(content):
+def successful_response(**kwargs):
+    content = render_template(request_id=uuid(), **kwargs)
     response = make_response(content)
     response.headers['Content-Type'] = 'application/xml'
     response.status_code = 200
