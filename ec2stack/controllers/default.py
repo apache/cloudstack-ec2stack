@@ -74,9 +74,11 @@ def removeSecretKey():
             'secretkey': get('AWSSecretKey', request.form),
         }
     else:
-        return error_response(200, 'Not fully implemented yet....',
-                              'User might not be found...')
-
+        raise Ec2stackError(
+            '400',
+            'NoSuchUser',
+            'The given AWSAccessKeyId was not found'
+        )
 
 @DEFAULT.app_errorhandler(404)
 def not_found(err):
