@@ -73,27 +73,37 @@ def _valid_signature_version():
 
 
 def _valid_signature():
+    signature = get('Signature', request.form)
+    generated_signature = _generate_signature()
+
+    print 'Supplied signature: ' + signature
+    print 'Generated signature: ' + generated_signature
+
+    if signature != generated_signature:
+        raise Ec2stackError(
+            'AuthFailure',
+            'AWS was not able to validate the provided access credentials.'
+        )
+
+
+def _get_secretkey():
     apikey = get('AWSAccessKeyId', request.form)
-    secretkey = USERS.get(apikey)
+    user = USERS.get(apikey)
 
-    params = {}
-
-    for param in request.form:
-        if param != 'Signature':
-            params[param] = request.form[param]
-
-    _generate_signature(secretkey)
-
-    if secretkey is None:
+    if user is None:
         raise Ec2stackError(
             'AuthFailure',
             'Unable to find a secret key for %s, please insure you registered'
             % apikey
         )
 
+    return user.secretkey.encode('utf-8')
 
-def _generate_signature(secretkey):
+
+def _generate_signature():
+    secretkey = _get_secretkey()
     request_string = _get_request_string()
+
     signature = hmac.new(
         key=secretkey,
         msg=bytes(request_string),
@@ -102,18 +112,16 @@ def _generate_signature(secretkey):
 
     signature = b64encode(signature)
 
-    print signature
-
     return signature
 
 
 def _get_request_string():
     query_string = _get_query_string()
-    print query_string
+
     request_string = '\n'.join(
         [request.method, request.host, '/', query_string]
     )
-    print request_string
+
     return request_string.encode('utf-8')
 
 

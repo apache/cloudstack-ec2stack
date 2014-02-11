@@ -63,7 +63,8 @@ def removeSecretKey():
         return error_response(200, 'Not fully implemented yet....'
                                    'User might of been deleted...')
     else:
-        return error_response(200, 'Not fully implemented yet....')
+        return error_response(200, 'Not fully implemented yet....'
+                                   'User might not be found...')
 
 
 @DEFAULT.app_errorhandler(404)
