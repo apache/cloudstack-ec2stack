@@ -29,12 +29,10 @@ def authentication_required(f):
                            'SignatureMethod', 'SignatureVersion', 'Timestamp',
                            'Version'}
         require_parameters(required_params)
-
         _valid_signature_method()
         _valid_signature_version()
         _valid_signature()
         return f(*args, **kwargs)
-
     return decorated
 
 
@@ -42,6 +40,7 @@ def require_parameters(required_parameters):
     for parameter in required_parameters:
         if (get(parameter, request.form)) is None:
             raise Ec2stackError(
+                '400',
                 'MissingParameter',
                 'The request must contain the parameter %s' % parameter
             )
@@ -51,6 +50,7 @@ def _valid_signature_method():
     signature_method = get('SignatureMethod', request.form)
     if signature_method not in ['HmacSHA1', 'HmacSHA256']:
         raise Ec2stackError(
+            '400',
             'InvalidParameterValue',
             'Value (%s) for parameter SignatureMethod is invalid. '
             'Unknown signature method.' % signature_method
@@ -61,6 +61,7 @@ def _valid_signature_version():
     signature_version = get('SignatureVersion', request.form)
     if signature_version != '2':
         raise Ec2stackError(
+            '400',
             'InvalidParameterValue',
             'Value (%s) for parameter SignatureVersion is invalid.'
             'Valid Signature versions are 2.'
@@ -77,6 +78,7 @@ def _valid_signature():
 
     if signature != generated_signature:
         raise Ec2stackError(
+            '401',
             'AuthFailure',
             'AWS was not able to validate the provided access credentials.'
         )
@@ -88,6 +90,7 @@ def _get_secretkey():
 
     if user is None:
         raise Ec2stackError(
+            '401',
             'AuthFailure',
             'Unable to find a secret key for %s, please insure you registered'
             % apikey
@@ -139,7 +142,7 @@ def _get_query_string():
     return query_string
 
 
-def error_response(error, message):
+def error_response(code, error, message):
     response = make_response(
         render_template(
             "generic_error.xml",
@@ -150,7 +153,7 @@ def error_response(error, message):
         )
     )
     response.headers['Content-Type'] = 'application/xml'
-    response.status_code = 400
+    response.status_code = int(code)
     return response
 
 

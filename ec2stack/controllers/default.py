@@ -18,7 +18,7 @@ def index():
         response_content = _get_action(get('Action', request.form))()
         return successful_response(response_content)
     except Ec2stackError as err:
-        return error_response(err.error, err.message)
+        return error_response(err.code, err.error, err.message)
 
 
 def _get_action(action):
@@ -33,6 +33,7 @@ def _get_action(action):
         return actions[action]
     else:
         raise Ec2stackError(
+            '400',
             'InvalidAction',
             'The action %s is not valid for this web service' % (action)
         )

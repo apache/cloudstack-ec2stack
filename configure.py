@@ -22,14 +22,38 @@ def _create_config_folder():
 
 
 def _create_config_file(config_folder):
-    host = raw_input('EC2Stack bind address [0.0.0.0]: ')
-    port = raw_input('EC2Stack bind port [5000]: ')
+
+    ec2stack_address = raw_input('EC2Stack bind address [0.0.0.0]: ')
+    if ec2stack_address == '':
+        ec2stack_address = '0.0.0.0'
+
+    ec2stack_port = raw_input('EC2Stack bind port [5000]: ')
+    if ec2stack_port == '':
+        ec2stack_port = '5000'
+
+    cloudstack_host = raw_input('Cloudstack host [localhost]: ')
+    if cloudstack_host == '':
+        cloudstack_host = 'localhost'
+
+    cloudstack_port = raw_input('Cloudstack port [8080]: ')
+    if cloudstack_port == '':
+        cloudstack_port = '8080'
+
+    cloudstack_protocol = raw_input('Cloudstack protocol [http]: ')
+    if cloudstack_protocol == '':
+        cloudstack_protocol = 'http'
+
+    cloudstack_path = raw_input('Cloudstack Path [/client/api]: ')
+    if cloudstack_path == '':
+        cloudstack_path = '/client/api'
 
     config_file = open(config_folder + '/ec2stack.conf', 'w+')
-    if host != '':
-        config_file.write("EC2STACK_HOST = '%s'\n" % (host))
-    if port != '':
-        config_file.write("EC2STACK_PORT = '%s'\n" % (port))
+    config_file.write('EC2STACK_BIND_ADDRESS = \'%s\'\n' % (ec2stack_address))
+    config_file.write('EC2STACK_PORT = \'%s\'\n' % (ec2stack_port))
+    config_file.write('CLOUDSTACK_HOST = \'%s\'\n' % (cloudstack_host))
+    config_file.write('CLOUDSTACK_PORT = \'%s\'\n' % (cloudstack_port))
+    config_file.write('CLOUDSTACK_PROTOCOL = \'%s\'\n' % (cloudstack_protocol))
+    config_file.write('CLOUDSTACK_PATH = \'%s\'\n' % (cloudstack_path))
     config_file.close()
 
 

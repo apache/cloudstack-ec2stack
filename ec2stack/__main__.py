@@ -10,11 +10,15 @@ import ec2stack
 def main():
     app = ec2stack.create_app()
 
-    address = app.config['EC2STACK_HOST'] if 'EC2STACK_HOST' in app.config \
-        else '0.0.0.0'
+    if 'EC2STACK_BIND_ADDRESS' in app.config:
+        address = app.config['EC2STACK_BIND_ADDRESS']
+    else:
+        address = '0.0.0.0'
 
-    port = int(app.config['EC2STACK_PORT']) if 'EC2STACK_PORT' in app.config \
-        else 5000
+    if 'EC2STACK_PORT' in app.config:
+        port = int(app.config['EC2STACK_PORT'])
+    else:
+        port = 5000
 
     run_simple(
         address,
