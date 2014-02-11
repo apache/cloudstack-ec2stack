@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<{{response_type}} xmlns="http://ec2.amazonaws.com/doc/2013-10-15/">
+<{{response_type}}{% if not error %} xmlns="http://ec2.amazonaws.com/doc/2013-10-15/"{%endif%}>
     {% block response_content %}
     {% endblock %}
     {% if request_id %}
