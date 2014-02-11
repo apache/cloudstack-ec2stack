@@ -3,7 +3,7 @@
 
 from flask import Blueprint, Response, request
 
-from ..helpers import get, error_response, successful_response
+from ..helpers import get, error_response, successful_response, require_parameters
 from ..core import Ec2stackError
 from . import images, instances
 
@@ -23,7 +23,9 @@ def index():
 def _get_action(action):
     actions = {
         'DescribeImages': images.describe,
-        'DescribeInstances': instances.describe
+        'DescribeInstances': instances.describe,
+        'RegisterSecretKey': registerSecretKey,
+        'RemoveSecretKey': removeSecretKey
     }
 
     if action in actions:
@@ -33,6 +35,15 @@ def _get_action(action):
             'InvalidAction',
             'The action %s is not valid for this web service' % (action)
         )
+
+
+def registerSecretKey():
+    require_parameters({'AWSAccessKeyId', 'AWSSecretKey'})
+    return error_response(200, 'Not fully implemented yet....')
+
+def removeSecretKey():
+    require_parameters({'AWSAccessKeyId', 'AWSSecretKey'})
+    return error_response(200, 'Not fully implemented yet....')
 
 
 @DEFAULT.app_errorhandler(404)

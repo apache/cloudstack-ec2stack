@@ -29,7 +29,7 @@ def authentication_required(f):
             required_params = {'Action', 'AWSAccessKeyId', 'Signature',
                                'SignatureMethod', 'SignatureVersion',
                                'Timestamp', 'Version'}
-            _require_parameters(required_params)
+            require_parameters(required_params)
 
             _valid_signature_method()
             _valid_signature_version()
@@ -42,7 +42,7 @@ def authentication_required(f):
     return decorated
 
 
-def _require_parameters(required_parameters):
+def require_parameters(required_parameters):
     for parameter in required_parameters:
         if (get(parameter, request.form)) is None:
             raise Ec2stackError(
@@ -139,9 +139,10 @@ def error_response(error, message):
     response = make_response(
         render_template(
             "generic_error.xml",
+            response_type='Response',
             error=error,
             message=message,
-            requestid=uuid()
+            request_id=uuid()
         )
     )
     response.headers['Content-Type'] = 'application/xml'

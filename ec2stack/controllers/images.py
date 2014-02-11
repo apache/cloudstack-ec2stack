@@ -2,8 +2,9 @@
 # encoding: utf-8
 
 from flask import render_template
+from ..helpers import authentication_required
 
-
+@authentication_required
 def describe():
     items = [
         {
