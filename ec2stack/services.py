@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from .users import UsersService
+from .models.users import UsersService
 
 
 USERS = UsersService()

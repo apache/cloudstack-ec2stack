@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from ec2stack.core import DB
+from ...core import DB
 
 
 class User(DB.Model):

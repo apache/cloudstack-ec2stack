@@ -3,7 +3,7 @@
 
 from flask import Blueprint, Response, request
 
-from ..helpers import get, error_response, successful_response,\
+from ..helpers import get, error_response, successful_response, \
     require_parameters
 from ..core import Ec2stackError
 from ..services import USERS

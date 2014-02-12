@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from ..core import Service
+from ...core import Service
 from .models import User
 
 
