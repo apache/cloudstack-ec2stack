@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from flask import Blueprint, Response, request
+from flask import Blueprint, request
 
 from ec2stack.helpers import get, error_response, \
     successful_response, require_parameters
@@ -83,9 +83,18 @@ def removeSecretKey():
 
 @DEFAULT.app_errorhandler(404)
 def not_found(err):
-    return Response('Not Found', status=404, mimetype='text/html')
+    return error_response('404', 'NotFound', 'Page not found')
 
 
+@DEFAULT.app_errorhandler(431)
+@DEFAULT.app_errorhandler(531)
 @DEFAULT.app_errorhandler(400)
 def bad_request(err):
-    return Response('Bad Request', status=404, mimetype='text/html')
+    return error_response('400', 'BadRequest', 'Bad Request')
+
+
+@DEFAULT.app_errorhandler(401)
+def auth_failure(err):
+    return error_response('401', 'AuthFailure',
+                          'AWS was not able to validate the provided '
+                          'access credentials')
