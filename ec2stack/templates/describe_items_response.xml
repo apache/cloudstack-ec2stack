@@ -1,25 +1,25 @@
 {% extends "response.xml" %}
-        {% block response_content %}
-        {% if reservation_id %}
+{% block response_content %}
+{% if reservation_id %}
 <reservationSet>
     <item>
         <reservationId>{{reservation_id}}</reservationId>
         <ownerId>{{owner_id}}</ownerId>
-        {% endif %}
+{% endif %}
         <{{item_to_describe}}sSet>
         {% for item in items %}
         <item>
             <{{item_to_describe}}Id>
             {{item.id}}
-        </{{item_to_describe}}Id>
-        <{{item_to_describe}}State>
-        <name>{{item.state}}</name>
-    </{{item_to_describe}}State>
-</item>
-        {% endfor %}
-        </{{item_to_describe}}sSet>
-        {% if reservation_id %}
+            </{{item_to_describe}}Id>
+            <{{item_to_describe}}State>
+            <name>{{item.state}}</name>
+            </{{item_to_describe}}State>
         </item>
-        </reservationSet>
-        {% endif %}
-        {% endblock %}
+        {% endfor %}
+    </{{item_to_describe}}sSet>
+{% if reservation_id %}
+    </item>
+    </reservationSet>
+{% endif %}
+{% endblock %}
