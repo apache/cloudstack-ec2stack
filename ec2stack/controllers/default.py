@@ -24,8 +24,8 @@ def index():
 
 def _get_action(action):
     actions = {
-        'DescribeImages': images.describe,
-        'DescribeInstances': instances.describe,
+        'DescribeImages': images.describe_images,
+        'DescribeInstances': instances.describe_instances,
         'RegisterSecretKey': registerSecretKey,
         'RemoveSecretKey': removeSecretKey
     }
