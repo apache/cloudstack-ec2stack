@@ -6,9 +6,9 @@ import sys
 
 from flask import Flask
 
-from .controllers import *
-from .core import DB
-from .models import User
+from ec2stack.controllers import *
+from ec2stack.core import DB
+from ec2stack.models import User
 
 
 def create_app():

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from ...core import Service
-from .models import User
+from ec2stack.core import Service
+from ec2stack.models import User
 
 
 class UsersService(Service):

@@ -1,9 +1,9 @@
 {% extends "response.xml" %}
-        {% block response_content %}
+{% block response_content %}
 <Errors>
     <Error>
         <Code>{{error}}</Code>
         <Message>{{message}}</Message>
-    </Error>
+     </Error>
 </Errors>
-        {% endblock %}
+{% endblock %}

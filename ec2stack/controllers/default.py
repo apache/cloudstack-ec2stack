@@ -3,11 +3,11 @@
 
 from flask import Blueprint, Response, request
 
-from ..helpers import get, error_response, successful_response, \
-    require_parameters
-from ..core import Ec2stackError
-from ..services import USERS
-from . import images, instances
+from ec2stack.helpers import get, error_response, \
+    successful_response, require_parameters
+from ec2stack.core import Ec2stackError
+from ec2stack.services import USERS
+from ec2stack.controllers import images, instances
 
 
 DEFAULT = Blueprint('default', __name__)

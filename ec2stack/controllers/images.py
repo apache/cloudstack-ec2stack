@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from ..helpers import authentication_required
+from ec2stack.helpers import authentication_required
 
 
 @authentication_required

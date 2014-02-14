@@ -11,8 +11,8 @@ from functools import wraps
 
 from flask import request, make_response, render_template
 
-from .services import USERS
-from .core import Ec2stackError
+from ec2stack.services import USERS
+from ec2stack.core import Ec2stackError
 
 
 def get(item, data):
