@@ -33,32 +33,12 @@ def _cloudstack_virtual_machine_to_aws(cloudstack_response):
         'ownerid': cloudstack_response['account']
     }
 
-@authentication_required
-def describe_instance():
-    if('InstanceId.' + str(current_instance)) in request.form:
-        instance_id = helpers.get(
-            'InstanceId.' + str(current_instance), 
-            request.form
-        )
-        args = {
-            'keyword': instance_id
-        }
-        virtual_machines.append(_get_virtual_machines(args))
-        virtual_machines.append(describe_instance(current_instance + 1))
-
-    print('\n')
-    print(virtual_machines)
-    return virtual_machines
-
 
 @authentication_required
 def describe_instances():
-    if('InstanceId.1') in request.form:
-        virtual_machines = describe_instance(1)
-    else: 
-        virtual_machines = _get_virtual_machines()
-    items = []
+    virtual_machines = _get_virtual_machines()
 
+    items = []
     if virtual_machines['listvirtualmachinesresponse']:
         for virtual_machine in virtual_machines['listvirtualmachinesresponse']['virtualmachine']:
             items.append(
