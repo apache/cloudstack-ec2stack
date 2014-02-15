@@ -61,7 +61,7 @@ def _generate_signature(request_url, secretkey):
         key=bytes(secretkey),
         msg=bytes(signature),
         digestmod=sha1,
-        ).digest()
+    ).digest()
 
     signature = b64encode(signature)
     signature = quote_plus(signature)

@@ -22,7 +22,6 @@ def _create_config_folder():
 
 
 def _create_config_file(config_folder):
-
     ec2stack_address = raw_input('EC2Stack bind address [0.0.0.0]: ')
     if ec2stack_address == '':
         ec2stack_address = '0.0.0.0'

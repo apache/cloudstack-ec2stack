@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from ec2stack import create_app
-from ec2stack.core import DB
 from flask.ext.migrate import Migrate, MigrateCommand
 from flask.ext.script import Manager
+
+from ec2stack import create_app
+from ec2stack.core import DB
+
 
 APP = create_app()
 

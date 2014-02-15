@@ -3,6 +3,7 @@
 
 import os
 from glob import glob
+
 from setuptools import setup
 
 
@@ -13,6 +14,7 @@ def read_file(name):
     except IOError:
         print "could not read %r" % name
         data.close()
+
 
 PROJECT = 'ec2stack'
 VERSION = '0.1'
@@ -29,7 +31,6 @@ if os.getenv('VIRTUAL_ENV', False):
     DATA_FILES.append(('conf', glob('conf/*.conf')))
 else:
     DATA_FILES.append(('/etc/ec2stack', glob('conf/*.conf')))
-
 
 setup(
     name=PROJECT,
