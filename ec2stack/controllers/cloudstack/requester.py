@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import urllib
-from urllib import urlencode
-import hashlib
-import base64
+from urllib import urlencode, quote_plus
+from hashlib import sha1
+from base64 import b64encode
 import hmac
 import json
 
@@ -17,17 +16,17 @@ def make_request(args, secretkey):
     request_url = _generate_request_url(args, secretkey)
 
     response = requests.get(request_url)
-    cloudstack_response = json.loads(response.text)
+    response_data = json.loads(response.text)
 
     current_app.logger.debug(
         'status code: ' + str(response.status_code) +
-        json.dumps(cloudstack_response, indent=4, separators=(',', ': '))
+        json.dumps(response_data, indent=4, separators=(',', ': '))
     )
 
     if response.status_code in [531, 401, 431]:
         abort(response.status_code)
     else:
-        return cloudstack_response
+        return response_data
 
 
 def _generate_request_url(args, secretkey):
@@ -58,16 +57,13 @@ def _generate_request_url(args, secretkey):
 def _generate_signature(request_url, secretkey):
     signature = request_url.lower().replace('+', '%20')
 
-    signature = base64.encodestring(
-        hmac.new(
-            bytes(secretkey),
-            bytes(signature),
-            hashlib.sha1
+    signature = hmac.new(
+        key=bytes(secretkey),
+        msg=bytes(signature),
+        digestmod=sha1,
         ).digest()
-    ).strip()
 
-    signature = urllib.quote_plus(
-        signature
-    )
+    signature = b64encode(signature)
+    signature = quote_plus(signature)
 
     return signature
