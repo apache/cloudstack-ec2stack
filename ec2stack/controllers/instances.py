@@ -24,13 +24,39 @@ def _cloudstack_virtual_machine_to_aws(cloudstack_response):
     return {
         'id': cloudstack_response['id'],
         'name': cloudstack_response['name'],
-        'state': cloudstack_response['state'].upper()
+        'state': cloudstack_response['state'].upper(),
+        'availability_zone': cloudstack_response['zonename'].upper(),
+        'hypervisor': cloudstack_response['hypervisor'],
+        'imageid': cloudstack_response['templateid'],
+        'launch_time': cloudstack_response['created'],
+        'instance_type': cloudstack_response['serviceofferingname'],
+        'ownerid': cloudstack_response['account']
     }
+
+@authentication_required
+def describe_instance():
+    if('InstanceId.' + str(current_instance)) in request.form:
+        instance_id = helpers.get(
+            'InstanceId.' + str(current_instance), 
+            request.form
+        )
+        args = {
+            'keyword': instance_id
+        }
+        virtual_machines.append(_get_virtual_machines(args))
+        virtual_machines.append(describe_instance(current_instance + 1))
+
+    print('\n')
+    print(virtual_machines)
+    return virtual_machines
 
 
 @authentication_required
 def describe_instances():
-    virtual_machines = _get_virtual_machines()
+    if('InstanceId.1') in request.form:
+        virtual_machines = describe_instance(1)
+    else: 
+        virtual_machines = _get_virtual_machines()
     items = []
 
     if virtual_machines['listvirtualmachinesresponse']:
@@ -40,10 +66,9 @@ def describe_instances():
             )
 
     return {
-        'template_name_or_list': 'describe_items_response.xml',
+        'template_name_or_list': 'describe_instances.xml',
         'response_type': 'DescribeInstancesResponse',
-        'reservation_id': 'dummy_request_id',
-        'owner_id': 'dummy_owner_id',
+        'reservation_id': 'None',
         'items': items,
         'item_to_describe': 'instance'
     }

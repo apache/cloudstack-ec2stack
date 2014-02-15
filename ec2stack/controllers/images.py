@@ -48,7 +48,7 @@ def describe_images():
             )
 
     return {
-        'template_name_or_list': 'describe_items_response.xml',
+        'template_name_or_list': 'describe_images.xml',
         'response_type': 'DescribeImagesResponse',
         'items': items,
         'item_to_describe': 'image'

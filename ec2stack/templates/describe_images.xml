@@ -1,0 +1,14 @@
+{% extends "response.xml" %}
+{% block response_content %}
+    <imagesSet>
+        {% for item in items %}
+        <item>
+            <imageId>
+            {{item.id}}
+            </imageId>
+            <name>{{item.name}}</name>
+            <imageState>{{item.state}}</imageState>
+        </item>
+        {% endfor %}
+    </imagesSet>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "response.xml" %}
+{% block response_content %}
+    <reservationSet>
+        <item>
+            <reservationId>{{reservation_id}}</reservationId>
+            <instancesSet>
+            {% for item in items %}
+                <item>
+                    <instanceId>
+                    {{item.id}}
+                    </instanceId>
+                    <name>{{item.name}}</name>
+                    <name>{{item.state}}</name>
+                    <instanceState>
+                        <name>{{item.state}}</name>
+                    </instanceState>
+                    <instanceType>{{item.instance_type}}</instanceType>
+                    <launchTime>{{item.launch_time}}</launchTime>
+                    <imageId>{{item.imageid}}</imageId>
+                    <imageId>{{item.image_id}}</imageId>
+                    <hypervisor>{{item.hypervisor}}</hypervisor>
+                </item>
+            {% endfor %}
+            </instancesSet>
+        </item>
+    </reservationSet>
+{% endblock %}
