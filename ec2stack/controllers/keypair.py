@@ -11,16 +11,15 @@ from ec2stack.controllers.cloudstack import requester
 
 @authentication_required
 def create_keypair():
-
     args = {}
-    args['command'] = 'createSSHKeyPair'
-    args['apikey'] = helpers.get('AWSAccessKeyId', request.form)
+    args['command'] = 'createSSHKeyPair',
     args['name'] = helpers.get('KeyName', request.form)
 
-    secretkey = helpers.get_secretkey()
+    cloudstack_response = requester.make_request(args)
 
-    cloudstack_response = requester.make_request(args, secretkey)
-    cloudstack_response = cloudstack_response['createsshkeypairresponse']['keypair']
+    cloudstack_response = cloudstack_response['createsshkeypairresponse'][
+        'keypair']
+
     return {
         'template_name_or_list': 'keypair.xml',
         'response_type': 'CreateKeyPairResponse',

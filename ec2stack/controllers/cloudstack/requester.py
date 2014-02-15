@@ -7,12 +7,18 @@ from base64 import b64encode
 import hmac
 import json
 
-from flask import current_app, abort
+from flask import current_app, abort, request
 import requests
 
+from ec2stack import helpers
 
-def make_request(args, secretkey):
+
+def make_request(args):
+    args['apikey'] = helpers.get('AWSAccessKeyId', request.form)
     args['response'] = 'json'
+
+    secretkey = helpers.get_secretkey()
+
     request_url = _generate_request_url(args, secretkey)
 
     response = requests.get(request_url)

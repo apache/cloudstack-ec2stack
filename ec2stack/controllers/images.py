@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from ec2stack import helpers
-from flask import request
 from ec2stack.helpers import authentication_required
 from ec2stack.controllers.cloudstack import requester
 
@@ -15,10 +13,8 @@ def _get_templates(args=None):
         args['templatefilter'] = 'executable'
 
     args['command'] = 'listTemplates'
-    args['apikey'] = helpers.get('AWSAccessKeyId', request.form)
-    user = helpers.get_secretkey()
 
-    cloudstack_response = requester.make_request(args, user)
+    cloudstack_response = requester.make_request(args)
 
     return cloudstack_response
 
