@@ -1,0 +1,6 @@
+{% extends "response.xml" %}
+{% block response_content %}
+    <keyName>{{ key_name }}</keyName>
+    <keyFingerprint>{{ key_fingerprint }}</keyFingerprint>
+    <keyMaterial>{{ key_material }}</keyMaterial>
+{% endblock %}
