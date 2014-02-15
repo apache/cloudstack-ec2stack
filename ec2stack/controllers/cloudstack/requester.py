@@ -58,10 +58,16 @@ def _generate_request_url(args, secretkey):
 def _generate_signature(request_url, secretkey):
     signature = request_url.lower().replace('+', '%20')
 
-    signature = urllib.quote_plus(base64.encodestring(
-        hmac.new(bytes(secretkey), 
-        bytes(signature), 
-        hashlib.sha1
-    ).digest()).strip())
-    
+    signature = base64.encodestring(
+        hmac.new(
+            bytes(secretkey),
+            bytes(signature),
+            hashlib.sha1
+        ).digest()
+    ).strip()
+
+    signature = urllib.quote_plus(
+        signature
+    )
+
     return signature

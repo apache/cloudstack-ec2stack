@@ -14,10 +14,10 @@ def _get_templates(args=None):
     if 'templatefilter' not in args:
         args['templatefilter'] = 'executable'
 
-    args['command'] =  'listTemplates'
+    args['command'] = 'listTemplates'
     args['apikey'] = helpers.get('AWSAccessKeyId', request.form)
     user = helpers.get_secretkey()
-    
+
     cloudstack_response = requester.make_request(args, user)
 
     return cloudstack_response

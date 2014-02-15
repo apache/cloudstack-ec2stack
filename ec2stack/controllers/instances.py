@@ -24,7 +24,7 @@ def _cloudstack_virtual_machine_to_aws(cloudstack_response):
     return {
         'id': cloudstack_response['id'],
         'name': cloudstack_response['name'],
-        'state': translate_image_status[str(cloudstack_response['isready'])]
+        'state': cloudstack_response['state'].upper()
     }
 
 
@@ -36,7 +36,7 @@ def describe_instances():
     if virtual_machines['listvirtualmachinesresponse']:
         for virtual_machine in virtual_machines['listvirtualmachinesresponse']['virtualmachine']:
             items.append(
-                _cloudstack_template_to_aws(virtual_machine)
+                _cloudstack_virtual_machine_to_aws(virtual_machine)
             )
 
     return {

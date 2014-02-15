@@ -46,7 +46,7 @@ def require_parameters(required_parameters):
                 'MissingParameter',
                 'The request must contain the parameter %s' % parameter
             )
-            
+
 
 def get_secretkey():
     apikey = get('AWSAccessKeyId', request.form)
