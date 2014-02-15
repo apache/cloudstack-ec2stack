@@ -46,6 +46,21 @@ def require_parameters(required_parameters):
                 'MissingParameter',
                 'The request must contain the parameter %s' % parameter
             )
+            
+
+def get_secretkey():
+    apikey = get('AWSAccessKeyId', request.form)
+    user = USERS.get(apikey)
+
+    if user is None:
+        raise Ec2stackError(
+            '401',
+            'AuthFailure',
+            'Unable to find a secret key for %s, please insure you registered'
+            % apikey
+        )
+
+    return user.secretkey.encode('utf-8')
 
 
 def _valid_signature_method():
@@ -86,23 +101,8 @@ def _valid_signature():
         )
 
 
-def _get_secretkey():
-    apikey = get('AWSAccessKeyId', request.form)
-    user = USERS.get(apikey)
-
-    if user is None:
-        raise Ec2stackError(
-            '401',
-            'AuthFailure',
-            'Unable to find a secret key for %s, please insure you registered'
-            % apikey
-        )
-
-    return user.secretkey.encode('utf-8')
-
-
 def _generate_signature():
-    secretkey = _get_secretkey()
+    secretkey = get_secretkey()
     request_string = _get_request_string()
 
     signature = hmac.new(

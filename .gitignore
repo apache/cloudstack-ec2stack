@@ -11,3 +11,4 @@ docs/_build/doctrees/*
 conf/ec2stack.sqlite
 .idea
 *.iml
+*~

@@ -12,9 +12,8 @@
                 <{{item_to_describe}}Id>
                 {{item.id}}
                 </{{item_to_describe}}Id>
-                <{{item_to_describe}}State>
-                <name>{{item.state}}</name>
-                </{{item_to_describe}}State>
+                <name>{{item.name}}</name>
+                <{{item_to_describe}}State>{{item.state}}</{{item_to_describe}}State>
             </item>
             {% endfor %}
         </{{item_to_describe}}sSet>
