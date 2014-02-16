@@ -5,7 +5,19 @@ from ec2stack.helpers import authentication_required
 from ec2stack.controllers.cloudstack import requester
 
 
-def _get_templates(args=None):
+@authentication_required
+def describe_images():
+    images = _describe_all_images()
+    return _describe_images_format_response(images)
+
+
+def _describe_all_images():
+    response = _describe_templates_request()
+    images = _get_images_from_response(response)
+    return images
+
+
+def _describe_templates_request(args=None):
     if not args:
         args = {}
 
@@ -19,33 +31,39 @@ def _get_templates(args=None):
     return cloudstack_response
 
 
-def _cloudstack_template_to_aws(cloudstack_response):
+def _get_images_from_response(response):
+    images = []
+    response = response['listtemplatesresponse']
+    if response:
+        for template in response['template']:
+            images.append(
+                _cloudstack_template_to_aws_image(template)
+            )
+
+    return images
+
+
+def _cloudstack_template_to_aws_image(cloudstack_response):
     translate_image_status = {
         'True': 'Available',
         'False': 'Unavailable'
     }
 
-    return {
+    image = {
         'id': cloudstack_response['id'],
         'name': cloudstack_response['name'],
         'state': translate_image_status[str(cloudstack_response['isready'])]
     }
 
+    return image
 
-@authentication_required
-def describe_images():
-    templates = _get_templates()
-    items = []
 
-    if templates['listtemplatesresponse']:
-        for template in templates['listtemplatesresponse']['template']:
-            items.append(
-                _cloudstack_template_to_aws(template)
-            )
-
-    return {
+def _describe_images_format_response(images):
+    response = {
         'template_name_or_list': 'describe_images.xml',
         'response_type': 'DescribeImagesResponse',
-        'items': items,
+        'images': images,
         'item_to_describe': 'image'
     }
+
+    return response
