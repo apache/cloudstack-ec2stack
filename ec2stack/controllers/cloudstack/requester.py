@@ -23,7 +23,10 @@ def make_request(args):
 
     response = requests.get(request_url)
 
-    response_data = json.loads(response.text.strip())
+    response_data = json.loads(
+        response.text,
+        object_hook=helpers.normalize_dict_keys
+    )
 
     current_app.logger.debug(
         'request url:' + str(request_url) +

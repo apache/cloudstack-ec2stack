@@ -38,6 +38,10 @@ def authentication_required(f):
     return decorated
 
 
+def normalize_dict_keys(dct):
+    return dict((key.lower(), value) for key, value in dct.iteritems())
+
+
 def require_parameters(required_parameters):
     for parameter in required_parameters:
         if (get(parameter, request.form)) is None:

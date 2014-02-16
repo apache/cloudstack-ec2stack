@@ -43,5 +43,5 @@ def _create_keypair_format_response(response):
             'response_type': 'CreateKeyPairResponse',
             'key_name': response['name'],
             'key_fingerprint': response['fingerprint'],
-            'key_material': response['privateKey']
+            'key_material': response['privatekey']
         }
