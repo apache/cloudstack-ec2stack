@@ -39,9 +39,33 @@ def _create_keypair_format_response(response):
     else:
         response = response['keypair']
         return {
-            'template_name_or_list': 'keypair.xml',
+            'template_name_or_list': 'create_keypair.xml',
             'response_type': 'CreateKeyPairResponse',
             'key_name': response['name'],
             'key_fingerprint': response['fingerprint'],
             'key_material': response['privatekey']
         }
+
+
+def delete_keypair():
+    helpers.require_parameters(['KeyName'])
+    response = _delete_keypair_request()
+    return _delete_keypair_format_response(response)
+
+
+def _delete_keypair_request():
+    args = {}
+    args['command'] = 'deleteSSHKeyPair'
+    args['name'] = helpers.get('KeyName', request.form)
+
+    response = requester.make_request(args)
+
+    return response
+
+
+def _delete_keypair_format_response(response):
+    return {
+        'template_name_or_list': 'delete_keypair.xml',
+        'response_type': 'DeleteKeyPairResponse',
+        'return': 'true'
+    }

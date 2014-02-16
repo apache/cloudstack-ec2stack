@@ -1,0 +1,4 @@
+{% extends "response.xml" %}
+{% block response_content %}
+    <return>{{ return }}</return>
+{% endblock %}

@@ -24,10 +24,11 @@ def index():
 
 def _get_action(action):
     actions = {
-        'DescribeImages': images.describe_images,
-        'DescribeInstances': instances.describe_instances,
-        'DescribeInstanceAttribute': instances.describe_instance_attribute,
         'CreateKeyPair': keypair.create_keypair,
+        'DeleteKeyPair': keypair.delete_keypair,
+        'DescribeImages': images.describe_images,
+        'DescribeInstanceAttribute': instances.describe_instance_attribute,
+        'DescribeInstances': instances.describe_instances,
         'RegisterSecretKey': registerSecretKey,
         'RemoveSecretKey': removeSecretKey
     }
