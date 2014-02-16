@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 from ec2stack.helpers import authentication_required
-from ec2stack.controllers.cloudstack import requester
+from ec2stack.providers.cloudstack import requester
 
 
 cloudstack_attributes_to_aws = {

@@ -4,7 +4,7 @@
 from flask import request
 
 from ec2stack.helpers import *
-from ec2stack.controllers.cloudstack import requester
+from ec2stack.providers.cloudstack import requester
 
 
 cloudstack_attributes_to_aws = {

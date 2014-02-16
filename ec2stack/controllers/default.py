@@ -7,7 +7,7 @@ from ec2stack.helpers import get, error_response, \
     successful_response, require_parameters
 from ec2stack.core import Ec2stackError
 from ec2stack.services import USERS
-from ec2stack.controllers import images, instances, keypair
+from ec2stack.providers.cloudstack import images, instances, keypair
 
 
 DEFAULT = Blueprint('default', __name__)
