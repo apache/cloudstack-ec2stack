@@ -26,6 +26,7 @@ def _get_action(action):
     actions = {
         'DescribeImages': images.describe_images,
         'DescribeInstances': instances.describe_instances,
+        'DescribeInstanceAttribute': instances.describe_instance_attribute,
         'CreateKeyPair': keypair.create_keypair,
         'RegisterSecretKey': registerSecretKey,
         'RemoveSecretKey': removeSecretKey

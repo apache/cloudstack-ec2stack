@@ -1,0 +1,8 @@
+{% extends "response.xml" %}
+{% block response_content %}
+    <{{attribute}}>
+        <value>
+            {{value}}
+        </value>
+    </{{attribute}}>
+{% endblock %}

@@ -63,7 +63,6 @@ def _describe_images_format_response(images):
         'template_name_or_list': 'describe_images.xml',
         'response_type': 'DescribeImagesResponse',
         'images': images,
-        'item_to_describe': 'image'
     }
 
     return response

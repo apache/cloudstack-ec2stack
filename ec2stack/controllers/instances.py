@@ -1,9 +1,21 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from ec2stack.helpers import authentication_required, contains_parameter, get
+from ec2stack.helpers import *
 from ec2stack.controllers.cloudstack import requester
 from flask import request
+
+
+cloudstack_attributes_to_aws = {
+    'id': 'id',
+    'name': 'name',
+    'state': 'state',
+    'zonename': 'availability_zone',
+    'hypervisor': 'hypervisor',
+    'templateid': 'imageid',
+    'created': 'launchTime',
+    'serviceofferingname': 'instanceType'
+}
 
 
 @authentication_required
@@ -13,7 +25,19 @@ def describe_instances():
     else:
         instances = _describe_all_instances()
 
-    return _create_describe_instances_format_response(instances)
+    return _create_describe_instances_response(instances)
+
+
+def describe_instance_attribute():
+    require_parameters(['InstanceId', 'Attribute'])
+    instance_id = get('InstanceId', request.form)
+    attribute = get('Attribute', request.form)
+
+    response = _describe_virtual_machine(instance_id)
+    instance = _get_instances_from_response(response, attribute)
+
+    response = _create_describe_instance_attribute_response(instance, attribute)
+    return response
 
 
 def _describe_virtual_machines_request(args=None):
@@ -57,34 +81,42 @@ def _describe_virtual_machine(instance_id):
     return _describe_virtual_machines_request(args)
 
 
-def _get_instances_from_response(response):
+def _get_instances_from_response(response, attribute=None):
     instances = []
     response = response['listvirtualmachinesresponse']
     if response:
         for virtual_machine in response['virtualmachine']:
             instances.append(
-                _cloudstack_virtual_machine_to_aws(virtual_machine)
+                _cloudstack_virtual_machine_to_aws(virtual_machine, attribute)
             )
 
     return instances
 
 
-def _cloudstack_virtual_machine_to_aws(response):
-    instance = {
-        'id': response['id'],
-        'name': response['name'],
-        'state': response['state'].upper(),
-        'availability_zone': response['zonename'],
-        'hypervisor': response['hypervisor'],
-        'imageid': response['templateid'],
-        'launch_time': response['created'],
-        'instance_type': response['serviceofferingname'],
-    }
+def _cloudstack_virtual_machine_to_aws(response, attribute=None):
+    instance = {}
+    if attribute is not None:
+        if response[attribute] is not None:
+            instance[cloudstack_attributes_to_aws[attribute]] = response[attribute]
+    else:
+        for cloudstack_attr, aws_attr in cloudstack_attributes_to_aws.iteritems():
+            instance[aws_attr] = response[cloudstack_attr]
 
     return instance
 
 
-def _create_describe_instances_format_response(instances):
+def _create_describe_instance_attribute_response(response, attribute):
+    response = {
+        'template_name_or_list': 'describe_instance_attribute.xml',
+        'response_type': 'DescribeInstanceAttributes',
+        'attribute': cloudstack_attributes_to_aws[attribute],
+        'value': response[0][cloudstack_attributes_to_aws[attribute]]
+    }
+
+    return response
+
+
+def _create_describe_instances_response(instances):
     response = {
         'template_name_or_list': 'describe_instances.xml',
         'response_type': 'DescribeInstancesResponse',
