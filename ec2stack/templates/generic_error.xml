@@ -1,9 +1,11 @@
 {% extends "response.xml" %}
 {% block response_content %}
+{% autoescape false %}
 	<Errors>
 	    <Error>
 	        <Code>{{error}}</Code>
 	        <Message>{{message}}</Message>
 	    </Error>
 	</Errors>
+{% endautoescape %}
 {% endblock %}

@@ -22,14 +22,16 @@ def make_request(args):
     request_url = _generate_request_url(args, secretkey)
 
     response = requests.get(request_url)
-    response_data = json.loads(response.text)
+
+    response_data = json.loads(response.text.strip())
 
     current_app.logger.debug(
+        'request url:' + str(request_url) +
         'status code: ' + str(response.status_code) +
         json.dumps(response_data, indent=4, separators=(',', ': '))
     )
 
-    if response.status_code in [531, 401, 431]:
+    if response.status_code in [401, 432]:
         abort(response.status_code)
     else:
         return response_data

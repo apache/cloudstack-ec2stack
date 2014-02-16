@@ -4,26 +4,43 @@
 from ec2stack import helpers
 from flask import request
 from ec2stack.helpers import authentication_required
+from ec2stack.core import Ec2stackError
 from ec2stack.controllers.cloudstack import requester
-
-## TODO Add error handling, split up into functions.
 
 
 @authentication_required
 def create_keypair():
+    helpers.require_parameters(['KeyName'])
+    response = _create_keypair_request()
+    return _create_keypair_format_response(response)
+
+
+def _create_keypair_request():
     args = {}
-    args['command'] = 'createSSHKeyPair',
+    args['command'] = 'createSSHKeyPair'
     args['name'] = helpers.get('KeyName', request.form)
 
-    cloudstack_response = requester.make_request(args)
+    response = requester.make_request(args)
 
-    cloudstack_response = cloudstack_response['createsshkeypairresponse'][
-        'keypair']
+    response = response['createsshkeypairresponse']
 
-    return {
-        'template_name_or_list': 'keypair.xml',
-        'response_type': 'CreateKeyPairResponse',
-        'key_name': cloudstack_response['name'],
-        'key_fingerprint': cloudstack_response['fingerprint'],
-        'key_material': cloudstack_response['privatekey'].strip()
-    }
+    return response
+
+
+def _create_keypair_format_response(response):
+    if 'errortext' in response:
+        keyname = helpers.get('KeyName', request.form)
+        raise Ec2stackError(
+            '400',
+            'InvalidKeyPair.Duplicate',
+            'The keypair \'%s\' already exists.' % keyname
+        )
+    else:
+        response = response['keypair']
+        return {
+            'template_name_or_list': 'keypair.xml',
+            'response_type': 'CreateKeyPairResponse',
+            'key_name': response['name'],
+            'key_fingerprint': response['fingerprint'],
+            'key_material': response['privatekey']
+        }
