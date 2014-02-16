@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+from flask import request
+
 from ec2stack.helpers import *
 from ec2stack.controllers.cloudstack import requester
-from flask import request
 
 
 cloudstack_attributes_to_aws = {
@@ -97,7 +98,8 @@ def _cloudstack_virtual_machine_to_aws(response, attribute=None):
     instance = {}
     if attribute is not None:
         if response[attribute] is not None:
-            instance[cloudstack_attributes_to_aws[attribute]] = response[attribute]
+            instance[cloudstack_attributes_to_aws[attribute]] = response[
+                attribute]
     else:
         for cloudstack_attr, aws_attr in cloudstack_attributes_to_aws.iteritems():
             instance[aws_attr] = response[cloudstack_attr]
