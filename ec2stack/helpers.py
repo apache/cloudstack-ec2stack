@@ -48,6 +48,10 @@ def require_parameters(required_parameters):
             )
 
 
+def contains_parameter(parameter):
+    return (get(parameter, request.form)) is not None
+
+
 def get_secretkey():
     apikey = get('AWSAccessKeyId', request.form)
     user = USERS.get(apikey)

@@ -1,50 +1,93 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from ec2stack.helpers import authentication_required
+from ec2stack.helpers import authentication_required, contains_parameter, get
 from ec2stack.controllers.cloudstack import requester
+from flask import request
 
 
-def _get_virtual_machines(args=None):
+@authentication_required
+def describe_instances():
+    if contains_parameter('InstanceId.1'):
+        instances = _describe_specific_instances()
+    else:
+        instances = _describe_all_instances()
+
+    return _create_describe_instances_format_response(instances)
+
+
+def _describe_virtual_machines_request(args=None):
     if not args:
         args = {}
 
     args['command'] = 'listVirtualMachines'
 
-    cloudstack_response = requester.make_request(args)
+    response = requester.make_request(args)
 
-    return cloudstack_response
+    return response
 
 
-def _cloudstack_virtual_machine_to_aws(cloudstack_response):
-    return {
-        'id': cloudstack_response['id'],
-        'name': cloudstack_response['name'],
-        'state': cloudstack_response['state'].upper(),
-        'availability_zone': cloudstack_response['zonename'].upper(),
-        'hypervisor': cloudstack_response['hypervisor'],
-        'imageid': cloudstack_response['templateid'],
-        'launch_time': cloudstack_response['created'],
-        'instance_type': cloudstack_response['serviceofferingname'],
-        'ownerid': cloudstack_response['account']
+def _describe_all_instances():
+    response = _describe_virtual_machines_request()
+    instances = _get_instances_from_response(response)
+
+    return instances
+
+
+def _describe_specific_instances():
+    current_instance_num = 1
+    current_instance = 'InstanceId.' + str(current_instance_num)
+    instances = []
+
+    while contains_parameter(current_instance):
+        instance_id = get(current_instance, request.form)
+        response = _describe_virtual_machine(instance_id)
+        instances = instances + _get_instances_from_response(response)
+        current_instance_num += 1
+        current_instance = 'InstanceId.' + str(current_instance_num)
+
+    return instances
+
+
+def _describe_virtual_machine(instance_id):
+    args = {
+        'keyword': instance_id
     }
 
+    return _describe_virtual_machines_request(args)
 
-@authentication_required
-def describe_instances():
-    virtual_machines = _get_virtual_machines()
 
-    items = []
-    if virtual_machines['listvirtualmachinesresponse']:
-        for virtual_machine in virtual_machines['listvirtualmachinesresponse']['virtualmachine']:
-            items.append(
+def _get_instances_from_response(response):
+    instances = []
+    if response['listvirtualmachinesresponse']:
+        for virtual_machine in response['listvirtualmachinesresponse']['virtualmachine']:
+            instances.append(
                 _cloudstack_virtual_machine_to_aws(virtual_machine)
             )
 
+    return instances
+
+
+def _cloudstack_virtual_machine_to_aws(response):
+    instance = {
+        'id': response['id'],
+        'name': response['name'],
+        'state': response['state'].upper(),
+        'availability_zone': response['zonename'],
+        'hypervisor': response['hypervisor'],
+        'imageid': response['templateid'],
+        'launch_time': response['created'],
+        'instance_type': response['serviceofferingname'],
+    }
+
+    return instance
+
+
+def _create_describe_instances_format_response(instances):
     return {
         'template_name_or_list': 'describe_instances.xml',
         'response_type': 'DescribeInstancesResponse',
         'reservation_id': 'None',
-        'items': items,
+        'items': instances,
         'item_to_describe': 'instance'
     }
