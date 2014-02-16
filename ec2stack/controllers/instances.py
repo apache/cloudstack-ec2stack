@@ -107,7 +107,7 @@ def _cloudstack_virtual_machine_to_aws(response, attribute=None):
 
 def _create_describe_instance_attribute_response(response, attribute):
     response = {
-        'template_name_or_list': 'describe_instance_attribute.xml',
+        'template_name_or_list': 'instance_attribute.xml',
         'response_type': 'DescribeInstanceAttributes',
         'attribute': cloudstack_attributes_to_aws[attribute],
         'value': response[0][cloudstack_attributes_to_aws[attribute]]
@@ -118,11 +118,10 @@ def _create_describe_instance_attribute_response(response, attribute):
 
 def _create_describe_instances_response(instances):
     response = {
-        'template_name_or_list': 'describe_instances.xml',
+        'template_name_or_list': 'instances.xml',
         'response_type': 'DescribeInstancesResponse',
         'reservation_id': 'None',
-        'instances': instances,
-        'item_to_describe': 'instance'
+        'instances': instances
     }
 
     return response
