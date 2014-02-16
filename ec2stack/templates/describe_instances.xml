@@ -4,21 +4,21 @@
         <item>
             <reservationId>{{reservation_id}}</reservationId>
             <instancesSet>
-            {% for item in items %}
+            {% for instance in instances %}
                 <item>
                     <instanceId>
-                    {{item.id}}
+                    {{instance.id}}
                     </instanceId>
-                    <name>{{item.name}}</name>
-                    <name>{{item.state}}</name>
+                    <name>{{instance.name}}</name>
+                    <name>{{instance.state}}</name>
                     <instanceState>
-                        <name>{{item.state}}</name>
+                        <name>{{instance.state}}</name>
                     </instanceState>
-                    <instanceType>{{item.instance_type}}</instanceType>
-                    <launchTime>{{item.launch_time}}</launchTime>
-                    <imageId>{{item.imageid}}</imageId>
-                    <imageId>{{item.image_id}}</imageId>
-                    <hypervisor>{{item.hypervisor}}</hypervisor>
+                    <instanceType>{{instance.instance_type}}</instanceType>
+                    <launchTime>{{instance.launch_time}}</launchTime>
+                    <imageId>{{instance.imageid}}</imageId>
+                    <imageId>{{instance.image_id}}</imageId>
+                    <hypervisor>{{instance.hypervisor}}</hypervisor>
                 </item>
             {% endfor %}
             </instancesSet>

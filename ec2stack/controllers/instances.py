@@ -8,6 +8,8 @@ from flask import request
 
 @authentication_required
 def describe_instances():
+    print('\n')
+    print(request.form)
     if contains_parameter('InstanceId.1'):
         instances = _describe_specific_instances()
     else:
@@ -40,6 +42,8 @@ def _describe_specific_instances():
     instances = []
 
     while contains_parameter(current_instance):
+        print('\ngot ')
+        print(current_instance)
         instance_id = get(current_instance, request.form)
         response = _describe_virtual_machine(instance_id)
         instances = instances + _get_instances_from_response(response)
@@ -88,6 +92,6 @@ def _create_describe_instances_format_response(instances):
         'template_name_or_list': 'describe_instances.xml',
         'response_type': 'DescribeInstancesResponse',
         'reservation_id': 'None',
-        'items': instances,
+        'instances': instances,
         'item_to_describe': 'instance'
     }
