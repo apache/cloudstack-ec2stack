@@ -34,7 +34,7 @@ def describe_instance_attribute():
     instance_id = get('InstanceId', request.form)
     attribute = get('Attribute', request.form)
 
-    response = _describe_virtual_machine(instance_id)
+    response = _describe_virtual_machine_by_id(instance_id)
     instance = _get_instances_from_response(response, attribute)
 
     response = _create_describe_instance_attribute_response(instance, attribute)
@@ -66,7 +66,7 @@ def _describe_specific_instances():
 
     while contains_parameter(current_instance):
         instance_id = get(current_instance, request.form)
-        response = _describe_virtual_machine(instance_id)
+        response = _describe_virtual_machine_by_id(instance_id)
         instances = instances + _get_instances_from_response(response)
         current_instance_num += 1
         current_instance = 'InstanceId.' + str(current_instance_num)
@@ -74,9 +74,9 @@ def _describe_specific_instances():
     return instances
 
 
-def _describe_virtual_machine(instance_id):
+def _describe_virtual_machine_by_id(instance_id):
     args = {
-        'keyword': instance_id
+        'id': instance_id
     }
 
     return _describe_virtual_machines_request(args)
@@ -98,8 +98,10 @@ def _cloudstack_virtual_machine_to_aws(response, attribute=None):
     instance = {}
     if attribute is not None:
         if response[attribute] is not None:
-            instance[cloudstack_attributes_to_aws[attribute]] = response[
-                attribute]
+            instance[
+                cloudstack_attributes_to_aws[attribute]
+            ] = response[attribute]
+            instance['id'] = response['id']
     else:
         for cloudstack_attr, aws_attr in cloudstack_attributes_to_aws.iteritems():
             instance[aws_attr] = response[cloudstack_attr]
@@ -108,11 +110,13 @@ def _cloudstack_virtual_machine_to_aws(response, attribute=None):
 
 
 def _create_describe_instance_attribute_response(response, attribute):
+    response = response[0]
     response = {
         'template_name_or_list': 'instance_attribute.xml',
         'response_type': 'DescribeInstanceAttributes',
         'attribute': cloudstack_attributes_to_aws[attribute],
-        'value': response[0][cloudstack_attributes_to_aws[attribute]]
+        'value': response[cloudstack_attributes_to_aws[attribute]],
+        'id': response['id']
     }
 
     return response

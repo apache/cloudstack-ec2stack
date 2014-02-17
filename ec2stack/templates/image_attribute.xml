@@ -1,8 +1,8 @@
 {% extends "response.xml" %}
 {% block response_content %}
-    <instanceId>
+	<imageId>
         {{ id }}
-    </instanceId>
+    </imageId>
     <{{ attribute }}>
         <value>
             {{ value }}
