@@ -8,7 +8,7 @@ from ec2stack.helpers import get, error_response, \
 from ec2stack.core import Ec2stackError
 from ec2stack.services import USERS
 from ec2stack.providers.cloudstack import images, instances, keypair, \
-    security_group
+    security_group, volume
 
 
 DEFAULT = Blueprint('default', __name__)
@@ -29,6 +29,7 @@ def _get_action(action):
         'CreateSecurityGroup': security_group.create_security_group,
         'DeleteKeyPair': keypair.delete_keypair,
         'DeleteSecurityGroup': security_group.delete_security_group,
+        'DeleteVolume': volume.delete_volume,
         'DescribeImages': images.describe_images,
         'DescribeInstanceAttribute': instances.describe_instance_attribute,
         'DescribeInstances': instances.describe_instances,

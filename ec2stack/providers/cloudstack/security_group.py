@@ -47,6 +47,7 @@ def _create_security_group_response(response):
         }
 
 
+@authentication_required
 def delete_security_group():
     response = _delete_security_group_request()
     return _delete_security_group_response(response)
@@ -73,7 +74,7 @@ def _delete_security_group_request():
 
 def _delete_security_group_response(response):
     return {
-        'template_name_or_list': 'delete_security_group.xml',
+        'template_name_or_list': 'delete_item.xml',
         'response_type': 'DeleteSecurityGroupResponse',
         'return': 'true'
     }

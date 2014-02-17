@@ -65,7 +65,7 @@ def _delete_keypair_request():
 
 def _delete_keypair_format_response(response):
     return {
-        'template_name_or_list': 'delete_keypair.xml',
+        'template_name_or_list': 'delete_item.xml',
         'response_type': 'DeleteKeyPairResponse',
         'return': 'true'
     }
