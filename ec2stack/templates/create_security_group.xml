@@ -1,0 +1,5 @@
+{% extends "response.xml" %}
+{% block response_content %}
+    <return>{{ return }}</return>
+    <groupId>{{ id }}</groupId>
+{% endblock %}

@@ -45,11 +45,15 @@ def normalize_dict_keys(dct):
 def require_parameters(required_parameters):
     for parameter in required_parameters:
         if (get(parameter, request.form)) is None:
-            raise Ec2stackError(
-                '400',
-                'MissingParameter',
-                'The request must contain the parameter %s' % parameter
-            )
+            missing_paramater(parameter)
+
+
+def missing_paramater(parameter):
+    raise Ec2stackError(
+        '400',
+        'MissingParameter',
+        'The request must contain the parameter %s' % parameter
+    )
 
 
 def contains_parameter(parameter):

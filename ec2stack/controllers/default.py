@@ -7,7 +7,8 @@ from ec2stack.helpers import get, error_response, \
     successful_response, require_parameters
 from ec2stack.core import Ec2stackError
 from ec2stack.services import USERS
-from ec2stack.providers.cloudstack import images, instances, keypair
+from ec2stack.providers.cloudstack import images, instances, keypair, \
+    security_group
 
 
 DEFAULT = Blueprint('default', __name__)
@@ -25,7 +26,9 @@ def index():
 def _get_action(action):
     actions = {
         'CreateKeyPair': keypair.create_keypair,
+        'CreateSecurityGroup': security_group.create_security_group,
         'DeleteKeyPair': keypair.delete_keypair,
+        'DeleteSecurityGroup': security_group.delete_security_group,
         'DescribeImages': images.describe_images,
         'DescribeInstanceAttribute': instances.describe_instance_attribute,
         'DescribeInstances': instances.describe_instances,
