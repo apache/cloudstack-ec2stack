@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from flask import request
-
 from ec2stack.helpers import *
 from ec2stack.providers.cloudstack import requester
 

@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from flask import request
 from base64 import b64decode
+
+from flask import request
 
 from ec2stack import helpers
 from ec2stack.helpers import authentication_required
@@ -84,7 +85,8 @@ def _import_keypair_request():
     args = {}
     args['command'] = 'registerSSHKeyPair'
     args['name'] = helpers.get('KeyName', request.form)
-    args['publickey'] = b64decode(helpers.get('PublicKeyMaterial', request.form))
+    args['publickey'] = b64decode(
+        helpers.get('PublicKeyMaterial', request.form))
 
     response = requester.make_request(args)
     response = response['registersshkeypairresponse']
