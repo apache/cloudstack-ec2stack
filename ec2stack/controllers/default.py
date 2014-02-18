@@ -33,6 +33,7 @@ def _get_action(action):
         'DescribeImages': images.describe_images,
         'DescribeInstanceAttribute': instances.describe_instance_attribute,
         'DescribeInstances': instances.describe_instances,
+        'ImportKeyPair': keypair.import_keypair,
         'RegisterSecretKey': registerSecretKey,
         'RemoveSecretKey': removeSecretKey
     }
@@ -100,8 +101,8 @@ def bad_request(err):
     return error_response('400', 'BadRequest', 'Bad Request')
 
 
-@DEFAULT.app_errorhandler(401)
-def auth_failure(err):
-    return error_response('401', 'AuthFailure',
-                          'AWS was not able to validate the provided '
-                          'access credentials')
+#@DEFAULT.app_errorhandler(401)
+#def auth_failure(err):
+#    return error_response('401', 'AuthFailure',
+#                          'AWS was not able to validate the provided '
+#                          'access credentials')
