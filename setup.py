@@ -24,7 +24,8 @@ AUTHOR_EMAIL = 'brogand2@mail.dcu.ie, duffyi3@mail.dcu.ie'
 DESC = "EC2 compatible interface for Apache Cloudstack"
 LONG_DESC = read_file('README.rst')
 REQUIRES = [
-    'Flask', 'Flask-Migrate', 'Flask-Script', 'Flask-SQLAlchemy', 'Requests'
+    'Flask', 'Flask-Migrate', 'Flask-Script', 'Flask-SQLAlchemy', 'Requests',
+    'factory-boy==1.3.0'
 ]
 DATA_FILES = []
 if os.getenv('VIRTUAL_ENV', False):
