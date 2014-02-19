@@ -8,5 +8,6 @@ install:
 script:
   - pep8 --ignore=E501 *.py ec2stack
   - pylint --rcfile=pylint.rc *.py ec2stack
+  - nosetests
 
 # Force travis-ci build
