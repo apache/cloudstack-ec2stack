@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+import settings
+
 from unittest import TestCase
 
 from ec2stack.core import DB
@@ -15,7 +17,7 @@ class Ec2StackTestCase(TestCase):
 
 class Ec2StackAppTestCase(FlaskTestCaseMixin, Ec2StackTestCase):
     def _create_app(self):
-        return create_app()
+        return create_app(settings=settings)
 
     def _create_fixtures(self):
         self.user = UserFactory()

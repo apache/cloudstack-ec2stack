@@ -33,6 +33,7 @@ def authentication_required(f):
         _valid_signature_method()
         _valid_signature_version()
         _valid_signature()
+
         return f(*args, **kwargs)
 
     return decorated
