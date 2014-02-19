@@ -5,13 +5,14 @@ from . import Ec2StackAppTestCase
 
 class ControllerTestCase(Ec2StackAppTestCase):
     data = {
-        'Action': 'CreateKeyPair',
-        'AWSAccessKeyId': 'ExampleAPIKey',
-        'Signature': '7puh9l03gKeTGmIpZwlKaFzSnW68fBFTKeT83HLINkE=',
-        'SignatureMethod': 'HmacSHA256',
         'SignatureVersion': '2',
-        'Timestamp': '2014-02-19T18:04:06.029852',
-        'Version': '2013-10-15'
+        'AWSAccessKeyId': 'ExampleAPIKey',
+        'Version': '2013-10-15',
+        'Timestamp': '2014-02-19T23:34:43.868347',
+        'SignatureMethod': 'HmacSHA256',
+        'KeyName': 'Test',
+        'Signature': 'eXLhkDN95Qf5uYmBNm1kixVT/yEHjgVsnyBxtKO8cig=',
+        'Action': 'CreateKeyPair'
     }
 
     def test_invalid_action(self):
@@ -25,7 +26,7 @@ class ControllerTestCase(Ec2StackAppTestCase):
         data = self.data.copy()
 
         for key in data.iterkeys():
-            if key != 'Action':
+            if key not in ['Action', 'KeyName']:
                 self._test_authentication_required_helper(key, data)
 
     def _test_authentication_required_helper(self, item, data):
@@ -49,8 +50,6 @@ class ControllerTestCase(Ec2StackAppTestCase):
             data = data
         )
 
-        print response.data
-
         assert 'SignatureVersion is invalid' in response.data
 
     def test_invalid_signature_method(self):
@@ -63,3 +62,14 @@ class ControllerTestCase(Ec2StackAppTestCase):
         )
 
         assert 'SignatureMethod is invalid' in response.data
+
+    def test_invalid_signature(self):
+        data = self.data.copy()
+        data['Signature'] = 'InvalidSignature'
+        response = self.post(
+            '/',
+            data = data
+        )
+
+        assert 'AWS was not able to validate the provided access credentials.' \
+            in response.data
