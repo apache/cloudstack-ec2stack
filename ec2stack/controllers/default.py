@@ -59,7 +59,7 @@ def registerSecretKey():
         )
         return {
             'template_name_or_list': 'secretkey.xml',
-            'response_type': 'RemoveSecretKeyResponse',
+            'response_type': 'RegisterSecretKeyResponse',
             'apikey': get('AWSAccessKeyId', request.form),
             'secretkey': get('AWSSecretKey', request.form),
         }
