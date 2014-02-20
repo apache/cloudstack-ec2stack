@@ -100,10 +100,3 @@ def not_found(err):
 @DEFAULT.app_errorhandler(400)
 def bad_request(err):
     return error_response('400', 'BadRequest', 'Bad Request')
-
-
-#@DEFAULT.app_errorhandler(401)
-#def auth_failure(err):
-#    return error_response('401', 'AuthFailure',
-#                          'AWS was not able to validate the provided '
-#                          'access credentials')

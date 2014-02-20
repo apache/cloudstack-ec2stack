@@ -3,6 +3,7 @@
 
 from . import Ec2StackAppTestCase
 
+
 class ControllerTestCase(Ec2StackAppTestCase):
     data = {
         'SignatureVersion': '2',
@@ -18,8 +19,11 @@ class ControllerTestCase(Ec2StackAppTestCase):
     def test_invalid_action(self):
         response = self.post(
             '/',
-            data  = {}
+            data={}
         )
+
+        self.assertBadRequest(response)
+
         assert 'InvalidAction' in response.data
 
     def test_authentication_required_parameters(self):
@@ -33,10 +37,12 @@ class ControllerTestCase(Ec2StackAppTestCase):
         value = data.pop(item)
         response = self.post(
             '/',
-            data = data
+            data=data
         )
 
-        assert 'The request must contain the parameter ' + item  \
+        self.assertBadRequest(response)
+
+        assert 'The request must contain the parameter ' + item \
             in response.data
 
         data[item] = value
@@ -47,8 +53,10 @@ class ControllerTestCase(Ec2StackAppTestCase):
 
         response = self.post(
             '/',
-            data = data
+            data=data
         )
+
+        self.assertBadRequest(response)
 
         assert 'SignatureVersion is invalid' in response.data
 
@@ -58,23 +66,40 @@ class ControllerTestCase(Ec2StackAppTestCase):
 
         response = self.post(
             '/',
-            data = data
+            data=data
         )
 
+        self.assertBadRequest(response)
+
         assert 'SignatureMethod is invalid' in response.data
+
+    def test_failure_to_find_secretkey(self):
+        data = self.data.copy()
+        data['AWSAccessKeyId'] = 'InvalidAWSAccessKeyId'
+        response = self.post(
+            '/',
+            data=data
+        )
+
+        self.assertStatusCode(response, 401)
+
+        assert 'Unable to find a secret key' in response.data
+
 
     def test_invalid_signature(self):
         data = self.data.copy()
         data['Signature'] = 'InvalidSignature'
         response = self.post(
             '/',
-            data = data
+            data=data
         )
+
+        self.assertStatusCode(response, 401)
 
         assert 'AWS was not able to validate the provided access credentials.' \
             in response.data
 
-    def test_duplicate_register_secret_key(self):
+    def test_duplicate_register_secretkey(self):
         data = {
             'Action': 'RegisterSecretKey',
             'AWSAccessKeyId': 'ExampleAPIKey',
@@ -83,10 +108,43 @@ class ControllerTestCase(Ec2StackAppTestCase):
 
         response = self.post(
             '/',
-            data = data
+            data=data
         )
 
-        print response.data
+        self.assertBadRequest(response)
 
         assert 'The given AWSAccessKeyId is already registered' \
             in response.data
+
+    def test_successful_register_secretkey(self):
+        data = {
+            'Action': 'RegisterSecretKey',
+            'AWSAccessKeyId': 'ExampleAPIKey2',
+            'AWSSecretKey': 'ExampleSecretKey2'
+        }
+
+        response = self.post(
+            '/',
+            data=data
+        )
+
+        self.assertOk(response)
+
+        assert 'RegisterSecretKeyResponse' in response.data
+        assert 'ExampleAPIKey2' in response.data
+        assert 'ExampleSecretKey2' in response.data
+
+    def test_not_found_delete_secretkey(self):
+        data = {
+            'Action': 'RemoveSecretKey',
+            'AWSAccessKeyId': 'NonExistingExampleAPIKey',
+            'AWSSecretKey': 'NonExistingExampleSecretKey'
+        }
+
+        response = self.post(
+            '/',
+            data=data
+        )
+
+        self.assertBadRequest(response)
+        assert 'The given AWSAccessKeyId was not found' in response.data

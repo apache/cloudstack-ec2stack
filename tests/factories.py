@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from ec2stack.models import *
-
 from factory import Factory
+
+from ec2stack.models import *
 
 
 def create_sql_model_function(class_to_create, *args, **kwargs):

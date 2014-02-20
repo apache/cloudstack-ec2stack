@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import settings
-
 from unittest import TestCase
 
+import settings
 from ec2stack.core import DB
 from ec2stack import create_app
 from .factories import UserFactory
