@@ -73,3 +73,20 @@ class ControllerTestCase(Ec2StackAppTestCase):
 
         assert 'AWS was not able to validate the provided access credentials.' \
             in response.data
+
+    def test_duplicate_register_secret_key(self):
+        data = {
+            'Action': 'RegisterSecretKey',
+            'AWSAccessKeyId': 'ExampleAPIKey',
+            'AWSSecretKey': 'ExampleSecretKey'
+        }
+
+        response = self.post(
+            '/',
+            data = data
+        )
+
+        print response.data
+
+        assert 'The given AWSAccessKeyId is already registered' \
+            in response.data
