@@ -5,7 +5,6 @@ from . import Ec2StackAppTestCase
 
 
 class ControllerTestCase(Ec2StackAppTestCase):
-
     def test_invalid_action(self):
         data = self.get_example_data()
         data['Action'] = 'InvalidAction'
