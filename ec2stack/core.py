@@ -7,6 +7,7 @@ DB = SQLAlchemy()
 
 
 class Ec2stackError(Exception):
+
     def __init__(self, code, error, message):
         self.code = code
         self.error = error

@@ -35,7 +35,8 @@ def describe_instance_attribute():
     response = _describe_virtual_machine_by_id(instance_id)
     instance = _get_instances_from_response(response, attribute)
 
-    response = _create_describe_instance_attribute_response(instance, attribute)
+    response = _create_describe_instance_attribute_response(
+        instance, attribute)
     return response
 
 

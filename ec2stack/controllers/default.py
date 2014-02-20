@@ -105,7 +105,7 @@ def bad_request(err):
 
 
 #@DEFAULT.app_errorhandler(401)
-#def auth_failure(err):
+# def auth_failure(err):
 #    return error_response('401', 'AuthFailure',
 #                          'AWS was not able to validate the provided '
 #                          'access credentials')
