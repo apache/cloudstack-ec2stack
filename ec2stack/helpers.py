@@ -44,7 +44,7 @@ def normalize_dict_keys(dct):
 
 def require_parameters(required_parameters):
     for parameter in required_parameters:
-        if (get(parameter, request.form)) is None:
+        if not contains_parameter(parameter):
             missing_paramater(parameter)
 
 
