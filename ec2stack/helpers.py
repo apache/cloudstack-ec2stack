@@ -69,8 +69,11 @@ def contains_parameter(parameter):
     return (get(parameter, request.form)) is not None
 
 
-def get_secretkey():
-    apikey = get('AWSAccessKeyId', request.form)
+def get_secretkey(data=None):
+    if data is None:
+        data = request.form
+
+    apikey = get('AWSAccessKeyId', data)
     user = USERS.get(apikey)
 
     if user is None:
@@ -109,7 +112,7 @@ def _valid_signature_version():
 
 def _valid_signature():
     signature = get('Signature', request.form)
-    generated_signature = _generate_signature()
+    generated_signature = generate_signature()
 
     print 'Supplied signature: ' + signature
     print 'Generated signature: ' + generated_signature
@@ -122,9 +125,12 @@ def _valid_signature():
         )
 
 
-def _generate_signature():
-    secretkey = get_secretkey()
-    request_string = _get_request_string()
+def generate_signature(data=None, method=None, host=None):
+    if data is None:
+        data = request.form
+
+    secretkey = get_secretkey(data)
+    request_string = _get_request_string(data, method, host)
 
     signature = hmac.new(
         key=secretkey,
@@ -137,21 +143,30 @@ def _generate_signature():
     return signature
 
 
-def _get_request_string():
-    query_string = _get_query_string()
+def _get_request_string(data=None, method=None, host=None):
+    if data is None:
+        data = request.form
+    if method is None:
+        method = request.method
+    if host is None:
+        host = request.host
+    query_string = _get_query_string(data)
 
     request_string = '\n'.join(
-        [request.method, request.host, '/', query_string]
+        [method, host, '/', query_string]
     )
 
     return request_string.encode('utf-8')
 
 
-def _get_query_string():
+def _get_query_string(data=None):
+    if data is None:
+        data = request.form
+
     params = {}
-    for param in request.form:
+    for param in data:
         if param != 'Signature':
-            params[param] = request.form[param]
+            params[param] = data[param]
 
     keys = sorted(params.keys())
     values = map(params.get, keys)

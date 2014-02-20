@@ -4,7 +4,7 @@
 from base64 import b64encode
 
 import mock
-from ec2stack.helpers import read_file
+from ec2stack.helpers import read_file, generate_signature
 from . import Ec2StackAppTestCase
 
 
@@ -14,7 +14,7 @@ class KeyPairTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'CreateKeyPair'
         data['KeyName'] = 'Test'
-        data['Signature'] = 'eXLhkDN95Qf5uYmBNm1kixVT/yEHjgVsnyBxtKO8cig='
+        data['Signature'] = generate_signature(data, 'POST', 'localhost')
 
         get = mock.Mock()
         text = get.return_value.text = read_file(
@@ -35,7 +35,7 @@ class KeyPairTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'CreateKeyPair'
         data['KeyName'] = 'Test'
-        data['Signature'] = 'eXLhkDN95Qf5uYmBNm1kixVT/yEHjgVsnyBxtKO8cig='
+        data['Signature'] = generate_signature(data, 'POST', 'localhost')
 
         get = mock.Mock()
         text = get.return_value.text = read_file(
@@ -56,7 +56,7 @@ class KeyPairTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'DeleteKeyPair'
         data['KeyName'] = 'Test'
-        data['Signature'] = 'gCzuMB+xqD+yV3+vcQqKknpG6ohBPUGuuz1cl9c2gDk='
+        data['Signature'] = generate_signature(data, 'POST', 'localhost')
 
         get = mock.Mock()
         text = get.return_value.text = read_file(
@@ -85,7 +85,7 @@ class KeyPairTestCase(Ec2StackAppTestCase):
             'oSrPTeM9koziSRBROG06UT3FSslwuetcQvHsvIPHJ1IrwHljXQomOf7GLgSzbp6Czv'
             'lY6Leh9OQOcv70dYy5RcoEoVh+Lta5LpyiUL/ntW270M29lxpB'
         )
-        data['Signature'] = 'SY0RrsIDp4dXCl5Z2lF8imy+3sXDQrO49pHDOGQkmKs='
+        data['Signature'] = generate_signature(data, 'POST', 'localhost')
 
         get = mock.Mock()
         text = get.return_value.text = read_file(
