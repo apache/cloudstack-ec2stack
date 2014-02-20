@@ -25,7 +25,7 @@ DESC = "EC2 compatible interface for Apache Cloudstack"
 LONG_DESC = read_file('README.rst')
 REQUIRES = [
     'Flask', 'Flask-Migrate', 'Flask-Script', 'Flask-SQLAlchemy', 'Requests',
-    'factory-boy==1.3.0'
+    'factory-boy==1.3.0', 'mock'
 ]
 DATA_FILES = []
 if os.getenv('VIRTUAL_ENV', False):
