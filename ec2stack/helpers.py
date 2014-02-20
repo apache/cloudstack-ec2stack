@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-
+import os
 import hmac
 import hashlib
 from uuid import uuid1 as uuid
@@ -186,3 +186,16 @@ def successful_response(**kwargs):
     response.headers['Content-Type'] = 'application/xml'
     response.status_code = 200
     return response
+
+def read_file(name):
+    filepath = os.path.join(
+        os.path.dirname(os.path.realpath(__file__)),
+        '../',
+        name
+    )
+    data = open(filepath)
+    try:
+        return data.read()
+    except IOError:
+        print "could not read %r" % name
+        data.close()

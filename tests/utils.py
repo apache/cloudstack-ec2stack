@@ -45,3 +45,15 @@ class FlaskTestCaseMixin(object):
 
     def assertNotFound(self, response):
         return self.assertStatusCode(response, 404)
+
+    def get_example_data(self):
+        data = {
+            'SignatureVersion': '2',
+            'AWSAccessKeyId': 'ExampleAPIKey',
+            'Version': '2013-10-15',
+            'Timestamp': '2014-02-19T23:34:43.868347',
+            'SignatureMethod': 'HmacSHA256',
+            'Signature': 'g7HMf6RY4oCeaBaea0zlObjVX43NEH8yv3pclvu+Ibo=',
+            'Action': 'CreateKeyPair'
+        }
+        return data

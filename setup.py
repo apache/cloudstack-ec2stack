@@ -2,19 +2,12 @@
 # encoding: utf-8
 
 import os
+
 from glob import glob
 
 from setuptools import setup
 
-
-def read_file(name):
-    data = open(name)
-    try:
-        return data.read()
-    except IOError:
-        print "could not read %r" % name
-        data.close()
-
+from ec2stack.helpers import read_file
 
 PROJECT = 'ec2stack'
 VERSION = '0.1'
