@@ -47,10 +47,12 @@ def require_parameters(required_parameters):
         if (get(parameter, request.form)) is None:
             missing_paramater(parameter)
 
+
 def require_one_paramater(parameters):
+    parameter = None
     for parameter in parameters:
-        if (get(parameter, request.form)) is not None:
-            return 
+        if get(parameter, request.form) is not None:
+            return
 
     missing_paramater(parameter)
 

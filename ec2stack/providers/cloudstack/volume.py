@@ -26,7 +26,7 @@ def describe_volumes():
 
 def _describe_all_volumes():
     response = _describe_volumes_request()
-    return  _get_volumes_from_response(response)
+    return _get_volumes_from_response(response)
 
 
 def _get_volumes_from_response(response, attribute=None):
@@ -42,7 +42,7 @@ def _get_volumes_from_response(response, attribute=None):
 
 def _cloudstack_volume_to_aws_volume(response, attribute=None):
     volume = {}
-    
+
     for cloudstack_attr, aws_attr in cloudstack_attributes_to_aws.iteritems():
         if cloudstack_attr in response:
             volume[aws_attr] = response[cloudstack_attr]
@@ -72,7 +72,7 @@ def _describe_volumes_request():
 
 @authentication_required
 def create_volume():
-    helpers.require_one_paramater(['SnapshotId','Size'])
+    helpers.require_one_paramater(['SnapshotId', 'Size'])
     response = _create_volume_request()
     return _create_volume_response(response)
 
@@ -103,7 +103,7 @@ def _create_volume_request():
 
 
 def _create_volume_response(response):
-    response =  {
+    response = {
         'template_name_or_list': 'create_volume.xml',
         'response_type': 'CreateVolumeResponse',
         'id': response['id'],
@@ -114,12 +114,11 @@ def _create_volume_response(response):
     }
 
     return response
-    
 
 
 @authentication_required
 def attach_volume():
-    helpers.require_parameters(['VolumeId','InstanceId'])
+    helpers.require_parameters(['VolumeId', 'InstanceId'])
     response = _attach_volume_request()
     return _attach_volume_response(response)
 

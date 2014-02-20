@@ -85,7 +85,6 @@ class ControllerTestCase(Ec2StackAppTestCase):
 
         assert 'Unable to find a secret key' in response.data
 
-
     def test_invalid_signature(self):
         data = self.data.copy()
         data['Signature'] = 'InvalidSignature'
