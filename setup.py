@@ -7,7 +7,20 @@ from glob import glob
 
 from setuptools import setup
 
-from ec2stack.helpers import read_file
+
+def read_file(name):
+    filepath = os.path.join(
+        os.path.dirname(os.path.realpath(__file__)),
+        name
+    )
+    data = open(filepath)
+    try:
+        return data.read()
+    except IOError:
+        print "could not read %r" % name
+        data.close()
+
+print read_file('README.rst')
 
 PROJECT = 'ec2stack'
 VERSION = '0.1'
