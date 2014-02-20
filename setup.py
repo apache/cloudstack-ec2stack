@@ -2,7 +2,6 @@
 # encoding: utf-8
 
 import os
-
 from glob import glob
 
 from setuptools import setup
@@ -19,6 +18,7 @@ def read_file(name):
     except IOError:
         print "could not read %r" % name
         data.close()
+
 
 PROJECT = 'ec2stack'
 VERSION = '0.1'

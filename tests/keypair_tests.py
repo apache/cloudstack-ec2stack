@@ -4,6 +4,7 @@
 from base64 import b64encode
 
 import mock
+
 from ec2stack.helpers import read_file, generate_signature
 from . import Ec2StackAppTestCase
 

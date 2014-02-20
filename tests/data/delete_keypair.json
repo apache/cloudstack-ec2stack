@@ -1,1 +1,3 @@
-{ "deletesshkeypairresponse" : { "success" : "true"}  }
+{ "deletesshkeypairresponse": {
+    "success": "true"
+}  }

@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+import uuid
+
 from flask import request
 
 from ec2stack import helpers
 from ec2stack.helpers import authentication_required
 from ec2stack.providers.cloudstack import requester
 from . import disk_offerings
-import uuid
 
 
 cloudstack_attributes_to_aws = {

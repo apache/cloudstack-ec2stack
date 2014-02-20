@@ -1,1 +1,5 @@
-{ "createsshkeypairresponse" : {"uuidList":[],"errorcode":431,"errortext":"A key pair with name 'Test' already exists."} }
+{ "createsshkeypairresponse": {
+    "uuidList": [],
+    "errorcode": 431,
+    "errortext": "A key pair with name 'Test' already exists."
+} }

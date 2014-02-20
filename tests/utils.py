@@ -22,7 +22,9 @@ class FlaskTestCaseMixin(object):
         return self._request(self.client.get, *args, **kwargs)
 
     def post(self, *args, **kwargs):
-        return self._request(self.client.post, *args, **self._html_data(kwargs))
+        return (
+            self._request(self.client.post, *args, **self._html_data(kwargs))
+        )
 
     def put(self, *args, **kwargs):
         return self._request(self.client.put, *args, **self._html_data(kwargs))
