@@ -30,9 +30,6 @@ class ControllerTestCase(Ec2StackAppTestCase):
             data=data
         )
 
-        print response.data
-        print item
-
         self.assertBadRequest(response)
         data[item] = value
 
@@ -46,7 +43,6 @@ class ControllerTestCase(Ec2StackAppTestCase):
         )
 
         self.assertBadRequest(response)
-
         assert 'SignatureVersion is invalid' in response.data
 
     def test_invalid_signature_method(self):
@@ -59,7 +55,6 @@ class ControllerTestCase(Ec2StackAppTestCase):
         )
 
         self.assertBadRequest(response)
-
         assert 'SignatureMethod is invalid' in response.data
 
     def test_failure_to_find_secretkey(self):
@@ -70,10 +65,7 @@ class ControllerTestCase(Ec2StackAppTestCase):
             data=data
         )
 
-        print response.data
-
         self.assertStatusCode(response, 401)
-
         assert 'Unable to find a secret key' in response.data
 
     def test_invalid_signature(self):

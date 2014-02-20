@@ -20,8 +20,6 @@ def read_file(name):
         print "could not read %r" % name
         data.close()
 
-print read_file('README.rst')
-
 PROJECT = 'ec2stack'
 VERSION = '0.1'
 URL = 'http://nopping.github.io/ec2stack'

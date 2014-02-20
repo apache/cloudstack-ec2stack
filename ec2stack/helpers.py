@@ -114,9 +114,6 @@ def _valid_signature():
     signature = get('Signature', request.form)
     generated_signature = generate_signature()
 
-    print 'Supplied signature: ' + signature
-    print 'Generated signature: ' + generated_signature
-
     if signature != generated_signature:
         raise Ec2stackError(
             '401',
