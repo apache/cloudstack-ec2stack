@@ -51,7 +51,7 @@ def require_parameters(required_parameters):
 def require_one_paramater(parameters):
     parameter = None
     for parameter in parameters:
-        if get(parameter, request.form) is not None:
+        if contains_parameter(parameter):
             return
 
     missing_paramater(parameter)

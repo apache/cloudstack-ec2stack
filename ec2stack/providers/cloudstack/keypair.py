@@ -106,7 +106,7 @@ def _import_keypair_format_response(response):
         response = response['keypair']
         return {
             'template_name_or_list': 'create_keypair.xml',
-            'response_type': 'CreateKeyPairResponse',
+            'response_type': 'ImportKeyPairResponse',
             'key_name': response['name'],
             'key_fingerprint': response['fingerprint'],
         }
