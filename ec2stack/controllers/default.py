@@ -27,12 +27,14 @@ def _get_action(action):
     actions = {
         'CreateKeyPair': keypair.create_keypair,
         'CreateSecurityGroup': security_group.create_security_group,
+        'CreateVolume': volume.create_volume,
         'DeleteKeyPair': keypair.delete_keypair,
         'DeleteSecurityGroup': security_group.delete_security_group,
         'DeleteVolume': volume.delete_volume,
         'DescribeImages': images.describe_images,
         'DescribeInstanceAttribute': instances.describe_instance_attribute,
         'DescribeInstances': instances.describe_instances,
+        'DescribeVolumes': volume.describe_volumes,
         'GetPasswordData': password.get_password_data,
         'ImportKeyPair': keypair.import_keypair,
         'RegisterSecretKey': registerSecretKey,
@@ -100,3 +102,10 @@ def not_found(err):
 @DEFAULT.app_errorhandler(400)
 def bad_request(err):
     return error_response('400', 'BadRequest', 'Bad Request')
+
+
+#@DEFAULT.app_errorhandler(401)
+#def auth_failure(err):
+#    return error_response('401', 'AuthFailure',
+#                          'AWS was not able to validate the provided '
+#                          'access credentials')

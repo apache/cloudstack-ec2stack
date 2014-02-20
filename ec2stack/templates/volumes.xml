@@ -1,0 +1,24 @@
+{% extends "response.xml" %}
+{% block response_content %}
+    <volumeSet>
+        {% for volume in volumes %}
+        <item>
+            <volumeId>
+            {{ volume.volumeId }}
+            </volumeId>
+            <name>{{ volume.name }}</name>
+            <createTime>{{ volume.status }}</createTime>
+            <attachmentSet>
+                <item>
+                    <volumeId>
+                        {{ volume.volumeId }}
+                    </volumeId>
+                    <instanceId>
+                        {{ volume.instanceId}}
+                    </instanceId>
+                </item>
+            </attachmentSet>
+        </item>
+        {% endfor %}
+    </volumeSet>
+{% endblock %}

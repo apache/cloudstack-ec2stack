@@ -33,7 +33,6 @@ def authentication_required(f):
         _valid_signature_method()
         _valid_signature_version()
         _valid_signature()
-
         return f(*args, **kwargs)
 
     return decorated
@@ -47,6 +46,13 @@ def require_parameters(required_parameters):
     for parameter in required_parameters:
         if (get(parameter, request.form)) is None:
             missing_paramater(parameter)
+
+def require_one_paramater(parameters):
+    for parameter in parameters:
+        if (get(parameter, request.form)) is not None:
+            return 
+
+    missing_paramater(parameter)
 
 
 def missing_paramater(parameter):
@@ -102,6 +108,9 @@ def _valid_signature_version():
 def _valid_signature():
     signature = get('Signature', request.form)
     generated_signature = _generate_signature()
+
+    print 'Supplied signature: ' + signature
+    print 'Generated signature: ' + generated_signature
 
     if signature != generated_signature:
         raise Ec2stackError(
