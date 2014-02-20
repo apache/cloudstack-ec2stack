@@ -202,6 +202,7 @@ def successful_response(**kwargs):
     response.status_code = 200
     return response
 
+
 def read_file(name):
     filepath = os.path.join(
         os.path.dirname(os.path.realpath(__file__)),
