@@ -63,16 +63,12 @@ def _describe_all_instances():
 
 
 def _describe_specific_instances():
-    current_instance_num = 1
-    current_instance = 'InstanceId.' + str(current_instance_num)
+    instance_ids = get_request_paramaters('InstanceId')
     instances = []
-
-    while contains_parameter(current_instance):
-        instance_id = get(current_instance, request.form)
+    
+    for instance_id in instance_ids:
         response = _describe_virtual_machine_by_id(instance_id)
         instances = instances + _get_instances_from_response(response)
-        current_instance_num += 1
-        current_instance = 'InstanceId.' + str(current_instance_num)
 
     return instances
 
@@ -85,9 +81,8 @@ def _describe_virtual_machine_by_id(instance_id):
     return _describe_virtual_machines_request(args)
 
 
-def _get_instances_from_response(response, attribute=None):
+def _get_instances_from_response(response):
     instances = []
-    response = response['listvirtualmachinesresponse']
     if response:
         for virtual_machine in response['virtualmachine']:
             instances.append(

@@ -44,17 +44,12 @@ def _describe_all_images():
 
 
 def _describe_specific_images():
-    root_image_id = 'ImageId.'
-    current_image_num = 1
-    current_image = root_image_id + str(current_image_num)
+    image_ids = get_request_paramaters('ImageId')
     images = []
-
-    while contains_parameter(current_image):
-        image_id = get(current_image, request.form)
+    
+    for image_id in image_ids:
         response = _describe_image_by_id(image_id)
         images = images + _get_images_from_response(response)
-        current_image_num += 1
-        current_image = root_image_id + str(current_image_num)
 
     return images
 
@@ -83,7 +78,7 @@ def _describe_templates_request(args=None):
     return cloudstack_response
 
 
-def _get_images_from_response(response, attribute=None):
+def _get_images_from_response(response):
     images = []
     if response:
         for template in response['template']:

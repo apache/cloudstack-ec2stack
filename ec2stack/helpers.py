@@ -69,6 +69,21 @@ def contains_parameter(parameter):
     return (get(parameter, request.form)) is not None
 
 
+def get_request_paramaters(parameter_type):
+    root_parameter_id = parameter_type + '.'
+    current_parameter_num = 1
+    current_parameter = root_parameter_id + str(current_parameter_num)
+    parameters = []
+
+    while contains_parameter(current_parameter):
+        paramater = get(current_parameter, request.form)
+        parameters.append(get(current_parameter, request.form))
+        current_parameter_num += 1
+        current_parameter = root_parameter_id + str(current_parameter_num)
+
+    return parameters
+
+
 def get_secretkey(data=None):
     if data is None:
         data = request.form
