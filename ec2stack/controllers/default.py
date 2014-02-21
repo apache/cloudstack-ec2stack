@@ -78,7 +78,7 @@ def removeSecretKey():
     accesskey = get('AWSAccessKeyId', request.form)
     secretkey = get('AWSSecretKey', request.form)
 
-    found_user = USERS.get(get('AWSAccessKeyId', request.form))
+    found_user = USERS.get(accesskey)
     if found_user is not None and found_user.secretkey == secretkey:
         USERS.delete(found_user)
         return {
