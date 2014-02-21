@@ -2,6 +2,6 @@
     "deletesecuritygroupresponse": {
         "errorcode": 431,
         "uuidlist": [],
-        "errortext": "Unable to find security group by name helloworld for the account id=451"
+        "errortext": "Unable to find security group by name securitygroup for the account id=451"
     }
 }
