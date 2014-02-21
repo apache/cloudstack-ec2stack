@@ -12,3 +12,4 @@ conf/ec2stack.sqlite
 .idea
 *.iml
 *~
+.coverage
