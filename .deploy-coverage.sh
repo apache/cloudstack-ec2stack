@@ -1,6 +1,6 @@
 #!/bin/sh
 cd ../
-git config --global user.email "travis@travis-ci.org"
+git config --global user.email "travisci@ianduffy.ie"
 git config --global user.name "travis-ci"
 git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/imduffy15/ec2stack gh-pages > /dev/null
 
