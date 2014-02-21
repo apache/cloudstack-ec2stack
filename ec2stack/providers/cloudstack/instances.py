@@ -35,9 +35,6 @@ def describe_instance_attribute():
         instance_id,
         _describe_virtual_machines_request)
 
-    if 'errortext' in response:
-        invalid_instance_id()
-
     virtual_machine = response['virtualmachine'][0]
 
     instance_attribute = translator.cloudstack_item_attribute_to_aws(
@@ -84,14 +81,6 @@ def _describe_specific_instances():
             response, 'virtualmachine', cloudstack_instance_attributes_to_aws)
 
     return instances
-
-
-def invalid_instance_id():
-    raise Ec2stackError(
-        '400',
-        'InvalidInstanceId.Malformed',
-        'The specified Instance ID is not valid'
-    )
 
 
 def _create_describe_instance_attribute_response(item_attribute):

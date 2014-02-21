@@ -28,9 +28,6 @@ def describe_image_attribute():
 
     response = describe_item_by_id(image_id, _describe_templates_request)
 
-    if 'errortext' in response:
-        invalid_image_id()
-
     template = response['template'][0]
 
     image_attribute = translator.cloudstack_item_attribute_to_aws(
@@ -55,9 +52,6 @@ def _describe_specific_images():
 
     for image_id in image_ids:
         response = describe_item_by_id(image_id, _describe_templates_request)
-        if 'errortext' in response:
-            invalid_image_id()
-
         images = images + get_items_from_response(
             response, 'template', cloudstack_image_attributes_to_aws)
 
