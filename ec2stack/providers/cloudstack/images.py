@@ -2,17 +2,12 @@
 # encoding: utf-8
 
 from ec2stack.helpers import *
-from ec2stack.providers.cloudstack import requester
+from ec2stack.providers.cloudstack import requester, translator
 
 
-cloudstack_attributes_to_aws = {
-    'id': 'id',
-    'name': 'name',
-    'isready': 'state',
-    'hypervisor': 'hypervisor',
-    'displaytext': 'description'
+cloudstack_image_attributes_to_aws = {
+    'isready': 'state'
 }
-
 
 @authentication_required
 def describe_images():
@@ -86,24 +81,13 @@ def _get_images_from_response(response, attribute=None):
     if response:
         for template in response['template']:
             images.append(
-                _cloudstack_template_to_aws_image(template, attribute)
+                translator.cloudstack_item_to_aws(
+                        template, 
+                        cloudstack_image_attributes_to_aws
+                )
             )
 
     return images
-
-
-def _cloudstack_template_to_aws_image(response, attribute=None):
-    image = {}
-    if attribute is not None:
-        if response[attribute] is not None:
-            image[
-                cloudstack_attributes_to_aws[attribute]
-            ] = response[attribute]
-    else:
-        for cloudstack_attr, aws_attr in cloudstack_attributes_to_aws.iteritems():
-            image[aws_attr] = response[cloudstack_attr]
-
-    return image
 
 
 def _create_describe_image_attribute_response(images, attribute):

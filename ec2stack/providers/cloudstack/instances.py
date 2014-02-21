@@ -2,18 +2,14 @@
 # encoding: utf-8
 
 from ec2stack.helpers import *
-from ec2stack.providers.cloudstack import requester
+from ec2stack.providers.cloudstack import requester, translator
 
 
-cloudstack_attributes_to_aws = {
-    'id': 'id',
-    'name': 'name',
-    'state': 'state',
-    'zonename': 'availability_zone',
-    'hypervisor': 'hypervisor',
+cloudstack_instance_attributes_to_aws = {
     'templateid': 'imageid',
-    'created': 'launchTime',
-    'serviceofferingname': 'instanceType'
+    'serviceofferingname': 'instanceType',
+    'id': 'instanceId',
+    'created': 'launchTime'
 }
 
 
@@ -37,6 +33,7 @@ def describe_instance_attribute():
 
     response = _create_describe_instance_attribute_response(
         instance, attribute)
+
     return response
 
 
@@ -87,7 +84,10 @@ def _get_instances_from_response(response, attribute=None):
     if response:
         for virtual_machine in response['virtualmachine']:
             instances.append(
-                _cloudstack_virtual_machine_to_aws(virtual_machine, attribute)
+                translator.cloudstack_item_to_aws(
+                        virtual_machine, 
+                        cloudstack_instance_attributes_to_aws
+                )
             )
 
     return instances

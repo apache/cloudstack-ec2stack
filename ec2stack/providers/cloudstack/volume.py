@@ -7,15 +7,13 @@ from flask import request
 
 from ec2stack import helpers
 from ec2stack.helpers import authentication_required
-from ec2stack.providers.cloudstack import requester
-from . import disk_offerings
+from ec2stack.providers.cloudstack import requester, translator, disk_offerings
 
 
-cloudstack_attributes_to_aws = {
+cloudstack_volume_attributes_to_aws = {
     'id': 'volumeId',
-    'name': 'name',
     'virtualmachineid': 'instanceId',
-    'created': 'attachTime'
+    'created': 'createTime'
 }
 
 
@@ -35,20 +33,14 @@ def _get_volumes_from_response(response, attribute=None):
     if response:
         for volume in response['volume']:
             volumes.append(
-                _cloudstack_volume_to_aws_volume(volume, attribute)
+                translator.cloudstack_item_to_aws(
+                        volume, 
+                        cloudstack_volume_attributes_to_aws
+                )
             )
 
     return volumes
 
-
-def _cloudstack_volume_to_aws_volume(response, attribute=None):
-    volume = {}
-
-    for cloudstack_attr, aws_attr in cloudstack_attributes_to_aws.iteritems():
-        if cloudstack_attr in response:
-            volume[aws_attr] = response[cloudstack_attr]
-
-    return volume
 
 
 def _describe_volumes_response(volumes):

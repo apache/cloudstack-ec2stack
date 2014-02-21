@@ -4,10 +4,10 @@
         {% for volume in volumes %}
         <item>
             <volumeId>
-            {{ volume.volumeId }}
+                {{ volume.volumeId }}
             </volumeId>
             <name>{{ volume.name }}</name>
-            <createTime>{{ volume.status }}</createTime>
+            <createTime>{{ volume.createTime }}</createTime>
             <attachmentSet>
                 <item>
                     <volumeId>

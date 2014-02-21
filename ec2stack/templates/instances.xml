@@ -7,7 +7,7 @@
             {% for instance in instances %}
                 <item>
                     <instanceId>
-                    {{ instance.id }}
+                        {{ instance.instanceId }}
                     </instanceId>
                     <name>{{ instance.name }}</name>
                     <name>{{ instance.state }}</name>
