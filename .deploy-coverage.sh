@@ -6,7 +6,7 @@ git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/imduffy15/ec2
 
 # Commit and Push the Changes
 cd gh-pages
-git rm -rf *
+rm -rf *
 cp -Rf ../ec2stack/cover/* .
 git add -f .
 git commit -a -m "[AUTO-PUSH] Latest coverage report on successful travis build"
