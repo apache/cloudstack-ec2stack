@@ -21,7 +21,7 @@ def describe_instances():
     else:
         instances = _describe_all_instances()
 
-    response =  _create_describe_instances_response(instances)
+    response = _create_describe_instances_response(instances)
 
     return response
 
@@ -31,12 +31,15 @@ def describe_instance_attribute():
     instance_id = get('InstanceId', request.form)
     attribute = get('Attribute', request.form)
 
-    response = describe_item_by_id(instance_id, _describe_virtual_machines_request)
+    response = describe_item_by_id(
+        instance_id,
+        _describe_virtual_machines_request)
+
     if 'errortext' in response:
-            invalid_instance_id()
-            
+        invalid_instance_id()
+
     virtual_machine = response['virtualmachine'][0]
-    
+
     instance_attribute = translator.cloudstack_item_attribute_to_aws(
         virtual_machine, cloudstack_instance_attributes_to_aws, attribute)
 
@@ -69,9 +72,11 @@ def _describe_all_instances():
 def _describe_specific_instances():
     instance_ids = get_request_paramaters('InstanceId')
     instances = []
-    
+
     for instance_id in instance_ids:
-        response = describe_item_by_id(instance_id, _describe_virtual_machines_request)
+        response = describe_item_by_id(
+            instance_id,
+            _describe_virtual_machines_request)
         if 'errortext' in response:
             invalid_instance_id()
 

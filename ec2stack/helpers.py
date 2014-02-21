@@ -73,11 +73,10 @@ def get_request_paramaters(parameter_type):
     root_parameter = parameter_type + '.'
     current_parameter_num = 1
     current_parameter = root_parameter + str(current_parameter_num)
-    
+
     parameters = []
 
     while contains_parameter(current_parameter):
-        paramater = get(current_parameter, request.form)
         parameters.append(get(current_parameter, request.form))
         current_parameter_num += 1
         current_parameter = root_parameter + str(current_parameter_num)

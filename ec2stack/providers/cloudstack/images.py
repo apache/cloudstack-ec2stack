@@ -10,6 +10,7 @@ cloudstack_image_attributes_to_aws = {
     'isready': 'state'
 }
 
+
 @authentication_required
 def describe_images():
     if contains_parameter('ImageId.1'):
@@ -51,14 +52,14 @@ def _describe_all_images():
 def _describe_specific_images():
     image_ids = get_request_paramaters('ImageId')
     images = []
-    
+
     for image_id in image_ids:
         response = describe_item_by_id(image_id, _describe_templates_request)
         if 'errortext' in response:
             invalid_image_id()
 
         images = images + get_items_from_response(
-        response, 'template', cloudstack_image_attributes_to_aws)
+            response, 'template', cloudstack_image_attributes_to_aws)
 
     return images
 

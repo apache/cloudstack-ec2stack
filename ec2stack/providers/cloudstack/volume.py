@@ -34,13 +34,12 @@ def _get_volumes_from_response(response, attribute=None):
         for volume in response['volume']:
             volumes.append(
                 translator.cloudstack_item_to_aws(
-                        volume, 
-                        cloudstack_volume_attributes_to_aws
+                    volume,
+                    cloudstack_volume_attributes_to_aws
                 )
             )
 
     return volumes
-
 
 
 def _describe_volumes_response(volumes):
