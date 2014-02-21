@@ -3,6 +3,7 @@
 
 from ec2stack.helpers import *
 from ec2stack.providers.cloudstack import requester, translator
+from ec2stack.providers.cloudstack.cloudstack_helpers import *
 
 
 cloudstack_instance_attributes_to_aws = {
@@ -31,7 +32,7 @@ def describe_instance_attribute():
     instance_id = get('InstanceId', request.form)
     attribute = get('Attribute', request.form)
 
-    response = _describe_virtual_machine_by_id(instance_id)
+    response = describe_item_by_id(instance_id, _describe_virtual_machines_request)
     virtual_machine = response['virtualmachine'][0]
     
     instance_attribute = translator.cloudstack_item_attribute_to_aws(
@@ -57,7 +58,8 @@ def _describe_virtual_machines_request(args=None):
 
 def _describe_all_instances():
     response = _describe_virtual_machines_request()
-    instances = _get_instances_from_response(response)
+    instances = get_items_from_response(
+        response, 'virtualmachine', cloudstack_instance_attributes_to_aws)
 
     return instances
 
@@ -67,30 +69,9 @@ def _describe_specific_instances():
     instances = []
     
     for instance_id in instance_ids:
-        response = _describe_virtual_machine_by_id(instance_id)
-        instances = instances + _get_instances_from_response(response)
-
-    return instances
-
-
-def _describe_virtual_machine_by_id(instance_id):
-    args = {
-        'id': instance_id
-    }
-
-    return _describe_virtual_machines_request(args)
-
-
-def _get_instances_from_response(response):
-    instances = []
-    if response:
-        for virtual_machine in response['virtualmachine']:
-            instances.append(
-                translator.cloudstack_item_to_aws(
-                        virtual_machine, 
-                        cloudstack_instance_attributes_to_aws
-                )
-            )
+        response = describe_item_by_id(instance_id, _describe_virtual_machines_request)
+        instances = instances + get_items_from_response(
+            response, 'virtualmachine', cloudstack_instance_attributes_to_aws)
 
     return instances
 
