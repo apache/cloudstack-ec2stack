@@ -3,6 +3,7 @@
 
 from ec2stack.helpers import *
 from ec2stack.providers.cloudstack import requester, translator
+from ec2stack.providers.cloudstack.cloudstack_helpers import *
 
 
 cloudstack_image_attributes_to_aws = {
@@ -21,11 +22,14 @@ def describe_images():
 
 @authentication_required
 def describe_image_attribute():
-    require_parameters(['ImageId', 'Attribute'])
     image_id = get('ImageId', request.form)
     attribute = get('Attribute', request.form)
 
-    response = _describe_image_by_id(image_id)
+    response = describe_item_by_id(image_id, _describe_templates_request)
+
+    if 'errortext' in response:
+        invalid_image_id()
+
     template = response['template'][0]
 
     image_attribute = translator.cloudstack_item_attribute_to_aws(
@@ -38,7 +42,8 @@ def describe_image_attribute():
 
 def _describe_all_images():
     response = _describe_templates_request()
-    images = _get_images_from_response(response)
+    images = get_items_from_response(
+        response, 'template', cloudstack_image_attributes_to_aws)
 
     return images
 
@@ -48,18 +53,22 @@ def _describe_specific_images():
     images = []
     
     for image_id in image_ids:
-        response = _describe_image_by_id(image_id)
-        images = images + _get_images_from_response(response)
+        response = describe_item_by_id(image_id, _describe_templates_request)
+        if 'errortext' in response:
+            invalid_image_id()
+
+        images = images + get_items_from_response(
+        response, 'template', cloudstack_image_attributes_to_aws)
 
     return images
 
 
-def _describe_image_by_id(image_id):
-    args = {
-        'id': image_id
-    }
-
-    return _describe_templates_request(args)
+def invalid_image_id():
+    raise Ec2stackError(
+        '400',
+        'InvalidImageId.Malformed',
+        'The specified Image ID is not valid'
+    )
 
 
 def _describe_templates_request(args=None):
@@ -76,20 +85,6 @@ def _describe_templates_request(args=None):
     cloudstack_response = cloudstack_response['listtemplatesresponse']
 
     return cloudstack_response
-
-
-def _get_images_from_response(response):
-    images = []
-    if response:
-        for template in response['template']:
-            images.append(
-                translator.cloudstack_item_to_aws(
-                        template, 
-                        cloudstack_image_attributes_to_aws
-                )
-            )
-
-    return images
 
 
 def _create_describe_image_attribute_response(item_attribute):
