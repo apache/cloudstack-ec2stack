@@ -116,8 +116,21 @@ class ControllerTestCase(Ec2StackAppTestCase):
         self.assertOk(response)
 
         assert 'RegisterSecretKeyResponse' in response.data
-        assert 'ExampleAPIKey2' in response.data
-        assert 'ExampleSecretKey2' in response.data
+
+    def test_successful_delete_secretkey(self):
+        data = {
+            'Action': 'RemoveSecretKey',
+            'AWSAccessKeyId': 'ExampleAPIKey',
+            'AWSSecretKey': 'ExampleSecretKey'
+        }
+
+        response = self.post(
+            '/',
+            data=data
+        )
+
+        self.assertOk(response)
+        assert 'RemoveSecretKeyResponse' in response.data
 
     def test_not_found_delete_secretkey(self):
         data = {
@@ -132,7 +145,14 @@ class ControllerTestCase(Ec2StackAppTestCase):
         )
 
         self.assertBadRequest(response)
-        assert 'The given AWSAccessKeyId was not found' in response.data
+        assert 'The no matching AWSAccessKeyId' in response.data
+
+    def test_not_found(self):
+        response = self.post(
+            '/example-not-found-url',
+        )
+
+        self.assertNotFound(response)
 
     def test_bad_request_on_provider_error(self):
         data = self.get_example_data()
