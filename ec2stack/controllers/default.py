@@ -97,8 +97,6 @@ def not_found(err):
     return error_response('404', 'NotFound', 'Page not found')
 
 
-@DEFAULT.app_errorhandler(431)
-@DEFAULT.app_errorhandler(531)
 @DEFAULT.app_errorhandler(400)
 def bad_request(err):
     return error_response('400', 'BadRequest', 'Bad Request')
