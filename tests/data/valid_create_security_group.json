@@ -1,0 +1,12 @@
+{
+    "createsecuritygroupresponse": {
+        "securitygroup": {
+            "account": "account",
+            "domainid": "66d69e46-a95b-437b-ac6c-bcaa5331999d",
+            "name": "securitygroupname",
+            "domain": "domain",
+            "id": "9684da98-3f7c-4a0b-b968-3ad143f7650d",
+            "description": "security group description"
+        }
+    }
+}

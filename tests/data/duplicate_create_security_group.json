@@ -1,0 +1,7 @@
+{
+    "createsecuritygroupresponse": {
+        "errorcode": 431,
+        "uuidlist": [],
+        "errortext": "Unable to create security group, a group with name securitygroupname already exisits."
+    }
+}
