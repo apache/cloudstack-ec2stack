@@ -38,7 +38,7 @@ class PasswordTestCase(Ec2StackAppTestCase):
         text = get.return_value.text = read_file(
             'tests/data/invalid_instance_get_password.json'
         )
-        status_code = get.return_value.status_code = 200
+        status_code = get.return_value.status_code = 431
 
         with mock.patch('requests.get', get):
             response = self.post(
