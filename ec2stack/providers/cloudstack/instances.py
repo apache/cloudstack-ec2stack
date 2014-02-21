@@ -20,19 +20,24 @@ def describe_instances():
     else:
         instances = _describe_all_instances()
 
-    return _create_describe_instances_response(instances)
+    response =  _create_describe_instances_response(instances)
+
+    return response
 
 
+@authentication_required
 def describe_instance_attribute():
     require_parameters(['InstanceId', 'Attribute'])
     instance_id = get('InstanceId', request.form)
     attribute = get('Attribute', request.form)
 
     response = _describe_virtual_machine_by_id(instance_id)
-    instance = _get_instances_from_response(response, attribute)
+    virtual_machine = response['virtualmachine'][0]
+    
+    instance_attribute = translator.cloudstack_item_attribute_to_aws(
+        virtual_machine, cloudstack_instance_attributes_to_aws, attribute)
 
-    response = _create_describe_instance_attribute_response(
-        instance, attribute)
+    response = _create_describe_instance_attribute_response(instance_attribute)
 
     return response
 
@@ -43,9 +48,11 @@ def _describe_virtual_machines_request(args=None):
 
     args['command'] = 'listVirtualMachines'
 
-    response = requester.make_request(args)
+    cloudstack_response = requester.make_request(args)
 
-    return response
+    cloudstack_response = cloudstack_response['listvirtualmachinesresponse']
+
+    return cloudstack_response
 
 
 def _describe_all_instances():
@@ -93,29 +100,13 @@ def _get_instances_from_response(response, attribute=None):
     return instances
 
 
-def _cloudstack_virtual_machine_to_aws(response, attribute=None):
-    instance = {}
-    if attribute is not None:
-        if response[attribute] is not None:
-            instance[
-                cloudstack_attributes_to_aws[attribute]
-            ] = response[attribute]
-            instance['id'] = response['id']
-    else:
-        for cloudstack_attr, aws_attr in cloudstack_attributes_to_aws.iteritems():
-            instance[aws_attr] = response[cloudstack_attr]
-
-    return instance
-
-
-def _create_describe_instance_attribute_response(response, attribute):
-    response = response[0]
+def _create_describe_instance_attribute_response(item_attribute):
     response = {
         'template_name_or_list': 'instance_attribute.xml',
         'response_type': 'DescribeInstanceAttributes',
-        'attribute': cloudstack_attributes_to_aws[attribute],
-        'value': response[cloudstack_attributes_to_aws[attribute]],
-        'id': response['id']
+        'attribute': get('Attribute', request.form),
+        'value': item_attribute.values()[0],
+        'id': get('InstanceId', request.form)
     }
 
     return response

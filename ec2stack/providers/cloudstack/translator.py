@@ -35,13 +35,19 @@ def cloudstack_item_to_aws(cloudstack_item, cloudstack_item_attributes_to_aws):
     return item
 
 
-def cloudstack_item_attribute_to_aws(attribute):
+def cloudstack_item_attribute_to_aws(
+            cloudstack_item, cloudstack_item_attributes_to_aws, attribute):
+
+    attributes_to_aws_mapping = dict(cloudstack_attributes_to_aws.items() + 
+            cloudstack_item_attributes_to_aws.items())
+
     item = {}
 
-    if response[attribute] is not None:
+    print(cloudstack_item)
+
+    if cloudstack_item[attribute] is not None:
         item[
-            cloudstack_attributes_to_aws[attribute]
-        ] = response[attribute]
-        item['id'] = item['id']
+            attributes_to_aws_mapping[attribute]
+        ] = cloudstack_item[attribute]
 
     return item

@@ -31,6 +31,7 @@ def _get_action(action):
         'DeleteKeyPair': keypair.delete_keypair,
         'DeleteSecurityGroup': security_group.delete_security_group,
         'DeleteVolume': volume.delete_volume,
+        'DescribeImageAttribute': images.describe_image_attribute,
         'DescribeImages': images.describe_images,
         'DescribeInstanceAttribute': instances.describe_instance_attribute,
         'DescribeInstances': instances.describe_instances,
