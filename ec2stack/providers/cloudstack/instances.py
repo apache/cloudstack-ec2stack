@@ -84,7 +84,7 @@ def _describe_specific_instances():
 def _create_describe_instance_attribute_response(item_attribute):
     response = {
         'template_name_or_list': 'instance_attribute.xml',
-        'response_type': 'DescribeInstanceAttributes',
+        'response_type': 'DescribeInstanceAttributeResponse',
         'attribute': get('Attribute', request.form),
         'value': item_attribute.values()[0],
         'id': get('InstanceId', request.form)

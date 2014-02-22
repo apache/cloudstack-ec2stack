@@ -58,14 +58,6 @@ def _describe_specific_images():
     return images
 
 
-def invalid_image_id():
-    raise Ec2stackError(
-        '400',
-        'InvalidImageId.Malformed',
-        'The specified Image ID is not valid'
-    )
-
-
 def _describe_templates_request(args=None):
     if not args:
         args = {}
@@ -85,7 +77,7 @@ def _describe_templates_request(args=None):
 def _create_describe_image_attribute_response(item_attribute):
     response = {
         'template_name_or_list': 'image_attribute.xml',
-        'response_type': 'DescribeImageAttributes',
+        'response_type': 'DescribeImageAttributeResponse',
         'attribute': get('Attribute', request.form),
         'value': item_attribute.values()[0],
         'id': get('ImageId', request.form)

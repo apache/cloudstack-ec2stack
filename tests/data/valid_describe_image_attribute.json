@@ -1,0 +1,35 @@
+{
+    "listtemplatesresponse": {
+        "count": 1,
+        "template": [
+            {
+                "domain": "ROOT",
+                "domainid": "2edae3e4-95e4-11e3-b2e4-d19c9d3e5e1d",
+                "ostypename": "CentOS 5.3 (32-bit)",
+                "zoneid": "1e47a2fc-61c7-401c-b90e-416b472ada64",
+                "displaytext": "CentOS 5.3(64-bit) no GUI (Simulator)",
+                "ostypeid": "2e678976-95e4-11e3-b2e4-d19c9d3e5e1d",
+                "passwordenabled": false,
+                "id": "a32d70ee-95e4-11e3-b2e4-d19c9d3e5e1d",
+                "size": 2147483648,
+                "isready": true,
+                "format": "VHD",
+                "templatetype": "BUILTIN",
+                "crosszones": true,
+                "zonename": "Sandbox-simulator",
+                "status": "Download Complete",
+                "isdynamicallyscalable": false,
+                "tags": [],
+                "isfeatured": true,
+                "sshkeyenabled": false,
+                "isextractable": false,
+                "account": "system",
+                "name": "CentOS 5.3(64-bit) no GUI (Simulator)",
+                "created": "2014-02-15T02:50:13+0000",
+                "hypervisor": "Simulator",
+                "ispublic": true,
+                "checksum": ""
+            }
+        ]
+    }
+}
