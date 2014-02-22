@@ -35,6 +35,7 @@ def delete_volume():
 def create_volume():
     helpers.require_one_paramater(['SnapshotId', 'Size'])
 
+    args = {}
     if helpers.contains_parameter('SnapshotId'):
         args['snapshotid'] = helpers.get('SnapshotId', request.form)
     else:
@@ -42,7 +43,7 @@ def create_volume():
         args['diskofferingid'] = \
             disk_offerings.get_disk_offerings_id_by_name('Custom')
             
-    response = _create_volume_request()
+    response = _create_volume_request(args)
     return create_volume_response(response)
 
 
@@ -70,8 +71,10 @@ def _describe_volumes_request():
     return response
 
 
-def _create_volume_request():
-    args = {}
+def _create_volume_request(args = None):
+    if args is None:
+        args = {}
+        
     args['zoneid'] = helpers.get('AvailabilityZone', request.form)
     args['command'] = 'createVolume'
     args['name'] = uuid.uuid4()
