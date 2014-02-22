@@ -50,6 +50,7 @@ def _describe_virtual_machines_request(args=None):
         args = {}
 
     args['command'] = 'listVirtualMachines'
+    print(args)
 
     cloudstack_response = requester.make_request(args)
 

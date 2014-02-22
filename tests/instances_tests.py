@@ -71,4 +71,3 @@ class InstancesTestCase(Ec2StackAppTestCase):
 
         self.assertOk(response)
         assert 'DescribeInstanceAttributeResponse' in response.data
-
