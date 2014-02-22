@@ -7,8 +7,8 @@ from flask import request
 
 from ec2stack import helpers
 from ec2stack.helpers import authentication_required
-from ec2stack.providers.cloudstack import requester, translator, \
-        disk_offerings, cloudstack_helpers
+from ec2stack.providers.cloudstack import requester, \
+    disk_offerings, cloudstack_helpers
 
 
 cloudstack_volume_attributes_to_aws = {
@@ -42,7 +42,7 @@ def create_volume():
         args['size'] = helpers.get('Size', request.form)
         args['diskofferingid'] = \
             disk_offerings.get_disk_offerings_id_by_name('Custom')
-            
+
     response = _create_volume_request(args)
     return create_volume_response(response)
 
@@ -71,10 +71,12 @@ def _describe_volumes_request():
     return response
 
 
-def _create_volume_request(args = None):
+def _create_volume_request(args=None):
+    args['command'] = 'listZones'
+    requester.make_request(args)
     if args is None:
         args = {}
-        
+
     args['zoneid'] = helpers.get('AvailabilityZone', request.form)
     args['command'] = 'createVolume'
     args['name'] = uuid.uuid4()

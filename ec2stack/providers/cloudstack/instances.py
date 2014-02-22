@@ -74,8 +74,6 @@ def _describe_specific_instances():
         response = describe_item_by_id(
             instance_id,
             _describe_virtual_machines_request)
-        if 'errortext' in response:
-            invalid_instance_id()
 
         instances = instances + get_items_from_response(
             response, 'virtualmachine', cloudstack_instance_attributes_to_aws)
