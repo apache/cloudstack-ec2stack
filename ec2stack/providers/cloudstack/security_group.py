@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from flask import request, abort
+from flask import request, abort, current_app
 
 from ec2stack.helpers import authentication_required, get, \
-    contains_parameter, missing_paramater, require_one_paramater, require_parameters
+    contains_parameter, missing_paramater, require_one_paramater, \
+    require_parameters
 from ec2stack.core import Ec2stackError
 from ec2stack.providers.cloudstack import requester
 
@@ -89,7 +90,7 @@ def authenticate_security_group_ingress():
 
 
 def _authenticate_security_group_request(args=None):
-    if not args:
+    if args is None:
         args = {}
 
     args['command'] = 'authorizeSecurityGroupIngress'
@@ -99,13 +100,40 @@ def _authenticate_security_group_request(args=None):
     elif contains_parameter('GroupId'):
         args['securityGroupId'] = get('GroupId', request.form)
 
-    args['protocol'] = get('IpPermissions.1.IpProtocol', request.form)
-    args['startPort'] = get('FromPort', request.form)
-    args['endPort'] = get('ToPort', request.form)
-    args['cidrlist'] = get('CidrIp', request.form)
+    if contains_parameter('IpProtocol'):
+        _authenticate_security_group_single_request(args=args)
+    else:
+        abort(400)
 
-    response = requester.make_request_async(args)
 
-    response = response['securitygroup']
+def _authenticate_security_group_single_request(args=None):
+    if args is None:
+        args = {}
 
-    return response
+    if _contains_key_with_keyword('IpPermissions'):
+        raise Ec2stackError(
+            '400',
+            'InvalidParameterCombination',
+            'The parameter \'ipPermissions\' may not'
+            'be used in combination with \'ipProtocol\''
+        )
+    else:
+        args['protocol'] = get('IpProtocol', request.form)
+
+        require_parameters(['FromPort', 'ToPort'])
+        args['startPort'] = get('FromPort', request.form)
+        args['endPort'] = get('ToPort', request.form)
+
+        if get('CidrIp', request.form) is None:
+            args['cidrlist'] = '0.0.0.0/0'
+        else:
+            args['cidrlist'] = get('CidrIp', request.form)
+
+        current_app.logger.debug(args)
+        response = requester.make_request_async(args)
+
+        return response
+
+
+def _contains_key_with_keyword(keyword):
+    return len(filter(lambda x: keyword in x, request.form.keys())) >= 1

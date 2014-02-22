@@ -58,7 +58,7 @@ def make_request_async(args, poll_period=2, timeout=3600):
         response = response['queryasyncjobresultresponse']
         job_status = response['jobstatus']
 
-        if job_status == 1:
+        if job_status in [1, 2]:
             return response['jobresult']
         elif job_status == 0:
             return make_request_async(args, poll_period=poll_period,
