@@ -76,8 +76,11 @@ def registerSecretKey():
 
 def removeSecretKey():
     require_parameters({'AWSAccessKeyId', 'AWSSecretKey'})
-    found_user = USERS.get(get('AWSAccessKeyId', request.form))
-    if found_user is not None:
+    accesskey = get('AWSAccessKeyId', request.form)
+    secretkey = get('AWSSecretKey', request.form)
+
+    found_user = USERS.get(accesskey)
+    if found_user is not None and found_user.secretkey == secretkey:
         USERS.delete(found_user)
         return {
             'template_name_or_list': 'secretkey.xml',
@@ -89,7 +92,7 @@ def removeSecretKey():
         raise Ec2stackError(
             '400',
             'NoSuchUser',
-            'The given AWSAccessKeyId was not found'
+            'The no matching AWSAccessKeyId and AWSSecretKey was not found'
         )
 
 
@@ -98,8 +101,6 @@ def not_found(err):
     return error_response('404', 'NotFound', 'Page not found')
 
 
-@DEFAULT.app_errorhandler(431)
-@DEFAULT.app_errorhandler(531)
 @DEFAULT.app_errorhandler(400)
 def bad_request(err):
     return error_response('400', 'BadRequest', 'Bad Request')

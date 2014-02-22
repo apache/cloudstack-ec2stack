@@ -23,20 +23,20 @@ def make_request(args):
 
     response = requests.get(request_url)
 
-    response_data = json.loads(
-        response.text,
-        object_hook=helpers.normalize_dict_keys
-    )
-
-    current_app.logger.debug(
-        'request url:' + str(request_url) +
-        'status code: ' + str(response.status_code) +
-        json.dumps(response_data, indent=4, separators=(',', ': '))
-    )
-
     if response.status_code in [401, 432]:
-        abort(response.status_code)
+        abort(400)
     else:
+        response_data = json.loads(
+            response.text,
+            object_hook=helpers.normalize_dict_keys
+        )
+
+        current_app.logger.debug(
+            'request url:' + str(request_url) +
+            'status code: ' + str(response.status_code) +
+            json.dumps(response_data, indent=4, separators=(',', ': '))
+        )
+
         return response_data
 
 
