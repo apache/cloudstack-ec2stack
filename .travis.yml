@@ -11,7 +11,7 @@ script:
 - pylint --rcfile=pylint.rc *.py ec2stack
 - nosetests --with-coverage --cover-erase --cover-package=ec2stack --cover-html
 after_success:
-- sh .deploy-coverage.sh
+- '[ "${TRAVIS_BRANCH}" = "master" ]  && bash .deploy-coverage.sh'
 env:
   global:
     secure: dUNHx6q6ziCb7pXr/fb/OZS8fyB14RF8/rEEggBEzgn2L7KM78LVFyFNmW+QZ7lvJpZ806mfjdmvmz0DpR1k6kfokrr6txBzHDMEUebc9RnVnmsoNNWIRLiV/+YzUsVeFixogVz/z06yaycOC8knVExcNfGMfmiBg5PextydXSQ=
