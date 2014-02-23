@@ -26,7 +26,6 @@ def cloudstack_item_to_aws(cloudstack_item, cloudstack_item_attributes_to_aws):
 
 def cloudstack_item_attribute_to_aws(
         cloudstack_item, cloudstack_item_attributes_to_aws, attribute):
-
     attributes_to_aws_mapping = dict(cloudstack_attributes_to_aws.items() +
                                      cloudstack_item_attributes_to_aws.items())
 

@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from ec2stack.helpers import *
-from ec2stack.providers.cloudstack import requester, translator
+from ec2stack.providers.cloudstack import requester
 from ec2stack.providers.cloudstack.cloudstack_helpers import *
 
 

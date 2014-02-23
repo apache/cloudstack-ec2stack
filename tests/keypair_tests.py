@@ -10,6 +10,7 @@ from . import Ec2StackAppTestCase
 
 
 class KeyPairTestCase(Ec2StackAppTestCase):
+
     def test_create_keypair(self):
         data = self.get_example_data()
         data['Action'] = 'CreateKeyPair'
@@ -130,4 +131,3 @@ class KeyPairTestCase(Ec2StackAppTestCase):
 
         self.assertBadRequest(response)
         assert 'InvalidKeyPair.Duplicate' in response.data
-

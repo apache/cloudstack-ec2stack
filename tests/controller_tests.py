@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from . import Ec2StackAppTestCase
-
-from ec2stack.helpers import generate_signature, read_file
-
 import mock
 
+from . import Ec2StackAppTestCase
+from ec2stack.helpers import generate_signature
+
+
 class ControllerTestCase(Ec2StackAppTestCase):
+
     def test_invalid_action(self):
         data = self.get_example_data()
         data['Action'] = 'InvalidAction'
