@@ -6,6 +6,7 @@ from hashlib import sha1
 from base64 import b64encode
 import hmac
 import json
+import time
 
 from flask import current_app, abort, request
 import requests
@@ -38,6 +39,30 @@ def make_request(args):
         )
 
         return response_data
+
+
+def make_request_async(args, poll_period=2, timeout=3600):
+    response = make_request(args)
+    responsekey = filter(lambda x: 'response' in x, response.keys())[0]
+
+    if 'jobid' in response[responsekey]:
+        args = {}
+        args['command'] = 'queryAsyncJobResult'
+        args['jobid'] = response[responsekey]['jobid']
+
+        time.sleep(poll_period)
+        timeout = timeout - poll_period
+
+        response = make_request(args)
+
+        response = response['queryasyncjobresultresponse']
+        job_status = response['jobstatus']
+
+        if job_status in [1, 2]:
+            return response['jobresult']
+        elif job_status == 0:
+            return make_request_async(args, poll_period=poll_period,
+                                      timeout=timeout)
 
 
 def _generate_request_url(args, secretkey):

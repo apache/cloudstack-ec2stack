@@ -25,6 +25,7 @@ def index():
 
 def _get_action(action):
     actions = {
+        'AuthorizeSecurityGroupIngress': security_group.authenticate_security_group_ingress,
         'CreateKeyPair': keypair.create_keypair,
         'CreateSecurityGroup': security_group.create_security_group,
         'CreateVolume': volume.create_volume,
