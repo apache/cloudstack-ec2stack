@@ -4,12 +4,11 @@
 from flask import request
 
 from ec2stack import helpers
-from ec2stack.helpers import authentication_required
 from ec2stack.core import Ec2stackError
 from ec2stack.providers.cloudstack import requester
 
 
-@authentication_required
+@helpers.authentication_required
 def get_password_data():
     helpers.require_parameters(['InstanceId'])
     response = _get_password_data_request()
@@ -41,6 +40,5 @@ def _get_password_data_format_response(response):
         return {
             'template_name_or_list': 'password.xml',
             'response_type': 'GetPasswordDataResponse',
-            'instance_id': instanceid,
-            'password_data': response['encryptedpassword']
+            'response': response
         }

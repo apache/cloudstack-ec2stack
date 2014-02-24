@@ -6,16 +6,15 @@ from base64 import b64decode
 from flask import request
 
 from ec2stack import helpers
-from ec2stack.helpers import authentication_required
 from ec2stack.core import Ec2stackError
 from ec2stack.providers.cloudstack import requester
 
 
-@authentication_required
+@helpers.authentication_required
 def create_keypair():
     helpers.require_parameters(['KeyName'])
     response = _create_keypair_request()
-    return _create_keypair_format_response(response)
+    return _create_keypair_response(response)
 
 
 def _create_keypair_request():
@@ -30,7 +29,7 @@ def _create_keypair_request():
     return response
 
 
-def _create_keypair_format_response(response):
+def _create_keypair_response(response):
     if 'errortext' in response:
         keyname = helpers.get('KeyName', request.form)
         raise Ec2stackError(
@@ -43,17 +42,15 @@ def _create_keypair_format_response(response):
         return {
             'template_name_or_list': 'create_keypair.xml',
             'response_type': 'CreateKeyPairResponse',
-            'key_name': response['name'],
-            'key_fingerprint': response['fingerprint'],
-            'key_material': response['privatekey']
+            'response': response
         }
 
 
-@authentication_required
+@helpers.authentication_required
 def delete_keypair():
     helpers.require_parameters(['KeyName'])
     response = _delete_keypair_request()
-    return _delete_keypair_format_response(response)
+    return _delete_keypair_response(response)
 
 
 def _delete_keypair_request():
@@ -66,19 +63,19 @@ def _delete_keypair_request():
     return response
 
 
-def _delete_keypair_format_response(response):
+def _delete_keypair_response(response):
     return {
-        'template_name_or_list': 'delete_item.xml',
+        'template_name_or_list': 'status.xml',
         'response_type': 'DeleteKeyPairResponse',
         'return': 'true'
     }
 
 
-@authentication_required
+@helpers.authentication_required
 def import_keypair():
     helpers.require_parameters(['KeyName', 'PublicKeyMaterial'])
     response = _import_keypair_request()
-    return _import_keypair_format_response(response)
+    return _import_keypair_response(response)
 
 
 def _import_keypair_request():
@@ -94,7 +91,7 @@ def _import_keypair_request():
     return response
 
 
-def _import_keypair_format_response(response):
+def _import_keypair_response(response):
     if 'errortext' in response:
         keyname = helpers.get('KeyName', request.form)
         raise Ec2stackError(
@@ -107,6 +104,5 @@ def _import_keypair_format_response(response):
         return {
             'template_name_or_list': 'create_keypair.xml',
             'response_type': 'ImportKeyPairResponse',
-            'key_name': response['name'],
-            'key_fingerprint': response['fingerprint'],
+            'response': response
         }

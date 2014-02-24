@@ -1,6 +1,6 @@
 {% extends "response.xml" %}
 {% block response_content %}
-    <keyName>{{ key_name }}</keyName>
-    <keyFingerprint>{{ key_fingerprint }}</keyFingerprint>
-    {% if key_material %}<keyMaterial>{{ key_material }}</keyMaterial>{%endif%}
+    <keyName>{{ response.name }}</keyName>
+    <keyFingerprint>{{ response.fingerprint }}</keyFingerprint>
+    {% if response.privatekey %}<keyMaterial>{{ response.privatekey }}</keyMaterial>{%endif%}
 {% endblock %}

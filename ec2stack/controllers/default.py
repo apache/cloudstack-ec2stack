@@ -25,7 +25,10 @@ def index():
 
 def _get_action(action):
     actions = {
-        'AuthorizeSecurityGroupIngress': security_group.authenticate_security_group_ingress,
+        'AuthorizeSecurityGroupEgress':
+        security_group.authenticate_security_group_egress,
+        'AuthorizeSecurityGroupIngress':
+        security_group.authenticate_security_group_ingress,
         'CreateKeyPair': keypair.create_keypair,
         'CreateSecurityGroup': security_group.create_security_group,
         'CreateVolume': volume.create_volume,
@@ -40,7 +43,11 @@ def _get_action(action):
         'GetPasswordData': password.get_password_data,
         'ImportKeyPair': keypair.import_keypair,
         'RegisterSecretKey': registerSecretKey,
-        'RemoveSecretKey': removeSecretKey
+        'RemoveSecretKey': removeSecretKey,
+        'RevokeSecurityGroupEgress':
+        security_group.revoke_security_group_egress,
+        'RevokeSecurityGroupIngress':
+        security_group.revoke_security_group_ingress,
     }
 
     if action in actions:

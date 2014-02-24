@@ -43,7 +43,8 @@ def make_request(args):
 
 def make_request_async(args, poll_period=2, timeout=3600):
     response = make_request(args)
-    responsekey = filter(lambda x: 'response' in x, response.keys())[0]
+
+    responsekey = response.keys()[0]
 
     if 'jobid' in response[responsekey]:
         args = {}
@@ -63,6 +64,8 @@ def make_request_async(args, poll_period=2, timeout=3600):
         elif job_status == 0:
             return make_request_async(args, poll_period=poll_period,
                                       timeout=timeout)
+    else:
+        return response[responsekey]
 
 
 def _generate_request_url(args, secretkey):

@@ -8,7 +8,6 @@ from ec2stack.helpers import generate_signature
 
 
 class ControllerTestCase(Ec2StackAppTestCase):
-
     def test_invalid_action(self):
         data = self.get_example_data()
         data['Action'] = 'InvalidAction'

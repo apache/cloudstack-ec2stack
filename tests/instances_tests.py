@@ -8,7 +8,6 @@ from . import Ec2StackAppTestCase
 
 
 class InstancesTestCase(Ec2StackAppTestCase):
-
     def test_describe_instances(self):
         data = self.get_example_data()
         data['Action'] = 'DescribeInstances'

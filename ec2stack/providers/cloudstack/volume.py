@@ -148,7 +148,7 @@ def create_volume_response(response):
 
 def delete_volume_response(response):
     return {
-        'template_name_or_list': 'delete_item.xml',
+        'template_name_or_list': 'status.xml',
         'response_type': 'DeleteVolumeResponse',
         'return': 'true'
     }

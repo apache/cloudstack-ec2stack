@@ -8,7 +8,6 @@ from . import Ec2StackAppTestCase
 
 
 class PasswordTestCase(Ec2StackAppTestCase):
-
     def test_get_password_data(self):
         data = self.get_example_data()
         data['Action'] = 'GetPasswordData'

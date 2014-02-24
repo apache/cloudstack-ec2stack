@@ -13,6 +13,9 @@ def get_disk_offerings_id_by_name(name):
 
 
 def _describe_disk_offerings_request(args=None):
+    if args is None:
+        args = {}
+
     args['command'] = 'listDiskOfferings'
 
     response = requester.make_request(args)
