@@ -2,21 +2,20 @@
 {% block response_content %}
     <reservationSet>
         <item>
-            <reservationId>{{ reservation_id }}</reservationId>
+            <reservationId>None</reservationId>
             <instancesSet>
-            {% for instance in instances %}
+            {% for instance in response.virtualmachine %}
                 <item>
                     <instanceId>
-                        {{ instance.instanceId }}
+                        {{ instance.id }}
                     </instanceId>
                     <name>{{ instance.name }}</name>
-                    <name>{{ instance.state }}</name>
                     <instanceState>
                         <name>{{ instance.state }}</name>
                     </instanceState>
-                    <instanceType>{{ instance.instanceType }}</instanceType>
-                    <launchTime>{{ instance.launchTime }}</launchTime>
-                    <imageId>{{ instance.imageid }}</imageId>
+                    <instanceType>{{ instance.serviceofferingname }}</instanceType>
+                    <launchTime>{{ instance.created }}</launchTime>
+                    <imageId>{{ instance.templateid }}</imageId>
                     <hypervisor>{{ instance.hypervisor }}</hypervisor>
                 </item>
             {% endfor %}

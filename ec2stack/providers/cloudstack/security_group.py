@@ -224,10 +224,10 @@ def _get_security_group(rule):
     if 'count' in response:
         for security_group in response['securitygroup']:
             if 'securityGroupId' in rule and security_group['id'] == rule[
-                'securityGroupId']:
+                    'securityGroupId']:
                 return security_group
             elif 'securityGroupName' in rule and security_group['name'] == rule[
-                'securityGroupName']:
+                    'securityGroupName']:
                 return security_group
 
     raise Ec2stackError(

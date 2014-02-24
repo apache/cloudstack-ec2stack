@@ -1,46 +1,47 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+from flask import request
+
+from ec2stack import helpers
 from ec2stack.providers.cloudstack import requester
-from ec2stack.providers.cloudstack.cloudstack_helpers import *
 
 
-cloudstack_instance_attributes_to_aws = {
-    'templateid': 'imageid',
-    'serviceofferingname': 'instanceType',
-    'id': 'instanceId',
-    'created': 'launchTime'
-}
-
-
-@authentication_required
+@helpers.authentication_required
 def describe_instances():
-    if contains_parameter('InstanceId.1'):
-        instances = _describe_specific_instances()
+    if helpers.contains_parameter('InstanceId.1'):
+        response = _describe_specific_instances()
     else:
-        instances = _describe_all_instances()
+        response = _describe_all_instances()
 
-    response = _create_describe_instances_response(instances)
+    response = _describe_instances_response(response)
 
     return response
 
 
-@authentication_required
-def describe_instance_attribute():
-    instance_id = get('InstanceId', request.form)
-    attribute = get('Attribute', request.form)
+def _describe_all_instances():
+    response = _describe_virtual_machines_request()
+    return response
 
-    response = describe_item_by_id(
-        instance_id,
-        _describe_virtual_machines_request)
 
-    virtual_machine = response['virtualmachine'][0]
+def _describe_specific_instances():
+    instance_ids = helpers.get_request_paramaters('InstanceId')
 
-    instance_attribute = translator.cloudstack_item_attribute_to_aws(
-        virtual_machine, cloudstack_instance_attributes_to_aws, attribute)
+    response = {}
+    response['virtualmachine'] = []
 
-    response = _create_describe_instance_attribute_response(instance_attribute)
+    for instance_id in instance_ids:
+        instance_response = describe_instance_by_id(instance_id)
+        response['virtualmachine'].append(instance_response)
 
+    return response
+
+
+def describe_instance_by_id(instance_id):
+    args = {}
+    args['id'] = instance_id
+    response = _describe_virtual_machines_request(args)
+    response = response['virtualmachine'][0]
     return response
 
 
@@ -51,53 +52,37 @@ def _describe_virtual_machines_request(args=None):
     args['command'] = 'listVirtualMachines'
 
     cloudstack_response = requester.make_request(args)
-
     cloudstack_response = cloudstack_response['listvirtualmachinesresponse']
 
     return cloudstack_response
 
 
-def _describe_all_instances():
-    response = _describe_virtual_machines_request()
-    instances = get_items_from_response(
-        response, 'virtualmachine', cloudstack_instance_attributes_to_aws)
-
-    return instances
-
-
-def _describe_specific_instances():
-    instance_ids = get_request_paramaters('InstanceId')
-    instances = []
-
-    for instance_id in instance_ids:
-        response = describe_item_by_id(
-            instance_id,
-            _describe_virtual_machines_request)
-
-        instances = instances + get_items_from_response(
-            response, 'virtualmachine', cloudstack_instance_attributes_to_aws)
-
-    return instances
+def _describe_instances_response(response):
+    return {
+        'template_name_or_list': 'instances.xml',
+        'response_type': 'DescribeInstancesResponse',
+        'response': response
+    }
 
 
-def _create_describe_instance_attribute_response(item_attribute):
+@helpers.authentication_required
+def describe_instance_attribute():
+    instance_id = helpers.get('InstanceId', request.form)
+
+    response = describe_instance_by_id(instance_id)
+
+    return _describe_instance_attribute_response(response)
+
+
+def _describe_instance_attribute_response(response):
+    attribute = helpers.get('Attribute', request.form)
+
     response = {
         'template_name_or_list': 'instance_attribute.xml',
         'response_type': 'DescribeInstanceAttributeResponse',
-        'attribute': get('Attribute', request.form),
-        'value': item_attribute.values()[0],
-        'id': get('InstanceId', request.form)
-    }
-
-    return response
-
-
-def _create_describe_instances_response(instances):
-    response = {
-        'template_name_or_list': 'instances.xml',
-        'response_type': 'DescribeInstancesResponse',
-        'reservation_id': 'None',
-        'instances': instances
+        'attribute': attribute,
+        'id': response['id'],
+        'value': response[attribute]
     }
 
     return response

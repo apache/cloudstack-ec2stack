@@ -57,6 +57,12 @@ def require_one_paramater(parameters):
     missing_paramater(parameter)
 
 
+def error_to_aws(response, error_map):
+    for errortext, error_function in error_map.iteritems():
+        if errortext in response['errortext']:
+            error_function()
+
+
 def missing_paramater(parameter):
     raise Ec2stackError(
         '400',

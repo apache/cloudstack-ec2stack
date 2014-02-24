@@ -1,8 +1,8 @@
 {% extends "response.xml" %}
 {% block response_content %}
-    <volumeId>{{ id }}</volumeId>
-    <size>{{ size }}</size>
-    <status>{{ status }}</status>
-    <availabilityZone>{{ zone }}</availabilityZone>
-    <volumeType> {{ volumeType }}</volumeType>
+    <volumeId>{{ response.id }}</volumeId>
+    <size>{{ response.size }}</size>
+    <status>{{ response.status }}</status>
+    <availabilityZone>{{ response.zonename }}</availabilityZone>
+    <volumeType>{{ response.type }}</volumeType>
 {% endblock %}

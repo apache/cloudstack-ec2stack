@@ -1,20 +1,20 @@
 {% extends "response.xml" %}
 {% block response_content %}
     <volumeSet>
-        {% for volume in volumes %}
+        {% for volume in response.volume %}
         <item>
             <volumeId>
-                {{ volume.volumeId }}
+                {{ volume.id }}
             </volumeId>
             <name>{{ volume.name }}</name>
-            <createTime>{{ volume.createTime }}</createTime>
+            <createTime>{{ volume.created }}</createTime>
             <attachmentSet>
                 <item>
                     <volumeId>
-                        {{ volume.volumeId }}
+                        {{ volume.id }}
                     </volumeId>
                     <instanceId>
-                        {{ volume.instanceId}}
+                        {{ volume.virtualmachineid }}
                     </instanceId>
                 </item>
             </attachmentSet>

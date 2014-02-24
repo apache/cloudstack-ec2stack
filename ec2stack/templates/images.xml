@@ -1,15 +1,15 @@
 {% extends "response.xml" %}
 {% block response_content %}
     <imagesSet>
-        {% for image in images %}
+        {% for image in response.template %}
         <item>
             <imageId>
-            {{ image.id }}
+                {{ image.id }}
             </imageId>
             <name>{{ image.name }}</name>
             <imageState>{{ image.state }}</imageState>
             <hypervisor>{{ image.hypervisor }}</hypervisor>
-            <description>{{ image.description }}</description>
+            <description>{{ image.displaytext }}</description>
         </item>
         {% endfor %}
     </imagesSet>
