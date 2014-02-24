@@ -13,6 +13,7 @@ from flask import request, make_response, render_template
 
 from ec2stack.services import USERS
 from ec2stack.core import Ec2stackError
+from ec2stack import errors
 
 
 def get(item, data):
@@ -45,30 +46,22 @@ def normalize_dict_keys(dct):
 def require_parameters(required_parameters):
     for parameter in required_parameters:
         if not contains_parameter(parameter):
-            missing_paramater(parameter)
+            errors.missing_paramater(parameter)
 
 
-def require_one_paramater(parameters):
+def require_atleast_one_parameter(parameters):
     parameter = None
     for parameter in parameters:
         if contains_parameter(parameter):
             return
 
-    missing_paramater(parameter)
+    errors.missing_paramater(parameter)
 
 
 def error_to_aws(response, error_map):
     for errortext, error_function in error_map.iteritems():
         if errortext in response['errortext']:
             error_function()
-
-
-def missing_paramater(parameter):
-    raise Ec2stackError(
-        '400',
-        'MissingParameter',
-        'The request must contain the parameter %s' % parameter
-    )
 
 
 def contains_parameter(parameter):
@@ -208,16 +201,18 @@ def error_response(code, error, message):
             request_id=uuid()
         )
     )
-    response.headers['Content-Type'] = 'application/xml'
-    response.status_code = int(code)
-    return response
+    return _create_response(response, int(code))
 
 
 def successful_response(**kwargs):
     content = render_template(request_id=uuid(), **kwargs)
     response = make_response(content)
+    return _create_response(response, '200')
+
+
+def _create_response(response, code):
     response.headers['Content-Type'] = 'application/xml'
-    response.status_code = 200
+    response.status_code = int(code)
     return response
 
 

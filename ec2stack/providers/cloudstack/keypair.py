@@ -6,8 +6,8 @@ from base64 import b64decode
 from flask import request
 
 from ec2stack import helpers
-from ec2stack.core import Ec2stackError
 from ec2stack.providers.cloudstack import requester
+from ec2stack import errors
 
 
 @helpers.authentication_required
@@ -31,12 +31,7 @@ def _create_keypair_request():
 
 def _create_keypair_response(response):
     if 'errortext' in response:
-        keyname = helpers.get('KeyName', request.form)
-        raise Ec2stackError(
-            '400',
-            'InvalidKeyPair.Duplicate',
-            'The keypair \'%s\' already exists.' % keyname
-        )
+        errors.duplicate_keypair_name()
     else:
         response = response['keypair']
         return {
@@ -49,8 +44,8 @@ def _create_keypair_response(response):
 @helpers.authentication_required
 def delete_keypair():
     helpers.require_parameters(['KeyName'])
-    response = _delete_keypair_request()
-    return _delete_keypair_response(response)
+    _delete_keypair_request()
+    return _delete_keypair_response()
 
 
 def _delete_keypair_request():
@@ -63,7 +58,7 @@ def _delete_keypair_request():
     return response
 
 
-def _delete_keypair_response(response):
+def _delete_keypair_response():
     return {
         'template_name_or_list': 'status.xml',
         'response_type': 'DeleteKeyPairResponse',
@@ -93,12 +88,7 @@ def _import_keypair_request():
 
 def _import_keypair_response(response):
     if 'errortext' in response:
-        keyname = helpers.get('KeyName', request.form)
-        raise Ec2stackError(
-            '400',
-            'InvalidKeyPair.Duplicate',
-            'The keypair \'%s\' already exists.' % keyname
-        )
+        errors.duplicate_keypair_name()
     else:
         response = response['keypair']
         return {

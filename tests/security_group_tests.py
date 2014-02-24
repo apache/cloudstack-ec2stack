@@ -52,7 +52,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
         print response.data
 
         self.assertBadRequest(response)
-        assert 'InvalidGroupName.Duplicate' in response.data
+        assert 'InvalidGroup.Duplicate' in response.data
 
     def test_name_delete_security_group(self):
         data = self.get_example_data()
