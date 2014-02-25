@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from flask import Blueprint, request
+from flask import Blueprint
 
 from ec2stack.helpers import get, error_response, \
     successful_response, require_parameters
@@ -17,7 +17,7 @@ DEFAULT = Blueprint('default', __name__)
 @DEFAULT.route('/', methods=['POST'])
 def index():
     try:
-        response_data = _get_action(get('Action', request.form))()
+        response_data = _get_action(get('Action'))()
         return successful_response(**response_data)
     except Ec2stackError as err:
         return error_response(err.code, err.error, err.message)
@@ -39,6 +39,7 @@ def _get_action(action):
         'DescribeImages': images.describe_images,
         'DescribeInstanceAttribute': instances.describe_instance_attribute,
         'DescribeInstances': instances.describe_instances,
+        'DescribeKeyPairs': keypair.describe_keypairs,
         'DescribeVolumes': volume.describe_volumes,
         'GetPasswordData': password.get_password_data,
         'ImportKeyPair': keypair.import_keypair,
@@ -62,17 +63,17 @@ def _get_action(action):
 
 def registerSecretKey():
     require_parameters({'AWSAccessKeyId', 'AWSSecretKey'})
-    found_user = USERS.get(get('AWSAccessKeyId', request.form))
+    found_user = USERS.get(get('AWSAccessKeyId'))
     if found_user is None:
         USERS.create(
-            apikey=get('AWSAccessKeyId', request.form),
-            secretkey=get('AWSSecretKey', request.form)
+            apikey=get('AWSAccessKeyId'),
+            secretkey=get('AWSSecretKey')
         )
         return {
             'template_name_or_list': 'secretkey.xml',
             'response_type': 'RegisterSecretKeyResponse',
-            'apikey': get('AWSAccessKeyId', request.form),
-            'secretkey': get('AWSSecretKey', request.form),
+            'apikey': get('AWSAccessKeyId'),
+            'secretkey': get('AWSSecretKey'),
         }
     else:
         raise Ec2stackError(
@@ -84,8 +85,8 @@ def registerSecretKey():
 
 def removeSecretKey():
     require_parameters({'AWSAccessKeyId', 'AWSSecretKey'})
-    accesskey = get('AWSAccessKeyId', request.form)
-    secretkey = get('AWSSecretKey', request.form)
+    accesskey = get('AWSAccessKeyId')
+    secretkey = get('AWSSecretKey')
 
     found_user = USERS.get(accesskey)
     if found_user is not None and found_user.secretkey == secretkey:
@@ -93,8 +94,8 @@ def removeSecretKey():
         return {
             'template_name_or_list': 'secretkey.xml',
             'response_type': 'RemoveSecretKeyResponse',
-            'apikey': get('AWSAccessKeyId', request.form),
-            'secretkey': get('AWSSecretKey', request.form),
+            'apikey': get('AWSAccessKeyId'),
+            'secretkey': get('AWSSecretKey'),
         }
     else:
         raise Ec2stackError(

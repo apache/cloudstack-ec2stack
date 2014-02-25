@@ -8,14 +8,14 @@ import hmac
 import json
 import time
 
-from flask import current_app, abort, request
+from flask import current_app, abort
 import requests
 
 from ec2stack import helpers
 
 
 def make_request(args):
-    args['apikey'] = helpers.get('AWSAccessKeyId', request.form)
+    args['apikey'] = helpers.get('AWSAccessKeyId')
     args['response'] = 'json'
 
     secretkey = helpers.get_secretkey()

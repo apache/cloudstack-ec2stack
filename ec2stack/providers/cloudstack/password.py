@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from flask import request
-
 from ec2stack import helpers
 from ec2stack.core import Ec2stackError
 from ec2stack.providers.cloudstack import requester
@@ -18,7 +16,7 @@ def get_password_data():
 def _get_password_data_request():
     args = {}
     args['command'] = 'getVMPassword'
-    args['id'] = helpers.get('InstanceId', request.form)
+    args['id'] = helpers.get('InstanceId')
 
     response = requester.make_request(args)
 
@@ -28,7 +26,7 @@ def _get_password_data_request():
 
 
 def _get_password_data_format_response(response):
-    instanceid = helpers.get('InstanceId', request.form)
+    instanceid = helpers.get('InstanceId')
     if 'errortext' in response:
         raise Ec2stackError(
             '400',

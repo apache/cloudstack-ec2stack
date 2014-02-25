@@ -3,8 +3,6 @@
 
 import uuid
 
-from flask import request
-
 from ec2stack import errors
 from ec2stack import helpers
 from ec2stack.providers.cloudstack import requester, disk_offerings
@@ -57,14 +55,14 @@ def _create_volume_request():
     args = {}
 
     if helpers.contains_parameter('SnapshotId'):
-        args['snapshotid'] = helpers.get('SnapshotId', request.form)
+        args['snapshotid'] = helpers.get('SnapshotId')
 
     else:
-        args['size'] = helpers.get('Size', request.form)
+        args['size'] = helpers.get('Size')
         args['diskofferingid'] = \
             disk_offerings.get_disk_offerings_id_by_name('Custom')
 
-    args['zoneid'] = helpers.get('AvailabilityZone', request.form)
+    args['zoneid'] = helpers.get('AvailabilityZone')
     args['command'] = 'createVolume'
     args['name'] = uuid.uuid4()
 
@@ -95,7 +93,7 @@ def delete_volume():
 
 def _delete_volume_request():
     args = {}
-    args['id'] = helpers.get('VolumeId', request.form)
+    args['id'] = helpers.get('VolumeId')
     args['command'] = 'deleteVolume'
     response = requester.make_request(args)
     response = response['deletevolumeresponse']

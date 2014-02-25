@@ -16,7 +16,10 @@ from ec2stack.core import Ec2stackError
 from ec2stack import errors
 
 
-def get(item, data):
+def get(item, data=None):
+    if data is None:
+        data = request.form
+
     if item in data:
         return data[item]
     else:
@@ -64,23 +67,22 @@ def error_to_aws(response, error_map):
             error_function()
 
 
-def contains_parameter(parameter):
-    return (get(parameter, request.form)) is not None
+def contains_parameter(parameter, data=None):
+    if data is None:
+        data = request.form
+
+    return (get(parameter, data)) is not None
 
 
-def get_request_paramaters(parameter_type):
-    root_parameter = parameter_type + '.'
-    current_parameter_num = 1
-    current_parameter = root_parameter + str(current_parameter_num)
+def contains_parameter_with_keyword(key):
+    return len(get_request_parameter_keys(key)) >= 1
 
-    parameters = []
 
-    while contains_parameter(current_parameter):
-        parameters.append(get(current_parameter, request.form))
-        current_parameter_num += 1
-        current_parameter = root_parameter + str(current_parameter_num)
+def get_request_parameter_keys(prefix, data=None):
+    if data is None:
+        data = request.form
 
-    return parameters
+    return [item for item in data if prefix in item]
 
 
 def get_secretkey(data=None):
@@ -102,7 +104,7 @@ def get_secretkey(data=None):
 
 
 def _valid_signature_method():
-    signature_method = get('SignatureMethod', request.form)
+    signature_method = get('SignatureMethod')
     if signature_method not in ['HmacSHA1', 'HmacSHA256']:
         raise Ec2stackError(
             '400',
@@ -113,7 +115,7 @@ def _valid_signature_method():
 
 
 def _valid_signature_version():
-    signature_version = get('SignatureVersion', request.form)
+    signature_version = get('SignatureVersion')
     if signature_version != '2':
         raise Ec2stackError(
             '400',
@@ -125,7 +127,7 @@ def _valid_signature_version():
 
 
 def _valid_signature():
-    signature = get('Signature', request.form)
+    signature = get('Signature')
     generated_signature = generate_signature()
 
     if signature != generated_signature:

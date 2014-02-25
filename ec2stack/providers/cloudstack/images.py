@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from flask import request
-
 from ec2stack import helpers
 from ec2stack.providers.cloudstack import requester
 
@@ -23,12 +21,13 @@ def _describe_all_images():
 
 
 def _describe_specific_images():
-    image_ids = helpers.get_request_paramaters('ImageId')
+    image_ids_keys = helpers.get_request_parameter_keys('ImageId.')
 
     response = {}
     response['template'] = []
 
-    for image_id in image_ids:
+    for image_id_key in image_ids_keys:
+        image_id = helpers.get(image_id_key)
         image_response = describe_image_by_id(image_id)
         response['template'].append(image_response)
 
@@ -69,7 +68,7 @@ def _describe_images_response(response):
 
 @helpers.authentication_required
 def describe_image_attribute():
-    image_id = helpers.get('ImageId', request.form)
+    image_id = helpers.get('ImageId')
 
     response = describe_image_by_id(image_id)
 
@@ -77,7 +76,7 @@ def describe_image_attribute():
 
 
 def _describe_image_attribute_response(response):
-    attribute = helpers.get('Attribute', request.form)
+    attribute = helpers.get('Attribute')
 
     return {
         'template_name_or_list': 'image_attribute.xml',

@@ -1,15 +1,13 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from flask import request
-
 from ec2stack import helpers
 from ec2stack.providers.cloudstack import requester
 
 
 @helpers.authentication_required
 def describe_instances():
-    if helpers.contains_parameter('InstanceId.1'):
+    if helpers.contains_parameter_with_keyword('InstanceId.'):
         response = _describe_specific_instances()
     else:
         response = _describe_all_instances()
@@ -25,12 +23,13 @@ def _describe_all_instances():
 
 
 def _describe_specific_instances():
-    instance_ids = helpers.get_request_paramaters('InstanceId')
+    instance_id_keys = helpers.get_request_parameter_keys('InstanceId.')
 
     response = {}
     response['virtualmachine'] = []
 
-    for instance_id in instance_ids:
+    for instance_id_key in instance_id_keys:
+        instance_id = helpers.get(instance_id_key)
         instance_response = describe_instance_by_id(instance_id)
         response['virtualmachine'].append(instance_response)
 
@@ -67,7 +66,7 @@ def _describe_instances_response(response):
 
 @helpers.authentication_required
 def describe_instance_attribute():
-    instance_id = helpers.get('InstanceId', request.form)
+    instance_id = helpers.get('InstanceId')
 
     response = describe_instance_by_id(instance_id)
 
@@ -75,7 +74,7 @@ def describe_instance_attribute():
 
 
 def _describe_instance_attribute_response(response):
-    attribute = helpers.get('Attribute', request.form)
+    attribute = helpers.get('Attribute')
 
     response = {
         'template_name_or_list': 'instance_attribute.xml',

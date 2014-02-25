@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from flask import request
-
 from ec2stack import helpers, errors
 from ec2stack.core import Ec2stackError
 from ec2stack.providers.cloudstack import requester
@@ -18,8 +16,8 @@ def create_security_group():
 def _create_security_group_request():
     args = {}
     args['command'] = 'createSecurityGroup'
-    args['name'] = helpers.get('GroupName', request.form)
-    args['description'] = helpers.get('GroupDescription', request.form)
+    args['name'] = helpers.get('GroupName')
+    args['description'] = helpers.get('GroupDescription')
 
     response = requester.make_request(args)
 
@@ -53,10 +51,10 @@ def _delete_security_group_request():
     helpers.require_atleast_one_parameter(['GroupName', 'GroupId'])
 
     if helpers.contains_parameter('GroupName'):
-        args['name'] = helpers.get('GroupName', request.form)
+        args['name'] = helpers.get('GroupName')
 
     elif helpers.contains_parameter('GroupId'):
-        args['id'] = helpers.get('GroupId', request.form)
+        args['id'] = helpers.get('GroupId')
 
     args['command'] = 'deleteSecurityGroup'
 
@@ -101,10 +99,10 @@ def _authenticate_security_group_request(rule_type):
 def _authenticate_security_group_response(response):
     if 'errortext' in response:
         if 'Failed to authorize security group' in response['errortext']:
-            cidrlist = str(helpers.get('CidrIp', request.form))
-            protocol = str(helpers.get('IpProtocol', request.form))
-            from_port = str(helpers.get('FromPort', request.form))
-            to_port = str(helpers.get('toPort', request.form))
+            cidrlist = str(helpers.get('CidrIp'))
+            protocol = str(helpers.get('IpProtocol'))
+            from_port = str(helpers.get('FromPort'))
+            to_port = str(helpers.get('toPort'))
             raise Ec2stackError(
                 '400',
                 'InvalidPermission.Duplicate',
@@ -229,11 +227,11 @@ def _parse_security_group_request(args=None):
     helpers.require_atleast_one_parameter(['GroupName', 'GroupId'])
 
     if helpers.contains_parameter('GroupName'):
-        args['securityGroupName'] = helpers.get('GroupName', request.form)
+        args['securityGroupName'] = helpers.get('GroupName')
     elif helpers.contains_parameter('GroupId'):
-        args['securityGroupId'] = helpers.get('GroupId', request.form)
+        args['securityGroupId'] = helpers.get('GroupId')
 
-    if _contains_key_with_keyword('IpPermissions'):
+    if helpers.contains_key_with_keyword('IpPermissions'):
         raise Ec2stackError(
             '400',
             'InvalidParameterCombination',
@@ -243,24 +241,20 @@ def _parse_security_group_request(args=None):
     else:
         helpers.require_parameters(['IpProtocol'])
 
-        args['protocol'] = helpers.get('IpProtocol', request.form)
+        args['protocol'] = helpers.get('IpProtocol')
 
         helpers.require_parameters(['FromPort', 'ToPort', 'CidrIp'])
 
         if args['protocol'] in ['icmp']:
-            args['icmptype'] = helpers.get('FromPort', request.form)
-            args['icmpcode'] = helpers.get('ToPort', request.form)
+            args['icmptype'] = helpers.get('FromPort')
+            args['icmpcode'] = helpers.get('ToPort')
         else:
-            args['startport'] = helpers.get('FromPort', request.form)
-            args['endport'] = helpers.get('ToPort', request.form)
+            args['startport'] = helpers.get('FromPort')
+            args['endport'] = helpers.get('ToPort')
 
-        if helpers.get('CidrIp', request.form) is None:
+        if helpers.get('CidrIp') is None:
             args['cidrlist'] = '0.0.0.0/0'
         else:
-            args['cidrlist'] = helpers.get('CidrIp', request.form)
+            args['cidrlist'] = helpers.get('CidrIp')
 
         return args
-
-
-def _contains_key_with_keyword(keyword):
-    return len([x for x in request.form if keyword in x]) >= 1
