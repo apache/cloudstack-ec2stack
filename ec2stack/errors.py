@@ -11,12 +11,27 @@ def invalid_snapshot_id():
         'The specified Snapshot Id does not exist.'
     )
 
+def invalid_image_id():
+    raise Ec2stackError(
+        '400',
+        'InvalidAMIID.NotFound',
+        'The specified AMI Id does not exist.'
+    )
+
+
+def invalid_instance_id():
+    raise Ec2stackError(
+        '400',
+        'InvalidInstanceId.NotFound',
+        'The specified Instance Id does not exist.'
+    )
+
 
 def invalid_zone_id():
     raise Ec2stackError(
         '400',
         'InvalidZone.NotFound',
-        'The specified Availability Zone Id does not exist.'
+        'The specified Availability Zone does not exist.'
     )
 
 

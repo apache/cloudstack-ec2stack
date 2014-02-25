@@ -5,12 +5,11 @@ import uuid
 
 from ec2stack import errors
 from ec2stack import helpers
-from ec2stack.providers.cloudstack import requester, disk_offerings
+from ec2stack.providers.cloudstack import requester, disk_offerings, zones
 
 
 volume_error_to_aws = {
     'unable to find a snapshot': errors.invalid_snapshot_id,
-    'Invalid parameter zoneid': errors.invalid_zone_id,
     'Invalid parameter id': errors.invalid_volume_id
 }
 
@@ -42,16 +41,12 @@ def _describe_volumes_response(response):
 
 @helpers.authentication_required
 def create_volume():
-    helpers.require_one_paramater(['SnapshotId', 'Size'])
+    helpers.require_atleast_one_parameter(['SnapshotId', 'Size'])
     response = _create_volume_request()
     return _create_volume_response(response)
 
 
 def _create_volume_request():
-    args = {}
-    args['command'] = 'listZones'
-    requester.make_request(args)
-
     args = {}
 
     if helpers.contains_parameter('SnapshotId'):
@@ -62,7 +57,10 @@ def _create_volume_request():
         args['diskofferingid'] = \
             disk_offerings.get_disk_offerings_id_by_name('Custom')
 
-    args['zoneid'] = helpers.get('AvailabilityZone')
+    zone_name = helpers.get('AvailabilityZone')
+    zone_id = zones.get_zones_id_by_name(zone_name)
+
+    args['zoneid'] = zone_id
     args['command'] = 'createVolume'
     args['name'] = uuid.uuid4()
 
@@ -95,6 +93,7 @@ def _delete_volume_request():
     args = {}
     args['id'] = helpers.get('VolumeId')
     args['command'] = 'deleteVolume'
+
     response = requester.make_request(args)
     response = response['deletevolumeresponse']
 

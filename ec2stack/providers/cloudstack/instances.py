@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from ec2stack import helpers
+from ec2stack import helpers, errors
 from ec2stack.providers.cloudstack import requester
 
 
@@ -40,7 +40,12 @@ def describe_instance_by_id(instance_id):
     args = {}
     args['id'] = instance_id
     response = _describe_virtual_machines_request(args)
-    response = response['virtualmachine'][0]
+
+    if response:
+        response = response['virtualmachine'][0]
+    else:
+        errors.invalid_instance_id()
+
     return response
 
 

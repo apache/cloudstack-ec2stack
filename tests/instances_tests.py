@@ -49,6 +49,26 @@ class InstancesTestCase(Ec2StackAppTestCase):
         self.assertOk(response)
         assert 'DescribeInstancesResponse' in response.data
 
+    def test_invalid_instance_id(self):
+        data = self.get_example_data()
+        data['Action'] = 'DescribeInstances'
+        data['InstanceId.1'] = 'InvalidId'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+
+        get = mock.Mock()
+        text = get.return_value.text = read_file(
+            'tests/data/invalid_instance_id.json'
+        )
+        status_code = get.return_value.status_code = 200
+
+        with mock.patch('requests.get', get):
+            response = self.post(
+                '/',
+                data=data
+            )
+
+        assert 'InvalidInstanceId.NotFound' in response.data
+
     def test_describe_image_attribute(self):
         data = self.get_example_data()
         data['Action'] = 'DescribeInstanceAttribute'

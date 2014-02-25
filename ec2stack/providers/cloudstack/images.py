@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from ec2stack import helpers
+from ec2stack import helpers, errors
 from ec2stack.providers.cloudstack import requester
-
 
 @helpers.authentication_required
 def describe_images():
@@ -38,6 +37,10 @@ def describe_image_by_id(image_id):
     args = {}
     args['id'] = image_id
     response = _describe_templates_request(args)
+
+    if 'errortext' in response:
+        errors.invalid_image_id()
+
     response = response['template'][0]
 
     return response
@@ -77,7 +80,6 @@ def describe_image_attribute():
 
 def _describe_image_attribute_response(response):
     attribute = helpers.get('Attribute')
-
     return {
         'template_name_or_list': 'image_attribute.xml',
         'response_type': 'DescribeImageAttributeResponse',
