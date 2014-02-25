@@ -5,16 +5,16 @@ from ec2stack import helpers
 from ec2stack.providers.cloudstack import requester
 
 
-def describe_item(args, keyname, prefix):
+def describe_item(args, keyname, not_found, prefix):
     if helpers.contains_parameter_with_keyword(prefix):
-        response = _describe_specific_item(args, keyname, prefix)
+        response = _describe_specific_item(args, keyname, not_found, prefix)
     else:
-        response = _describe_items_request(args)
+        response = _describe_items_request(args, not_found)
 
     return response
 
 
-def _describe_specific_item(args, keyname, prefix):
+def _describe_specific_item(args, keyname, not_found, prefix):
     if args is None:
         args = {}
 
@@ -31,14 +31,14 @@ def _describe_specific_item(args, keyname, prefix):
         elif 'Name' in key:
             args['name'] = name
 
-        request = _describe_item_request(args, keyname)
+        request = describe_item_request(args, keyname, not_found)
         response[keyname].append(request)
 
     return response
 
 
-def _describe_item_request(args, keyname):
-    request = _describe_items_request(args)
+def describe_item_request(args, keyname, not_found):
+    request = _describe_items_request(args, not_found)
     request = request[keyname]
 
     for item in request:
@@ -47,14 +47,14 @@ def _describe_item_request(args, keyname):
         elif 'name' in args and args['name'] == item['name']:
             return item
 
-    # Todo throw exception here to handle not found case
-    return None
+    return not_found()
 
 
-def _describe_items_request(args):
-    print "####################"
-    print args
+def _describe_items_request(args, not_found):
     response = requester.make_request(args)
     response = response[response.keys()[0]]
 
-    return response
+    if 'count' in response:
+        return response
+    else:
+        return not_found()

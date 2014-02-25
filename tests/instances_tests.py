@@ -31,7 +31,7 @@ class InstancesTestCase(Ec2StackAppTestCase):
     def test_describe_specific_instances(self):
         data = self.get_example_data()
         data['Action'] = 'DescribeInstances'
-        data['InstanceId.1'] = 'a32d70ee-95e4-11e3-b2e4-d19c9d3e5e1d'
+        data['InstanceId.1'] = 'aa10a43e-56db-4a34-88bd-1c2a51c0bc04'
         data['Signature'] = generate_signature(data, 'POST', 'localhost')
 
         get = mock.Mock()
@@ -49,10 +49,10 @@ class InstancesTestCase(Ec2StackAppTestCase):
         self.assertOk(response)
         assert 'DescribeInstancesResponse' in response.data
 
-    def test_describe_image_attribute(self):
+    def test_describe_instance_attribute(self):
         data = self.get_example_data()
         data['Action'] = 'DescribeInstanceAttribute'
-        data['ImageId.1'] = 'a32d70ee-95e4-11e3-b2e4-d19c9d3e5e1d'
+        data['InstanceId'] = '43791f77-26f8-48ca-b557-3a9392f735ae'
         data['Attribute'] = 'name'
         data['Signature'] = generate_signature(data, 'POST', 'localhost')
 

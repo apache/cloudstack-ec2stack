@@ -12,6 +12,22 @@ def invalid_snapshot_id():
     )
 
 
+def invalid_image_id():
+    raise Ec2stackError(
+        '400',
+        'InvalidAMIID.NotFound',
+        'The specified AMI Id does not exist.'
+    )
+
+
+def invalid_instance_id():
+    raise Ec2stackError(
+        '400',
+        'InvalidInstanceId.NotFound',
+        'The specified Instance Id does not exist.'
+    )
+
+
 def invalid_zone_id():
     raise Ec2stackError(
         '400',
@@ -25,6 +41,14 @@ def invalid_volume_id():
         '400',
         'InvalidVolume.NotFound',
         'The specified Volume Id does not exist.'
+    )
+
+
+def invalid_keypair_name():
+    raise Ec2stackError(
+        '400',
+        'InvalidKeyPair.NotFound',
+        'The specified KeyPair does not exist'
     )
 
 

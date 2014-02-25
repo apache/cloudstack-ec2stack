@@ -4,7 +4,6 @@
 from base64 import b64decode
 
 from ec2stack.providers import cloudstack
-
 from ec2stack import helpers
 from ec2stack.providers.cloudstack import requester
 from ec2stack import errors
@@ -45,9 +44,13 @@ def _create_keypair_response(response):
 def describe_keypairs():
     args = {}
     args['command'] = 'listSSHKeyPairs'
-    response = cloudstack.describe_item(args, 'sshkeypair', 'KeyName')
+    response = cloudstack.describe_item(
+        args, 'sshkeypair', errors.invalid_keypair_name, 'KeyName'
+    )
 
-    return _describe_keypair_response(response)
+    return _describe_keypair_response(
+        response
+    )
 
 
 def _describe_keypair_response(response):
