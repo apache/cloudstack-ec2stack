@@ -11,6 +11,7 @@ def invalid_snapshot_id():
         'The specified Snapshot Id does not exist.'
     )
 
+
 def invalid_image_id():
     raise Ec2stackError(
         '400',

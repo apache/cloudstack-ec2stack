@@ -4,6 +4,7 @@
 from ec2stack import helpers, errors
 from ec2stack.providers.cloudstack import requester
 
+
 @helpers.authentication_required
 def describe_images():
     if helpers.contains_parameter('ImageId.1'):
