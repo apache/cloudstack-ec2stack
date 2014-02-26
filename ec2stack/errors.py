@@ -32,7 +32,7 @@ def invalid_zone_id():
     raise Ec2stackError(
         '400',
         'InvalidZone.NotFound',
-        'The specified Availability Zone Id does not exist.'
+        'The specified Availability Zone does not exist.'
     )
 
 

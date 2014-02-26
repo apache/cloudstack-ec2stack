@@ -1,0 +1,38 @@
+{
+    "queryasyncjobresultresponse": {
+        "jobprocstatus": 0,
+        "created": "2014-02-25T19:46:35+0000",
+        "cmd": "org.apache.cloudstack.api.command.user.volume.CreateVolumeCmd",
+        "userid": "2edb33ec-95e4-11e3-b2e4-d19c9d3e5e1d",
+        "jobstatus": 1,
+        "jobid": "1f32404b-d067-43e8-8835-4cc1c55d737a",
+        "jobresultcode": 0,
+        "jobresulttype": "object",
+        "jobresult": {
+            "volume": {
+                "size": 10737418240,
+                "diskofferingname": "Custom",
+                "account": "admin",
+                "domainid": "2edae3e4-95e4-11e3-b2e4-d19c9d3e5e1d",
+                "name": "f0e2a699-1196-49bd-90cd-af809f4c32ea",
+                "created": "2014-02-25T19:46:34+0000",
+                "storagetype": "shared",
+                "type": "DATADISK",
+                "tags": [],
+                "domain": "ROOT",
+                "jobstatus": 0,
+                "jobid": "1f32404b-d067-43e8-8835-4cc1c55d737a",
+                "destroyed": false,
+                "state": "Allocated",
+                "diskofferingdisplaytext": "Custom Disk",
+                "isextractable": true,
+                "displayvolume": true,
+                "zoneid": "1e47a2fc-61c7-401c-b90e-416b472ada64",
+                "diskofferingid": "46f0a62e-ba3c-4a49-b619-877a8b2a07ed",
+                "id": "8552cdce-879a-42f3-bdb5-2e7f55a38996",
+                "zonename": "Sandbox-simulator"
+            }
+        },
+        "accountid": "2edb0c28-95e4-11e3-b2e4-d19c9d3e5e1d"
+    }
+}
