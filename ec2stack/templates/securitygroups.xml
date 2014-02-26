@@ -1,0 +1,37 @@
+{% extends "response.xml" %}
+{% block response_content %}
+    <securityGroupInfo>
+        {% for securitygroup in response.securitygroup %}
+            <item>
+                <ownerId>{{ securitygroup.account }}</ownerId>
+                <groupId>{{ securitygroup.id }}</groupId>
+                <groupName>{{ securitygroup.name }}</groupName>
+                <groupDescription>{{ securitygroup.description }}</groupDescription>
+                <ipPermissions>
+                    {% for rule in securitygroup.ingressrule %}
+                        <item>
+                            <ipProtocol> {{ rule.protocol }}</ipProtocol>
+                            {% if rule.startport %}
+                                <fromPort>{{ rule.startport }}</fromPort>
+                            {% endif %}
+                            {% if rule.startport %}
+                                <fromPort>{{ rule.icmptype }}</fromPort>
+                            {% endif %}
+                            {% if rule.endport %}
+                                <toPort>{{ rule.endport }}</toPort>
+                            {% endif %}
+                            {% if rule.endport %}
+                                <toPort>{{ rule.icmpcode }}</toPort>
+                            {% endif %}
+                            <ipRanges>
+                                <item>
+                                    <cidrIp>{{ rule.cidr }}</cidrIp>
+                                </item>
+                            </ipRanges>
+                        </item>
+                    {% endfor %}
+                </ipPermissions>
+            </item>
+        {% endfor %}
+    </securityGroupInfo>
+{% endblock %}
