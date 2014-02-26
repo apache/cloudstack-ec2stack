@@ -69,7 +69,5 @@ class ImagesTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        print response.data
-
         self.assertOk(response)
         assert 'DescribeImageAttributeResponse' in response.data

@@ -68,8 +68,6 @@ class ControllerTestCase(Ec2StackAppTestCase):
             data=data
         )
 
-        print response.data
-
         self.assertStatusCode(response, 401)
         assert 'Unable to find a secret key' in response.data
 

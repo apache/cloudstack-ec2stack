@@ -49,8 +49,6 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        print response.data
-
         self.assertBadRequest(response)
         assert 'InvalidGroup.Duplicate' in response.data
 
@@ -72,8 +70,6 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        print response.data
-
         self.assertOk(response)
         assert 'DeleteSecurityGroupResponse' in response.data
 
@@ -94,8 +90,6 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
                 '/',
                 data=data
             )
-
-        print response.data
 
         self.assertOk(response)
         assert 'DeleteSecurityGroupResponse' in response.data

@@ -40,6 +40,7 @@ def _get_action(action):
         'DescribeInstanceAttribute': instances.describe_instance_attribute,
         'DescribeInstances': instances.describe_instances,
         'DescribeKeyPairs': keypair.describe_keypairs,
+        'DescribeSecurityGroups': security_group.describe_security_groups,
         'DescribeVolumes': volume.describe_volumes,
         'GetPasswordData': password.get_password_data,
         'ImportKeyPair': keypair.import_keypair,

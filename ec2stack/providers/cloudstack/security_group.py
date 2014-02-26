@@ -2,6 +2,7 @@
 # encoding: utf-8
 
 from ec2stack import helpers, errors
+from ec2stack.providers import cloudstack
 from ec2stack.core import Ec2stackError
 from ec2stack.providers.cloudstack import requester
 
@@ -68,6 +69,28 @@ def _delete_security_group_response():
         'template_name_or_list': 'status.xml',
         'response_type': 'DeleteSecurityGroupResponse',
         'return': 'true'
+    }
+
+
+@helpers.authentication_required
+def describe_security_groups():
+    args = {}
+    args['command'] = 'listSecurityGroups'
+
+    response = cloudstack.describe_item(
+        args, 'securitygroup', errors.invalid_security_group, 'Group'
+    )
+
+    return _describe_images_response(
+        response
+    )
+
+
+def _describe_images_response(response):
+    return {
+        'template_name_or_list': 'securitygroups.xml',
+        'response_type': 'DescribeSecurityGroupsResponse',
+        'response': response
     }
 
 

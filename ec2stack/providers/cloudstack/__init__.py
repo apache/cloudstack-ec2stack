@@ -18,7 +18,7 @@ def _describe_specific_item(args, keyname, not_found, prefix):
     if args is None:
         args = {}
 
-    keys = helpers.get_request_parameter_keys(prefix + '.')
+    keys = helpers.get_request_parameter_keys(prefix)
 
     response = {}
     response[keyname] = []
@@ -51,6 +51,7 @@ def describe_item_request(args, keyname, not_found):
 
 
 def _describe_items_request(args, not_found):
+    args['listAll'] = 'true'
     response = requester.make_request(args)
     response = response[response.keys()[0]]
 
