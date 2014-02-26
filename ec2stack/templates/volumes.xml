@@ -6,6 +6,9 @@
             <volumeId>
                 {{ volume.id }}
             </volumeId>
+            <size>
+                {{ volume.size }}
+            </size>
             <name>{{ volume.name }}</name>
             <createTime>{{ volume.created }}</createTime>
             <attachmentSet>
@@ -16,6 +19,12 @@
                     <instanceId>
                         {{ volume.virtualmachineid }}
                     </instanceId>
+                    <snapshotId>
+                        {{ volume.snapshotid }}
+                    </snapshotId>
+                    <availabilityZone>
+                        {{ volume.zonename }}
+                    </availabilityZone>
                 </item>
             </attachmentSet>
         </item>
