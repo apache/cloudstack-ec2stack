@@ -1,0 +1,8 @@
+{
+    "deletevolumeresponse": {
+        "errorcode": 431,
+        "uuidlist": [],
+        "cserrorcode": 4350,
+        "errortext": "Unable to aquire volume with ID: 45"
+    }
+}

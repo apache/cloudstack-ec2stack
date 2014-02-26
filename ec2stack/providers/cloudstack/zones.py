@@ -19,9 +19,6 @@ def get_zones_id_by_name(name):
 
 
 def _describe_zones_request(args=None):
-    if args is None:
-        args = {}
-
     args['command'] = 'listZones'
 
     response = requester.make_request(args)
