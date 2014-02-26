@@ -28,7 +28,7 @@ def invalid_instance_id():
     )
 
 
-def invalid_zone_id():
+def invalid_zone():
     raise Ec2stackError(
         '400',
         'InvalidZone.NotFound',

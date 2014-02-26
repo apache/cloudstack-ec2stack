@@ -1,30 +1,42 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from ec2stack import errors
-from ec2stack.providers.cloudstack import requester
+from ec2stack.providers import cloudstack
+
+from ec2stack import helpers, errors
 
 
-def get_zones_id_by_name(name):
+@helpers.authentication_required
+def describe_zones():
     args = {}
-    args['name'] = name
-    response = _describe_zones_request(args)
-
-    if response:
-        response = response['zone'][0]
-    else:
-        errors.invalid_zone_id()
-
-    return response['id']
-
-
-def _describe_zones_request(args=None):
-    if args is None:
-        args = {}
-
     args['command'] = 'listZones'
+    response = cloudstack.describe_item(
+        args, 'zone', errors.invalid_zone, 'ZoneName'
+    )
 
-    response = requester.make_request(args)
-    response = response['listzonesresponse']
+    return _describe_zones_response(
+        response
+    )
 
+
+def describe_zone_by_name(zone_name):
+    args = {}
+    args['name'] = zone_name
+    args['command'] = 'listZones'
+    response = cloudstack.describe_item_request(
+        args, 'zone', errors.invalid_zone
+    )
     return response
+
+
+def _describe_zones_response(response):
+    return {
+        'template_name_or_list': 'zones.xml',
+        'response_type': 'DescribeAvailabilityZonesResponse',
+        'response': response
+    }
+
+
+def get_zones_id(name):
+    zone = describe_zone_by_name(name)
+    return zone['id']
