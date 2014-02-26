@@ -6,17 +6,45 @@
             <instancesSet>
             {% for instance in response.virtualmachine %}
                 <item>
-                    <instanceId>
-                        {{ instance.id }}
-                    </instanceId>
+                    <instanceId>{{ instance.id }}</instanceId>
+                    <imageId> {{ instance.templateid }} </imageId>
                     <name>{{ instance.name }}</name>
                     <instanceState>
-                        <name>{{ instance.state }}</name>
+                        {% if instance.state == 'Starting' %}
+                            <code>0</code>
+                            <name>pending</name>
+                        {% elif instance.state == 'Running' %}
+                            <code>16</code>
+                            <name>running</name>
+                        {% elif instance.state == 'Stopping' %}
+                            <code>64</code>
+                            <name>stopping</name>
+                        {% elif instance.state == 'Expunging' %}
+                            <code>48</code>
+                            <name>terminated</name>
+                        {% elif instance.state == 'Stopped' %}
+                            <code>80</code>
+                            <name>stopped</name>
+                        {% endif %}
                     </instanceState>
+                    <keyName>{{ instance.keypair }}</keyName>
                     <instanceType>{{ instance.serviceofferingname }}</instanceType>
                     <launchTime>{{ instance.created }}</launchTime>
-                    <imageId>{{ instance.templateid }}</imageId>
+                    <placement>
+                        <availabilityZone>{{ instance.zonename }}</availabilityZone>
+                    </placement>
+                    {% if instance.nic %}
+                    <ipAddress>{{ instance.nic.0.ipaddress }}</ipAddress>
+                    {% endif %}
                     <hypervisor>{{ instance.hypervisor }}</hypervisor>
+                    <groupSet>
+                        {% for securitygroup in instance.securitygroup %}
+                            <item>
+                                <groupId>{{ securitygroup.id }}</groupId>
+                                <groupName>{{ securitygroup.name }}</groupName>
+                            </item>
+                        {% endfor %}
+                    </groupSet>
                 </item>
             {% endfor %}
             </instancesSet>
