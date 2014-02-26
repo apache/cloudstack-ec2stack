@@ -43,9 +43,16 @@ def describe_item_request(args, keyname, not_found):
 
     for item in request:
         if 'id' in args and args['id'] == item['id']:
+            print "##### FOUND BY ID"
+            print item
             return item
         elif 'name' in args and args['name'] == item['name']:
+            print "#### FOUND BY NAME"
+            print item
             return item
+        else:
+            print "#######"
+            print "NOT SEARCHING"
 
     return not_found()
 

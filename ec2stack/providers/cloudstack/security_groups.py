@@ -188,11 +188,12 @@ def _revoke_security_group_response(response):
 def _find_rule(rule, rule_type):
     security_group = _get_security_group(rule)
 
-    found_rules = security_group[rule_type]
+    if rule_type in security_group:
+        found_rules = security_group[rule_type]
 
-    for found_rule in found_rules:
-        if _compare_rules(rule, found_rule):
-            return found_rule['ruleid']
+        for found_rule in found_rules:
+            if _compare_rules(rule, found_rule):
+                return found_rule['ruleid']
 
     errors.invalid_permission()
 
@@ -218,30 +219,11 @@ def _compare_rules(left, right):
     return protocol_match and cidr_match and startport_match and endport_match
 
 
-def _get_security_group(rule):
-    response = _describe_security_groups_request(rule)
-
-    if 'count' in response:
-        for security_group in response['securitygroup']:
-            if 'securityGroupId' in rule and security_group['id'] == rule[
-                    'securityGroupId']:
-                return security_group
-            elif 'securityGroupName' in rule and security_group['name'] == rule[
-                    'securityGroupName']:
-                return security_group
-
-    errors.invalid_security_group()
-
-
-def _describe_security_groups_request(args=None):
-    if args is None:
-        args = {}
-
+def _get_security_group(args):
     args['command'] = 'listSecurityGroups'
-
-    response = requester.make_request(args)
-    response = response['listsecuritygroupsresponse']
-
+    response = cloudstack.describe_item_request(
+        args, 'securitygroup', errors.invalid_security_group
+    )
     return response
 
 
@@ -253,10 +235,12 @@ def _parse_security_group_request(args=None):
 
     if helpers.contains_parameter('GroupName'):
         args['securityGroupName'] = helpers.get('GroupName')
+        args['name'] = helpers.get('GroupName')
     elif helpers.contains_parameter('GroupId'):
         args['securityGroupId'] = helpers.get('GroupId')
+        args['id'] = helpers.get('GroupId')
 
-    if helpers.contains_key_with_keyword('IpPermissions'):
+    if helpers.contains_parameter_with_keyword('IpPermissions'):
         raise Ec2stackError(
             '400',
             'InvalidParameterCombination',
