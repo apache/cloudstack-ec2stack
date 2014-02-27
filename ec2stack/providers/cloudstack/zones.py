@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from flask import current_app
-
-import json
-
 from ec2stack.providers import cloudstack
 
 from ec2stack import helpers, errors
