@@ -9,6 +9,7 @@
 
 
 class FlaskTestCaseMixin(object):
+
     def _html_data(self, kwargs):
         if not kwargs.get('content_type'):
             kwargs['content_type'] = 'application/x-www-form-urlencoded'

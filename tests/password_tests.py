@@ -8,6 +8,7 @@ from . import Ec2StackAppTestCase
 
 
 class PasswordTestCase(Ec2StackAppTestCase):
+
     def test_get_password_data(self):
         data = self.get_example_data()
         data['Action'] = 'GetPasswordData'
@@ -15,10 +16,10 @@ class PasswordTestCase(Ec2StackAppTestCase):
         data['Signature'] = generate_signature(data, 'POST', 'localhost')
 
         get = mock.Mock()
-        text = get.return_value.text = read_file(
+        get.return_value.text = read_file(
             'tests/data/valid_instance_get_password.json'
         )
-        status_code = get.return_value.status_code = 200
+        get.return_value.status_code = 200
 
         with mock.patch('requests.get', get):
             response = self.post(
@@ -36,10 +37,10 @@ class PasswordTestCase(Ec2StackAppTestCase):
         data['Signature'] = generate_signature(data, 'POST', 'localhost')
 
         get = mock.Mock()
-        text = get.return_value.text = read_file(
+        get.return_value.text = read_file(
             'tests/data/invalid_instance_get_password.json'
         )
-        status_code = get.return_value.status_code = 431
+        get.return_value.status_code = 431
 
         with mock.patch('requests.get', get):
             response = self.post(

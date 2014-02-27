@@ -3,7 +3,7 @@
 
 from unittest import TestCase
 
-import settings
+from . import settings
 from ec2stack.core import DB
 from ec2stack import create_app
 from .factories import UserFactory
@@ -15,6 +15,7 @@ class Ec2StackTestCase(TestCase):
 
 
 class Ec2StackAppTestCase(FlaskTestCaseMixin, Ec2StackTestCase):
+
     def _create_app(self):
         return create_app(settings=settings)
 

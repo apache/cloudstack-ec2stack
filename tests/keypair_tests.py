@@ -10,6 +10,7 @@ from . import Ec2StackAppTestCase
 
 
 class KeyPairTestCase(Ec2StackAppTestCase):
+
     def test_create_keypair(self):
         data = self.get_example_data()
         data['Action'] = 'CreateKeyPair'
@@ -17,10 +18,10 @@ class KeyPairTestCase(Ec2StackAppTestCase):
         data['Signature'] = generate_signature(data, 'POST', 'localhost')
 
         get = mock.Mock()
-        text = get.return_value.text = read_file(
+        get.return_value.text = read_file(
             'tests/data/valid_create_keypair.json'
         )
-        status_code = get.return_value.status_code = 200
+        get.return_value.status_code = 200
 
         with mock.patch('requests.get', get):
             response = self.post(
@@ -38,10 +39,10 @@ class KeyPairTestCase(Ec2StackAppTestCase):
         data['Signature'] = generate_signature(data, 'POST', 'localhost')
 
         get = mock.Mock()
-        text = get.return_value.text = read_file(
+        get.return_value.text = read_file(
             'tests/data/duplicate_create_keypair.json'
         )
-        status_code = get.return_value.status_code = 431
+        get.return_value.status_code = 431
 
         with mock.patch('requests.get', get):
             response = self.post(
@@ -59,10 +60,10 @@ class KeyPairTestCase(Ec2StackAppTestCase):
         data['Signature'] = generate_signature(data, 'POST', 'localhost')
 
         get = mock.Mock()
-        text = get.return_value.text = read_file(
+        get.return_value.text = read_file(
             'tests/data/delete_keypair.json'
         )
-        status_code = get.return_value.status_code = 200
+        get.return_value.status_code = 200
 
         with mock.patch('requests.get', get):
             response = self.post(
@@ -88,10 +89,10 @@ class KeyPairTestCase(Ec2StackAppTestCase):
         data['Signature'] = generate_signature(data, 'POST', 'localhost')
 
         get = mock.Mock()
-        text = get.return_value.text = read_file(
+        get.return_value.text = read_file(
             'tests/data/valid_import_keypair.json'
         )
-        status_code = get.return_value.status_code = 200
+        get.return_value.status_code = 200
 
         with mock.patch('requests.get', get):
             response = self.post(
@@ -117,10 +118,10 @@ class KeyPairTestCase(Ec2StackAppTestCase):
         data['Signature'] = generate_signature(data, 'POST', 'localhost')
 
         get = mock.Mock()
-        text = get.return_value.text = read_file(
+        get.return_value.text = read_file(
             'tests/data/duplicate_import_keypair.json'
         )
-        status_code = get.return_value.status_code = 431
+        get.return_value.status_code = 431
 
         with mock.patch('requests.get', get):
             response = self.post(

@@ -1,0 +1,16 @@
+{
+    "queryasyncjobresultresponse": {
+        "jobprocstatus": 0,
+        "created": "2014-02-27T01:13:47+0100",
+        "cmd": "com.cloud.api.commands.RevokeSecurityGroupEgressCmd",
+        "userid": "c0315f92-d5d9-4685-b5c2-a2980b625f98",
+        "jobstatus": 1,
+        "jobid": "de9d555c-f183-4304-9de1-5aec7f99460d",
+        "jobresultcode": 0,
+        "jobresulttype": "object",
+        "jobresult": {
+            "success": true
+        },
+        "accountid": "a6f3f83f-fc5c-4a08-91fa-a4181af5c122"
+    }
+}

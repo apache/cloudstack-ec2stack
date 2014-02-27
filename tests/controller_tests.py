@@ -8,6 +8,7 @@ from ec2stack.helpers import generate_signature
 
 
 class ControllerTestCase(Ec2StackAppTestCase):
+
     def test_invalid_action(self):
         data = self.get_example_data()
         data['Action'] = 'InvalidAction'
@@ -161,7 +162,7 @@ class ControllerTestCase(Ec2StackAppTestCase):
         data['Signature'] = generate_signature(data, 'POST', 'localhost')
 
         get = mock.Mock()
-        status_code = get.return_value.status_code = 401
+        get.return_value.status_code = 401
 
         with mock.patch('requests.get', get):
             response = self.post(

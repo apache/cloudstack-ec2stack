@@ -51,9 +51,6 @@ def make_request_async(args, poll_period=2, timeout=3600):
         args['command'] = 'queryAsyncJobResult'
         args['jobid'] = response[responsekey]['jobid']
 
-        time.sleep(poll_period)
-        timeout = timeout - poll_period
-
         response = make_request(args)
 
         response = response['queryasyncjobresultresponse']
@@ -62,6 +59,8 @@ def make_request_async(args, poll_period=2, timeout=3600):
         if job_status in [1, 2]:
             return response['jobresult']
         elif job_status == 0:
+            time.sleep(poll_period)
+            timeout = timeout - poll_period
             return make_request_async(args, poll_period=poll_period,
                                       timeout=timeout)
     else:

@@ -30,6 +30,29 @@
                 </item>
                 {% endfor %}
             </ipPermissions>
+            <ipPermissionsEgress>
+                {% for rule in securitygroup.egressrule %}
+                <item>
+                    <ipProtocol>{{ rule.protocol }}</ipProtocol>
+                    {% if rule.startport %}
+                    <fromPort>{{ rule.startport }}</fromPort>
+                    {% elif 'icmptype' in rule %}
+                    <fromPort>{{ rule.icmptype }}</fromPort>
+                    {% endif %}
+
+                    {% if 'endport' in rule %}
+                    <toPort>{{ rule.endport }}</toPort>
+                    {% elif 'icmpcode' in rule %}
+                    <toPort>{{ rule.icmpcode }}</toPort>
+                    {% endif %}
+                    <ipRanges>
+                        <item>
+                            <cidrIp>{{ rule.cidr }}</cidrIp>
+                        </item>
+                    </ipRanges>
+                </item>
+                {% endfor %}
+            </ipPermissionsEgress>
         </item>
         {% endfor %}
     </securityGroupInfo>

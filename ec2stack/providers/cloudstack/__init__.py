@@ -15,9 +15,6 @@ def describe_item(args, keyname, not_found, prefix):
 
 
 def _describe_specific_item(args, keyname, not_found, prefix):
-    if args is None:
-        args = {}
-
     keys = helpers.get_request_parameter_keys(prefix)
 
     response = {}
@@ -43,16 +40,9 @@ def describe_item_request(args, keyname, not_found):
 
     for item in request:
         if 'id' in args and args['id'] == item['id']:
-            print "##### FOUND BY ID"
-            print item
             return item
         elif 'name' in args and args['name'] == item['name']:
-            print "#### FOUND BY NAME"
-            print item
             return item
-        else:
-            print "#######"
-            print "NOT SEARCHING"
 
     return not_found()
 
