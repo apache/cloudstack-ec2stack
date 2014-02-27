@@ -20,19 +20,10 @@ class FlaskTestCaseMixin(object):
     def _request(method, *args, **kwargs):
         return method(*args, **kwargs)
 
-    def get(self, *args, **kwargs):
-        return self._request(self.client.get, *args, **kwargs)
-
     def post(self, *args, **kwargs):
         return (
             self._request(self.client.post, *args, **self._html_data(kwargs))
         )
-
-    def put(self, *args, **kwargs):
-        return self._request(self.client.put, *args, **self._html_data(kwargs))
-
-    def delete(self, *args, **kwargs):
-        return self._request(self.client.delete, *args, **kwargs)
 
     def assert_status_code(self, response, status_code):
         self.assertEquals(status_code, response.status_code)
@@ -43,9 +34,6 @@ class FlaskTestCaseMixin(object):
 
     def assert_bad_request(self, response):
         return self.assert_status_code(response, 400)
-
-    def assert_forbidden(self, response):
-        return self.assert_status_code(response, 403)
 
     def assert_not_found(self, response):
         return self.assert_status_code(response, 404)

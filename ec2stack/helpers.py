@@ -156,9 +156,7 @@ def generate_signature(data=None, method=None, host=None):
     return signature
 
 
-def _get_request_string(data=None, method=None, host=None):
-    if data is None:
-        data = request.form
+def _get_request_string(data, method=None, host=None):
     if method is None:
         method = request.method
     if host is None:
@@ -172,10 +170,7 @@ def _get_request_string(data=None, method=None, host=None):
     return request_string.encode('utf-8')
 
 
-def _get_query_string(data=None):
-    if data is None:
-        data = request.form
-
+def _get_query_string(data):
     params = {}
     for param in data:
         if param != 'Signature':
@@ -225,8 +220,4 @@ def read_file(name):
         name
     )
     data = open(filepath)
-    try:
-        return data.read()
-    except IOError:
-        print "could not read %r" % name
-        data.close()
+    return data.read()

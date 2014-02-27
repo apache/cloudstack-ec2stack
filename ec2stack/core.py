@@ -32,12 +32,6 @@ class Service(object):
     def get(self, primarykey):
         return self.__model__.query.get(primarykey)
 
-    def find(self, **kwargs):
-        return self.__model__.query.filter_by(**kwargs)
-
-    def first(self, **kwargs):
-        return self.find(**kwargs).first()
-
     def create(self, **kwargs):
         return self.save(self.__model__(**kwargs))
 
