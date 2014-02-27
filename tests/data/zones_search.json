@@ -1,0 +1,12 @@
+{
+    "localstorageenabled": false,
+    "name": "Sandbox-simulator",
+    "zonetoken": "038bf1a4-c55c-3d1e-9176-b42e22ee00c1",
+    "dns1": "8.8.8.8",
+    "securitygroupsenabled": true,
+    "allocationstate": "Enabled",
+    "internaldns1": "8.8.8.8",
+    "dhcpprovider": "VirtualRouter",
+    "networktype": "Basic",
+    "id": "1e47a2fc-61c7-401c-b90e-416b472ada64"
+}

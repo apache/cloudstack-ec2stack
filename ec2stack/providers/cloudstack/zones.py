@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+from flask import current_app
+
+import json
+
 from ec2stack.providers import cloudstack
 
 from ec2stack import helpers, errors
@@ -18,14 +22,6 @@ def describe_zones():
     )
 
 
-def describe_zone_by_name(zone_name):
-    args = {'name': zone_name, 'command': 'listZones'}
-    response = cloudstack.describe_item_request(
-        args, 'zone', errors.invalid_zone
-    )
-    return response
-
-
 def _describe_zones_response(response):
     return {
         'template_name_or_list': 'zones.xml',
@@ -34,6 +30,10 @@ def _describe_zones_response(response):
     }
 
 
-def get_zones_id_by_name(name):
-    zone = describe_zone_by_name(name)
-    return zone['id']
+def get_zone(zone_name):
+    args = {'name': zone_name, 'command': 'listZones'}
+    response = cloudstack.describe_item_request(
+        args, 'zone', errors.invalid_zone
+    )
+
+    return response

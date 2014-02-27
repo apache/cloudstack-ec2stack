@@ -5,6 +5,7 @@ import uuid
 
 from ec2stack import errors
 from ec2stack import helpers
+from ec2stack.providers import cloudstack
 from ec2stack.providers.cloudstack import requester, disk_offerings, zones
 
 
@@ -16,17 +17,14 @@ volume_error_to_aws = {
 
 @helpers.authentication_required
 def describe_volumes():
-    response = _describe_volumes_request()
-    return _describe_volumes_response(response)
-
-
-def _describe_volumes_request():
     args = {'command': 'listVolumes'}
+    response = cloudstack.describe_item(
+        args, 'volume', errors.invalid_volume_id, 'VolumeId'
+    )
 
-    response = requester.make_request(args)
-    response = response['listvolumesresponse']
-
-    return response
+    return _describe_volumes_response(
+        response
+    )
 
 
 def _describe_volumes_response(response):
@@ -53,10 +51,10 @@ def _create_volume_request():
     else:
         args['size'] = helpers.get('Size')
         args['diskofferingid'] = \
-            disk_offerings.get_disk_offerings_id_by_name('Custom')
+            disk_offerings.get_disk_offering('Custom')['id']
 
     zone_name = helpers.get('AvailabilityZone')
-    zone_id = zones.get_zones_id_by_name(zone_name)
+    zone_id = zones.get_zone(zone_name)['id']
 
     args['zoneid'] = zone_id
     args['command'] = 'createVolume'

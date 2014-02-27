@@ -1,20 +1,16 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from ec2stack.providers.cloudstack import requester
+from flask import current_app
+import json
+from ec2stack import errors
+from ec2stack.providers import cloudstack
 
 
-def get_disk_offerings_id_by_name(name):
-    args = {'name': name}
-    response = _describe_disk_offerings_request(args)
-    response = response['diskoffering'][0]
-    return response['id']
-
-
-def _describe_disk_offerings_request(args=None):
-    args['command'] = 'listDiskOfferings'
-
-    response = requester.make_request(args)
-    response = response['listdiskofferingsresponse']
+def get_disk_offering(disk_name):
+    args = {'name': disk_name, 'command': 'listDiskOfferings'}
+    response = cloudstack.describe_item_request(
+        args, 'diskoffering', errors.invalid_disk_offering_name
+    )
 
     return response

@@ -44,6 +44,14 @@ def invalid_volume_id():
     )
 
 
+def invalid_disk_offering_name():
+    raise Ec2stackError(
+        '400',
+        'InvalidDiskOffering.NotFound',
+        'The specified Disk offering does not exist.'
+    )
+
+
 def invalid_keypair_name():
     raise Ec2stackError(
         '400',
