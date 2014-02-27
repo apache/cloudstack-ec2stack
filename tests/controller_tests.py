@@ -18,7 +18,7 @@ class ControllerTestCase(Ec2StackAppTestCase):
             data={}
         )
 
-        self.assertBadRequest(response)
+        self.assert_bad_request(response)
         assert 'not valid for this web service' in response.data
 
     def test_authentication_required_parameters(self):
@@ -34,7 +34,7 @@ class ControllerTestCase(Ec2StackAppTestCase):
             data=data
         )
 
-        self.assertBadRequest(response)
+        self.assert_bad_request(response)
         data[item] = value
 
     def test_invalid_signature_version(self):
@@ -46,7 +46,7 @@ class ControllerTestCase(Ec2StackAppTestCase):
             data=data
         )
 
-        self.assertBadRequest(response)
+        self.assert_bad_request(response)
         assert 'SignatureVersion is invalid' in response.data
 
     def test_invalid_signature_method(self):
@@ -58,7 +58,7 @@ class ControllerTestCase(Ec2StackAppTestCase):
             data=data
         )
 
-        self.assertBadRequest(response)
+        self.assert_bad_request(response)
         assert 'SignatureMethod is invalid' in response.data
 
     def test_failure_to_find_secretkey(self):
@@ -69,7 +69,7 @@ class ControllerTestCase(Ec2StackAppTestCase):
             data=data
         )
 
-        self.assertStatusCode(response, 401)
+        self.assert_status_code(response, 401)
         assert 'Unable to find a secret key' in response.data
 
     def test_invalid_signature(self):
@@ -80,7 +80,7 @@ class ControllerTestCase(Ec2StackAppTestCase):
             data=data
         )
 
-        self.assertStatusCode(response, 401)
+        self.assert_status_code(response, 401)
 
         assert 'AWS was not able to validate the provided access credentials.' \
             in response.data
@@ -97,7 +97,7 @@ class ControllerTestCase(Ec2StackAppTestCase):
             data=data
         )
 
-        self.assertBadRequest(response)
+        self.assert_bad_request(response)
 
         assert 'The given AWSAccessKeyId is already registered' \
             in response.data
@@ -114,7 +114,7 @@ class ControllerTestCase(Ec2StackAppTestCase):
             data=data
         )
 
-        self.assertOk(response)
+        self.assert_ok(response)
 
         assert 'RegisterSecretKeyResponse' in response.data
 
@@ -130,7 +130,7 @@ class ControllerTestCase(Ec2StackAppTestCase):
             data=data
         )
 
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'RemoveSecretKeyResponse' in response.data
 
     def test_not_found_delete_secretkey(self):
@@ -145,7 +145,7 @@ class ControllerTestCase(Ec2StackAppTestCase):
             data=data
         )
 
-        self.assertBadRequest(response)
+        self.assert_bad_request(response)
         assert 'The no matching AWSAccessKeyId' in response.data
 
     def test_not_found(self):
@@ -153,7 +153,7 @@ class ControllerTestCase(Ec2StackAppTestCase):
             '/example-not-found-url',
         )
 
-        self.assertNotFound(response)
+        self.assert_not_found(response)
 
     def test_bad_request_on_provider_error(self):
         data = self.get_example_data()
@@ -170,4 +170,4 @@ class ControllerTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertBadRequest(response)
+        self.assert_bad_request(response)

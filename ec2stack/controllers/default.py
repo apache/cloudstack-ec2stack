@@ -45,8 +45,8 @@ def _get_action(action):
         'DescribeVolumes': volumes.describe_volumes,
         'GetPasswordData': passwords.get_password_data,
         'ImportKeyPair': keypairs.import_keypair,
-        'RegisterSecretKey': registerSecretKey,
-        'RemoveSecretKey': removeSecretKey,
+        'RegisterSecretKey': register_secret_key,
+        'RemoveSecretKey': remove_secret_key,
         'RevokeSecurityGroupEgress':
         security_groups.revoke_security_group_egress,
         'RevokeSecurityGroupIngress':
@@ -59,11 +59,11 @@ def _get_action(action):
         raise Ec2stackError(
             '400',
             'InvalidAction',
-            'The action %s is not valid for this web service' % (action)
+            'The action %s is not valid for this web service' % action
         )
 
 
-def registerSecretKey():
+def register_secret_key():
     require_parameters({'AWSAccessKeyId', 'AWSSecretKey'})
     found_user = USERS.get(get('AWSAccessKeyId'))
     if found_user is None:
@@ -85,7 +85,7 @@ def registerSecretKey():
         )
 
 
-def removeSecretKey():
+def remove_secret_key():
     require_parameters({'AWSAccessKeyId', 'AWSSecretKey'})
     accesskey = get('AWSAccessKeyId')
     secretkey = get('AWSSecretKey')

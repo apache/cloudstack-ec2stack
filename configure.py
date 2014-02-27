@@ -47,12 +47,12 @@ def _create_config_file(config_folder):
         cloudstack_path = '/client/api'
 
     config_file = open(config_folder + '/ec2stack.conf', 'w+')
-    config_file.write('EC2STACK_BIND_ADDRESS = \'%s\'\n' % (ec2stack_address))
-    config_file.write('EC2STACK_PORT = \'%s\'\n' % (ec2stack_port))
-    config_file.write('CLOUDSTACK_HOST = \'%s\'\n' % (cloudstack_host))
-    config_file.write('CLOUDSTACK_PORT = \'%s\'\n' % (cloudstack_port))
-    config_file.write('CLOUDSTACK_PROTOCOL = \'%s\'\n' % (cloudstack_protocol))
-    config_file.write('CLOUDSTACK_PATH = \'%s\'\n' % (cloudstack_path))
+    config_file.write('EC2STACK_BIND_ADDRESS = \'%s\'\n' % ec2stack_address)
+    config_file.write('EC2STACK_PORT = \'%s\'\n' % ec2stack_port)
+    config_file.write('CLOUDSTACK_HOST = \'%s\'\n' % cloudstack_host)
+    config_file.write('CLOUDSTACK_PORT = \'%s\'\n' % cloudstack_port)
+    config_file.write('CLOUDSTACK_PROTOCOL = \'%s\'\n' % cloudstack_protocol)
+    config_file.write('CLOUDSTACK_PATH = \'%s\'\n' % cloudstack_path)
     config_file.close()
 
 

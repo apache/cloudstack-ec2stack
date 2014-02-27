@@ -26,7 +26,7 @@ class ImagesTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'DescribeImagesResponse' in response.data
 
     def test_describe_specific_images(self):
@@ -47,7 +47,7 @@ class ImagesTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'DescribeImagesResponse' in response.data
 
     def test_describe_image_attribute(self):
@@ -69,5 +69,5 @@ class ImagesTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'DescribeImageAttributeResponse' in response.data

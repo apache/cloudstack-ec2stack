@@ -7,9 +7,7 @@ from ec2stack.providers import cloudstack
 
 @helpers.authentication_required
 def describe_images():
-    args = {}
-    args['templatefilter'] = 'executable'
-    args['command'] = 'listTemplates'
+    args = {'templatefilter': 'executable', 'command': 'listTemplates'}
     response = cloudstack.describe_item(
         args, 'template', errors.invalid_image_id, 'ImageId'
     )
@@ -47,10 +45,10 @@ def _describe_image_attribute_response(response):
 
 
 def describe_image_by_id(image_id):
-    args = {}
-    args['id'] = image_id
-    args['templatefilter'] = 'executable'
-    args['command'] = 'listTemplates'
+    args = {
+        'id': image_id,
+        'templatefilter': 'executable',
+        'command': 'listTemplates'}
     response = cloudstack.describe_item_request(
         args, 'template', errors.invalid_image_id
     )

@@ -17,9 +17,7 @@ def create_keypair():
 
 
 def _create_keypair_request():
-    args = {}
-    args['command'] = 'createSSHKeyPair'
-    args['name'] = helpers.get('KeyName')
+    args = {'command': 'createSSHKeyPair', 'name': helpers.get('KeyName')}
 
     response = requester.make_request(args)
 
@@ -42,8 +40,7 @@ def _create_keypair_response(response):
 
 @helpers.authentication_required
 def describe_keypairs():
-    args = {}
-    args['command'] = 'listSSHKeyPairs'
+    args = {'command': 'listSSHKeyPairs'}
     response = cloudstack.describe_item(
         args, 'sshkeypair', errors.invalid_keypair_name, 'KeyName'
     )
@@ -69,9 +66,7 @@ def delete_keypair():
 
 
 def _delete_keypair_request():
-    args = {}
-    args['command'] = 'deleteSSHKeyPair'
-    args['name'] = helpers.get('KeyName')
+    args = {'command': 'deleteSSHKeyPair', 'name': helpers.get('KeyName')}
 
     response = requester.make_request(args)
 
@@ -94,10 +89,8 @@ def import_keypair():
 
 
 def _import_keypair_request():
-    args = {}
-    args['command'] = 'registerSSHKeyPair'
-    args['name'] = helpers.get('KeyName')
-    args['publickey'] = b64decode(helpers.get('PublicKeyMaterial'))
+    args = {'command': 'registerSSHKeyPair', 'name': helpers.get('KeyName'),
+            'publickey': b64decode(helpers.get('PublicKeyMaterial'))}
 
     response = requester.make_request(args)
     response = response['registersshkeypairresponse']

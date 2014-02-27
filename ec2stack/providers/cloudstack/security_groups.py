@@ -15,10 +15,8 @@ def create_security_group():
 
 
 def _create_security_group_request():
-    args = {}
-    args['command'] = 'createSecurityGroup'
-    args['name'] = helpers.get('GroupName')
-    args['description'] = helpers.get('GroupDescription')
+    args = {'command': 'createSecurityGroup', 'name': helpers.get('GroupName'),
+            'description': helpers.get('GroupDescription')}
 
     response = requester.make_request(args)
 
@@ -74,8 +72,7 @@ def _delete_security_group_response():
 
 @helpers.authentication_required
 def describe_security_groups():
-    args = {}
-    args['command'] = 'listSecurityGroups'
+    args = {'command': 'listSecurityGroups'}
 
     response = cloudstack.describe_item(
         args, 'securitygroup', errors.invalid_security_group, 'Group'

@@ -21,7 +21,7 @@ Usage
 -----
 
 Configuration
-''''''''''''''
+'''''''''''''
 
 When you install ec2stack a default global configuration file is placed into /etc/ec2stack.conf or the site-package directory for ec2stack if you are running it within a virtualenv.
 

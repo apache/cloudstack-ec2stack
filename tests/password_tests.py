@@ -27,7 +27,7 @@ class PasswordTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'GetPasswordDataResponse' in response.data
 
     def test_invalid_get_password(self):
@@ -48,5 +48,5 @@ class PasswordTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertBadRequest(response)
+        self.assert_bad_request(response)
         assert 'InvalidInstanceID.NotFound' in response.data

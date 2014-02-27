@@ -29,7 +29,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'CreateSecurityGroupResponse' in response.data
 
     def test_create_duplicate_security_group(self):
@@ -51,7 +51,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertBadRequest(response)
+        self.assert_bad_request(response)
         assert 'InvalidGroup.Duplicate' in response.data
 
     def test_delete_security_group_by_name(self):
@@ -72,7 +72,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'DeleteSecurityGroupResponse' in response.data
 
     def test_delete_security_group_by_id(self):
@@ -93,7 +93,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'DeleteSecurityGroupResponse' in response.data
 
     def test_invalid_delete_security_group(self):
@@ -106,7 +106,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
             data=data
         )
 
-        self.assertBadRequest(response)
+        self.assert_bad_request(response)
         assert 'MissingParameter' in response.data
 
     def test_describe_security_groups(self):
@@ -126,7 +126,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'DescribeSecurityGroupsResponse' in response.data
 
     def test_describe_security_group_by_id(self):
@@ -147,7 +147,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'DescribeSecurityGroupsResponse' in response.data
         assert '3b637c2e-b0a8-40ae-a7a3-2bef2871d36d' in response.data
 
@@ -169,7 +169,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertBadRequest(response)
+        self.assert_bad_request(response)
         assert 'InvalidGroup.NotFound' in response.data
 
     def test_empty_response_describe_security_group_by_id(self):
@@ -190,7 +190,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertBadRequest(response)
+        self.assert_bad_request(response)
         assert 'InvalidGroup.NotFound' in response.data
 
     def test_describe_security_group_by_name(self):
@@ -211,7 +211,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'DescribeSecurityGroupsResponse' in response.data
         assert 'test' in response.data
 
@@ -233,7 +233,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertBadRequest(response)
+        self.assert_bad_request(response)
         assert 'InvalidGroup.NotFound' in response.data
 
     def test_empty_response_describe_security_group_by_name(self):
@@ -254,7 +254,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertBadRequest(response)
+        self.assert_bad_request(response)
         assert 'InvalidGroup.NotFound' in response.data
 
     def test_authorize_security_group_ingress_by_name(self):
@@ -279,7 +279,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'AuthorizeSecurityGroupIngressResponse' in response.data
 
     def test_authorize_security_group_ingress_by_id(self):
@@ -303,7 +303,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'AuthorizeSecurityGroupIngressResponse' in response.data
 
     def test_authorize_security_group_egress_by_name(self):
@@ -328,7 +328,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'AuthorizeSecurityGroupEgressResponse' in response.data
 
     def test_authorize_security_group_egress_by_id(self):
@@ -352,7 +352,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'AuthorizeSecurityGroupEgressResponse' in response.data
 
     def test_duplicate_authorize_security_group(self):
@@ -377,7 +377,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertBadRequest(response)
+        self.assert_bad_request(response)
         assert 'InvalidPermission.Duplicate' in response.data
 
     def test_invalid_rule_authorize_security_group(self):
@@ -402,7 +402,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertBadRequest(response)
+        self.assert_bad_request(response)
         assert 'InvalidParameterValue' in response.data
 
     def test_invalid_security_group_authorize_security_group(self):
@@ -428,9 +428,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        print response.data
-
-        self.assertBadRequest(response)
+        self.assert_bad_request(response)
         assert 'InvalidGroup.NotFound' in response.data
 
     def test_revoke_security_group_ingress(self):
@@ -464,7 +462,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
                     data=data
                 )
 
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'RevokeSecurityGroupIngressResponse' in response.data
 
     def test_revoke_security_group_egress(self):
@@ -498,7 +496,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
                     data=data
                 )
 
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'RevokeSecurityGroupEgressResponse' in response.data
 
     def test_invalid_revoke_security_group(self):
@@ -532,5 +530,5 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
                     data=data
                 )
 
-        self.assertBadRequest(response)
+        self.assert_bad_request(response)
         assert 'InvalidPermission.NotFound' in response.data

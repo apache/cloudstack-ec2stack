@@ -17,8 +17,7 @@ def describe_item(args, keyname, not_found, prefix):
 def _describe_specific_item(args, keyname, not_found, prefix):
     keys = helpers.get_request_parameter_keys(prefix)
 
-    response = {}
-    response[keyname] = []
+    response = {keyname: []}
 
     for key in keys:
         name = helpers.get(key)

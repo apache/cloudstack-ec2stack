@@ -21,9 +21,7 @@ def describe_volumes():
 
 
 def _describe_volumes_request():
-    args = {}
-
-    args['command'] = 'listVolumes'
+    args = {'command': 'listVolumes'}
 
     response = requester.make_request(args)
     response = response['listvolumesresponse']
@@ -90,9 +88,7 @@ def delete_volume():
 
 
 def _delete_volume_request():
-    args = {}
-    args['id'] = helpers.get('VolumeId')
-    args['command'] = 'deleteVolume'
+    args = {'id': helpers.get('VolumeId'), 'command': 'deleteVolume'}
 
     response = requester.make_request(args)
     response = response['deletevolumeresponse']

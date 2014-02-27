@@ -29,7 +29,7 @@ class KeyPairTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'CreateKeyPairResponse' in response.data
 
     def test_duplicate_keypair(self):
@@ -50,7 +50,7 @@ class KeyPairTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertBadRequest(response)
+        self.assert_bad_request(response)
         assert 'InvalidKeyPair.Duplicate' in response.data
 
     def test_delete_keypair(self):
@@ -71,7 +71,7 @@ class KeyPairTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'DeleteKeyPairResponse' in response.data
 
     def test_import_keypair(self):
@@ -100,7 +100,7 @@ class KeyPairTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'ImportKeyPairResponse' in response.data
 
     def test_duplicate_import_keypair(self):
@@ -129,7 +129,7 @@ class KeyPairTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertBadRequest(response)
+        self.assert_bad_request(response)
         assert 'InvalidKeyPair.Duplicate' in response.data
 
     def test_describe_key_pairs(self):
@@ -149,7 +149,7 @@ class KeyPairTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'DescribeKeyPairsResponse' in response.data
 
     def test_describe_key_pair_by_name(self):
@@ -170,9 +170,7 @@ class KeyPairTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        print response.data
-
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'DescribeKeyPairsResponse' in response.data
         assert 'test' in response.data
 
@@ -194,7 +192,7 @@ class KeyPairTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertBadRequest(response)
+        self.assert_bad_request(response)
         assert 'InvalidKeyPair.NotFound' in response.data
 
     def test_empty_response_describe_keypair_by_name(self):
@@ -215,5 +213,5 @@ class KeyPairTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertBadRequest(response)
+        self.assert_bad_request(response)
         assert 'InvalidKeyPair.NotFound' in response.data

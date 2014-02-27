@@ -14,9 +14,7 @@ def get_password_data():
 
 
 def _get_password_data_request():
-    args = {}
-    args['command'] = 'getVMPassword'
-    args['id'] = helpers.get('InstanceId')
+    args = {'command': 'getVMPassword', 'id': helpers.get('InstanceId')}
 
     response = requester.make_request(args)
 

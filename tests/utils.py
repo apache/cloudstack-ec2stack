@@ -10,12 +10,14 @@
 
 class FlaskTestCaseMixin(object):
 
-    def _html_data(self, kwargs):
+    @staticmethod
+    def _html_data(kwargs):
         if not kwargs.get('content_type'):
             kwargs['content_type'] = 'application/x-www-form-urlencoded'
         return kwargs
 
-    def _request(self, method, *args, **kwargs):
+    @staticmethod
+    def _request(method, *args, **kwargs):
         return method(*args, **kwargs)
 
     def get(self, *args, **kwargs):
@@ -32,23 +34,24 @@ class FlaskTestCaseMixin(object):
     def delete(self, *args, **kwargs):
         return self._request(self.client.delete, *args, **kwargs)
 
-    def assertStatusCode(self, response, status_code):
+    def assert_status_code(self, response, status_code):
         self.assertEquals(status_code, response.status_code)
         return response
 
-    def assertOk(self, response):
-        return self.assertStatusCode(response, 200)
+    def assert_ok(self, response):
+        return self.assert_status_code(response, 200)
 
-    def assertBadRequest(self, response):
-        return self.assertStatusCode(response, 400)
+    def assert_bad_request(self, response):
+        return self.assert_status_code(response, 400)
 
-    def assertForbidden(self, response):
-        return self.assertStatusCode(response, 403)
+    def assert_forbidden(self, response):
+        return self.assert_status_code(response, 403)
 
-    def assertNotFound(self, response):
-        return self.assertStatusCode(response, 404)
+    def assert_not_found(self, response):
+        return self.assert_status_code(response, 404)
 
-    def get_example_data(self):
+    @staticmethod
+    def get_example_data():
         data = {
             'SignatureVersion': '2',
             'AWSAccessKeyId': 'ExampleAPIKey',

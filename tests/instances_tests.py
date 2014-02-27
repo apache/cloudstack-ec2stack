@@ -26,7 +26,7 @@ class InstancesTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'DescribeInstancesResponse' in response.data
 
     def test_describe_instance_by_id(self):
@@ -47,7 +47,7 @@ class InstancesTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'DescribeInstancesResponse' in response.data
         assert 'aa10a43e-56db-4a34-88bd-1c2a51c0bc04' in response.data
 
@@ -69,7 +69,7 @@ class InstancesTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertBadRequest(response)
+        self.assert_bad_request(response)
         assert 'InvalidInstanceId.NotFound' in response.data
 
     def test_empty_response_describe_instance_by_id(self):
@@ -77,7 +77,6 @@ class InstancesTestCase(Ec2StackAppTestCase):
         data['Action'] = 'DescribeInstances'
         data['InstanceId.1'] = 'invalid-instance-id'
         data['Signature'] = generate_signature(data, 'POST', 'localhost')
-
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -91,7 +90,7 @@ class InstancesTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertBadRequest(response)
+        self.assert_bad_request(response)
         assert 'InvalidInstanceId.NotFound' in response.data
 
     def test_describe_instance_attribute(self):
@@ -113,5 +112,5 @@ class InstancesTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'DescribeInstanceAttributeResponse' in response.data

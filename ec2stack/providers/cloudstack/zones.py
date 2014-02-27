@@ -8,8 +8,7 @@ from ec2stack import helpers, errors
 
 @helpers.authentication_required
 def describe_zones():
-    args = {}
-    args['command'] = 'listZones'
+    args = {'command': 'listZones'}
     response = cloudstack.describe_item(
         args, 'zone', errors.invalid_zone, 'ZoneName'
     )
@@ -20,9 +19,7 @@ def describe_zones():
 
 
 def describe_zone_by_name(zone_name):
-    args = {}
-    args['name'] = zone_name
-    args['command'] = 'listZones'
+    args = {'name': zone_name, 'command': 'listZones'}
     response = cloudstack.describe_item_request(
         args, 'zone', errors.invalid_zone
     )

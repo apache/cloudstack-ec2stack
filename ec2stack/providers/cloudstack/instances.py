@@ -8,8 +8,7 @@ from ec2stack import helpers, errors
 
 @helpers.authentication_required
 def describe_instances():
-    args = {}
-    args['command'] = 'listVirtualMachines'
+    args = {'command': 'listVirtualMachines'}
     response = cloudstack.describe_item(
         args, 'virtualmachine', errors.invalid_instance_id, 'InstanceId'
     )
@@ -20,9 +19,7 @@ def describe_instances():
 
 
 def describe_instance_by_id(instance_id):
-    args = {}
-    args['id'] = instance_id
-    args['command'] = 'listVirtualMachines'
+    args = {'id': instance_id, 'command': 'listVirtualMachines'}
     response = cloudstack.describe_item_request(
         args, 'virtualmachine', errors.invalid_instance_id
     )

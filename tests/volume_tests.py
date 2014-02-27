@@ -26,7 +26,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'DescribeVolumesResponse' in response.data
 
     @mock.patch('ec2stack.providers.cloudstack.disk_offerings.get_disk_offerings_id_by_name')
@@ -53,7 +53,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'CreateVolumeResponse' in response.data
 
     @mock.patch('ec2stack.providers.cloudstack.disk_offerings.get_disk_offerings_id_by_name')
@@ -80,7 +80,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'CreateVolumeResponse' in response.data
 
     @mock.patch('ec2stack.providers.cloudstack.disk_offerings.get_disk_offerings_id_by_name')
@@ -105,7 +105,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertBadRequest(response)
+        self.assert_bad_request(response)
         assert 'InvalidZone.NotFound' in response.data
 
     @mock.patch('ec2stack.providers.cloudstack.disk_offerings.get_disk_offerings_id_by_name')
@@ -136,12 +136,13 @@ class VolumeTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'CreateVolumeResponse' in response.data
 
     @mock.patch('ec2stack.providers.cloudstack.disk_offerings.get_disk_offerings_id_by_name')
     @mock.patch('ec2stack.providers.cloudstack.zones.get_zones_id_by_name')
-    def test_create_volume_inavild_snapshot(self, mock_get_zone, mock_get_disk):
+    def test_create_volume_inavild_snapshot(
+            self, mock_get_zone, mock_get_disk):
         data = self.get_example_data()
         data['Action'] = 'CreateVolume'
         data['Size'] = 'size'
@@ -163,7 +164,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertBadRequest(response)
+        self.assert_bad_request(response)
         assert 'InvalidSnapshot.NotFound' in response.data
 
     def test_delete_volume(self):
@@ -184,7 +185,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertOk(response)
+        self.assert_ok(response)
         assert 'DeleteVolumeResponse' in response.data
 
     def test_delete_volume_invalid_volume_id(self):
@@ -205,5 +206,5 @@ class VolumeTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        self.assertBadRequest(response)
+        self.assert_bad_request(response)
         assert 'InvalidVolume.NotFound' in response.data
