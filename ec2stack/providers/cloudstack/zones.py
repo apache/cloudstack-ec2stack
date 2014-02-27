@@ -37,6 +37,6 @@ def _describe_zones_response(response):
     }
 
 
-def get_zones_id(name):
+def get_zones_id_by_name(name):
     zone = describe_zone_by_name(name)
     return zone['id']

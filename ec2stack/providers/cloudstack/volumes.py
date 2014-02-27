@@ -58,7 +58,7 @@ def _create_volume_request():
             disk_offerings.get_disk_offerings_id_by_name('Custom')
 
     zone_name = helpers.get('AvailabilityZone')
-    zone_id = zones.get_zones_id(zone_name)
+    zone_id = zones.get_zones_id_by_name(zone_name)
 
     args['zoneid'] = zone_id
     args['command'] = 'createVolume'
