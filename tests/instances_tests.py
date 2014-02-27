@@ -8,16 +8,17 @@ from . import Ec2StackAppTestCase
 
 
 class InstancesTestCase(Ec2StackAppTestCase):
+
     def test_describe_instances(self):
         data = self.get_example_data()
         data['Action'] = 'DescribeInstances'
         data['Signature'] = generate_signature(data, 'POST', 'localhost')
 
         get = mock.Mock()
-        text = get.return_value.text = read_file(
-            'tests/data/valid_describe_instances.json'
+        get.return_value.text = read_file(
+            'tests/data/valid_describe_key_pairs.json'
         )
-        status_code = get.return_value.status_code = 200
+        get.return_value.status_code = 200
 
         with mock.patch('requests.get', get):
             response = self.post(
@@ -28,17 +29,17 @@ class InstancesTestCase(Ec2StackAppTestCase):
         self.assertOk(response)
         assert 'DescribeInstancesResponse' in response.data
 
-    def test_describe_specific_instances(self):
+    def test_describe_instance_by_id(self):
         data = self.get_example_data()
         data['Action'] = 'DescribeInstances'
-        data['InstanceId.1'] = 'a32d70ee-95e4-11e3-b2e4-d19c9d3e5e1d'
+        data['InstanceId.1'] = 'aa10a43e-56db-4a34-88bd-1c2a51c0bc04'
         data['Signature'] = generate_signature(data, 'POST', 'localhost')
 
         get = mock.Mock()
-        text = get.return_value.text = read_file(
+        get.return_value.text = read_file(
             'tests/data/valid_describe_instances.json'
         )
-        status_code = get.return_value.status_code = 200
+        get.return_value.status_code = 200
 
         with mock.patch('requests.get', get):
             response = self.post(
@@ -48,18 +49,19 @@ class InstancesTestCase(Ec2StackAppTestCase):
 
         self.assertOk(response)
         assert 'DescribeInstancesResponse' in response.data
+        assert 'aa10a43e-56db-4a34-88bd-1c2a51c0bc04' in response.data
 
-    def test_invalid_instance_id(self):
+    def test_invalid_describe_instance_by_id(self):
         data = self.get_example_data()
         data['Action'] = 'DescribeInstances'
-        data['InstanceId.1'] = 'InvalidId'
+        data['InstanceId.1'] = 'invalid-instance-id'
         data['Signature'] = generate_signature(data, 'POST', 'localhost')
 
         get = mock.Mock()
-        text = get.return_value.text = read_file(
-            'tests/data/invalid_instance_id.json'
+        get.return_value.text = read_file(
+            'tests/data/valid_describe_instance_attribute.json'
         )
-        status_code = get.return_value.status_code = 200
+        get.return_value.status_code = 200
 
         with mock.patch('requests.get', get):
             response = self.post(
@@ -67,20 +69,43 @@ class InstancesTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
+        self.assertBadRequest(response)
         assert 'InvalidInstanceId.NotFound' in response.data
 
-    def test_describe_image_attribute(self):
+    def test_empty_response_describe_instance_by_id(self):
+        data = self.get_example_data()
+        data['Action'] = 'DescribeInstances'
+        data['InstanceId.1'] = 'invalid-instance-id'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+
+
+        get = mock.Mock()
+        get.return_value.text = read_file(
+            'tests/data/empty_describe_instances.json'
+        )
+        get.return_value.status_code = 200
+
+        with mock.patch('requests.get', get):
+            response = self.post(
+                '/',
+                data=data
+            )
+
+        self.assertBadRequest(response)
+        assert 'InvalidInstanceId.NotFound' in response.data
+
+    def test_describe_instance_attribute(self):
         data = self.get_example_data()
         data['Action'] = 'DescribeInstanceAttribute'
-        data['ImageId.1'] = 'a32d70ee-95e4-11e3-b2e4-d19c9d3e5e1d'
+        data['InstanceId'] = '43791f77-26f8-48ca-b557-3a9392f735ae'
         data['Attribute'] = 'name'
         data['Signature'] = generate_signature(data, 'POST', 'localhost')
 
         get = mock.Mock()
-        text = get.return_value.text = read_file(
+        get.return_value.text = read_file(
             'tests/data/valid_describe_instance_attribute.json'
         )
-        status_code = get.return_value.status_code = 200
+        get.return_value.status_code = 200
 
         with mock.patch('requests.get', get):
             response = self.post(

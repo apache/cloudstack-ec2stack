@@ -28,7 +28,7 @@ def invalid_instance_id():
     )
 
 
-def invalid_zone_id():
+def invalid_zone():
     raise Ec2stackError(
         '400',
         'InvalidZone.NotFound',
@@ -41,6 +41,14 @@ def invalid_volume_id():
         '400',
         'InvalidVolume.NotFound',
         'The specified Volume Id does not exist.'
+    )
+
+
+def invalid_keypair_name():
+    raise Ec2stackError(
+        '400',
+        'InvalidKeyPair.NotFound',
+        'The specified KeyPair does not exist'
     )
 
 

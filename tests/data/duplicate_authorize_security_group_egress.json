@@ -1,0 +1,15 @@
+{ "queryasyncjobresultresponse": {
+    "accountid": "2edb0c28-95e4-11e3-b2e4-d19c9d3e5e1d",
+    "userid": "2edb33ec-95e4-11e3-b2e4-d19c9d3e5e1d",
+    "cmd": "org.apache.cloudstack.api.command.user.securitygroup.AuthorizeSecurityGroupEgressCmd",
+    "jobstatus": 2,
+    "jobprocstatus": 0,
+    "jobresultcode": 530,
+    "jobresulttype": "object",
+    "jobresult": {
+        "errorcode": 530,
+        "errortext": "Failed to authorize security group egress rule(s)"
+    },
+    "created": "2014-02-26T23:23:37+0000",
+    "jobid": "44f44afd-b6dd-4205-9d81-7251bf49326e"
+} }

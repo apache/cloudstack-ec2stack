@@ -1,0 +1,11 @@
+{
+    "listsshkeypairsresponse": {
+        "count": 1,
+        "sshkeypair": [
+            {
+                "name": "test",
+                "fingerprint": "89:e8:53:79:81:75:ac:ae:c3:95:e0:ee:e0:e7:c0:06"
+            }
+        ]
+    }
+}

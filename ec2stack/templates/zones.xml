@@ -1,0 +1,12 @@
+{% extends "response.xml" %}
+{% block response_content %}
+    <availabilityZoneInfo>
+        {% for zone in response.zone %}
+            <item>
+                  <zoneName>{{ zone.name }}</zoneName>
+                  <zoneState>{{ zone.allocationstate }}</zoneState>
+                  <regionName>{{ zone.name }}</regionName>
+            </item>
+        {% endfor %}
+    </availabilityZoneInfo>
+{% endblock %}

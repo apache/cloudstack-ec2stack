@@ -3,6 +3,7 @@
 
 from base64 import b64decode
 
+from ec2stack.providers import cloudstack
 from ec2stack import helpers
 from ec2stack.providers.cloudstack import requester
 from ec2stack import errors
@@ -41,55 +42,15 @@ def _create_keypair_response(response):
 
 @helpers.authentication_required
 def describe_keypairs():
-    if helpers.contains_parameter_with_keyword('KeyName.'):
-        response = _describe_specific_keypair()
-    else:
-        response = _describe_all_keypairs()
-
-    response = _describe_keypair_response(response)
-
-    return response
-
-
-def _describe_all_keypairs():
-    response = _describe_keypairs_request()
-    return response
-
-
-def _describe_specific_keypair():
-    keypair_name_keys = helpers.get_request_parameter_keys('KeyName.')
-
-    response = {}
-    response['sshkeypair'] = []
-
-    for keypair_name_key in keypair_name_keys:
-        keyname = helpers.get(keypair_name_key)
-        keypair_response = describe_keypair_by_name(keyname)
-
-        if keypair_response['name'] == keyname:
-            response['sshkeypair'].append(keypair_response)
-
-    return response
-
-
-def describe_keypair_by_name(keypair_name):
     args = {}
-    args['id'] = keypair_name
-    response = _describe_keypairs_request(args)
-    response = response['sshkeypair'][0]
-    return response
-
-
-def _describe_keypairs_request(args=None):
-    if not args:
-        args = {}
-
     args['command'] = 'listSSHKeyPairs'
+    response = cloudstack.describe_item(
+        args, 'sshkeypair', errors.invalid_keypair_name, 'KeyName'
+    )
 
-    response = requester.make_request(args)
-    response = response['listsshkeypairsresponse']
-
-    return response
+    return _describe_keypair_response(
+        response
+    )
 
 
 def _describe_keypair_response(response):

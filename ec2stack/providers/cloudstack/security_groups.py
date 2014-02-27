@@ -2,6 +2,7 @@
 # encoding: utf-8
 
 from ec2stack import helpers, errors
+from ec2stack.providers import cloudstack
 from ec2stack.core import Ec2stackError
 from ec2stack.providers.cloudstack import requester
 
@@ -72,15 +73,39 @@ def _delete_security_group_response():
 
 
 @helpers.authentication_required
+def describe_security_groups():
+    args = {}
+    args['command'] = 'listSecurityGroups'
+
+    response = cloudstack.describe_item(
+        args, 'securitygroup', errors.invalid_security_group, 'Group'
+    )
+
+    return _describe_images_response(
+        response
+    )
+
+
+def _describe_images_response(response):
+    return {
+        'template_name_or_list': 'securitygroups.xml',
+        'response_type': 'DescribeSecurityGroupsResponse',
+        'response': response
+    }
+
+
+@helpers.authentication_required
 def authenticate_security_group_ingress():
-    response = _authenticate_security_group_request('ingress')
-    return _authenticate_security_group_response(response)
+    rule_type = 'ingress'
+    response = _authenticate_security_group_request(rule_type)
+    return _authenticate_security_group_response(response, rule_type)
 
 
 @helpers.authentication_required
 def authenticate_security_group_egress():
-    response = _authenticate_security_group_request('egress')
-    return _authenticate_security_group_response(response)
+    rule_type = 'egress'
+    response = _authenticate_security_group_request(rule_type)
+    return _authenticate_security_group_response(response, rule_type)
 
 
 def _authenticate_security_group_request(rule_type):
@@ -96,7 +121,7 @@ def _authenticate_security_group_request(rule_type):
     return response
 
 
-def _authenticate_security_group_response(response):
+def _authenticate_security_group_response(response, rule_type):
     if 'errortext' in response:
         if 'Failed to authorize security group' in response['errortext']:
             cidrlist = str(helpers.get('CidrIp'))
@@ -115,23 +140,30 @@ def _authenticate_security_group_response(response):
 
         errors.invalid_paramater_value(response['errortext'])
     else:
+        if rule_type == 'ingress':
+            rule_type = 'AuthorizeSecurityGroupIngressResponse'
+        elif rule_type == 'egress':
+            rule_type = 'AuthorizeSecurityGroupEgressResponse'
+
         return {
             'template_name_or_list': 'status.xml',
-            'response_type': 'AuthorizeSecurityGroupIngressResponse',
+            'response_type': rule_type,
             'return': 'true'
         }
 
 
 @helpers.authentication_required
 def revoke_security_group_ingress():
-    response = _revoke_security_group_request('ingress')
-    return _authenticate_security_group_response(response)
+    rule_type = 'ingress'
+    response = _revoke_security_group_request(rule_type)
+    return _revoke_security_group_response(response, rule_type)
 
 
 @helpers.authentication_required
 def revoke_security_group_egress():
-    response = _revoke_security_group_request('egress')
-    return _authenticate_security_group_response(response)
+    rule_type = 'egress'
+    response = _revoke_security_group_request(rule_type)
+    return _revoke_security_group_response(response, rule_type)
 
 
 def _revoke_security_group_request(rule_type):
@@ -151,25 +183,27 @@ def _revoke_security_group_request(rule_type):
     return response
 
 
-def _revoke_security_group_response(response):
-    if 'errortext' in response:
-        errors.invalid_paramater_value(response['errortext'])
-    else:
-        return {
-            'template_name_or_list': 'status.xml',
-            'response_type': 'AuthorizeSecurityGroupIngressResponse',
-            'return': 'true'
-        }
+def _revoke_security_group_response(response, rule_type):
+    if rule_type == 'ingress':
+        rule_type = 'RevokeSecurityGroupIngressResponse'
+    elif rule_type == 'egress':
+        rule_type = 'RevokeSecurityGroupEgressResponse'
+    return {
+        'template_name_or_list': 'status.xml',
+        'response_type': rule_type,
+        'return': 'true'
+    }
 
 
 def _find_rule(rule, rule_type):
     security_group = _get_security_group(rule)
 
-    found_rules = security_group[rule_type]
+    if rule_type in security_group:
+        found_rules = security_group[rule_type]
 
-    for found_rule in found_rules:
-        if _compare_rules(rule, found_rule):
-            return found_rule['ruleid']
+        for found_rule in found_rules:
+            if _compare_rules(rule, found_rule):
+                return found_rule['ruleid']
 
     errors.invalid_permission()
 
@@ -195,27 +229,11 @@ def _compare_rules(left, right):
     return protocol_match and cidr_match and startport_match and endport_match
 
 
-def _get_security_group(rule):
-    response = _describe_security_groups_request(rule)
-
-    if 'count' in response:
-        for security_group in response['securitygroup']:
-            if 'securityGroupId' in rule and security_group['id'] == rule['securityGroupId']:
-                return security_group
-            elif 'securityGroupName' in rule and security_group['name'] == rule['securityGroupName']:
-                return security_group
-
-    errors.invalid_security_group()
-
-
-def _describe_security_groups_request(args=None):
-    if args is None:
-        args = {}
-
+def _get_security_group(args):
     args['command'] = 'listSecurityGroups'
-
-    response = requester.make_request(args)
-    response = response['listsecuritygroupsresponse']
+    response = cloudstack.describe_item_request(
+        args, 'securitygroup', errors.invalid_security_group
+    )
 
     return response
 
@@ -228,33 +246,27 @@ def _parse_security_group_request(args=None):
 
     if helpers.contains_parameter('GroupName'):
         args['securityGroupName'] = helpers.get('GroupName')
+        args['name'] = helpers.get('GroupName')
     elif helpers.contains_parameter('GroupId'):
         args['securityGroupId'] = helpers.get('GroupId')
+        args['id'] = helpers.get('GroupId')
 
-    if helpers.contains_key_with_keyword('IpPermissions'):
-        raise Ec2stackError(
-            '400',
-            'InvalidParameterCombination',
-            'The parameter \'ipPermissions\' may not'
-            'be used in combination with \'ipProtocol\''
-        )
+    helpers.require_parameters(['IpProtocol'])
+
+    args['protocol'] = helpers.get('IpProtocol')
+
+    helpers.require_parameters(['FromPort', 'ToPort'])
+
+    if args['protocol'] in ['icmp']:
+        args['icmptype'] = helpers.get('FromPort')
+        args['icmpcode'] = helpers.get('ToPort')
     else:
-        helpers.require_parameters(['IpProtocol'])
+        args['startport'] = helpers.get('FromPort')
+        args['endport'] = helpers.get('ToPort')
 
-        args['protocol'] = helpers.get('IpProtocol')
+    if helpers.get('CidrIp') is None:
+        args['cidrlist'] = '0.0.0.0/0'
+    else:
+        args['cidrlist'] = helpers.get('CidrIp')
 
-        helpers.require_parameters(['FromPort', 'ToPort', 'CidrIp'])
-
-        if args['protocol'] in ['icmp']:
-            args['icmptype'] = helpers.get('FromPort')
-            args['icmpcode'] = helpers.get('ToPort')
-        else:
-            args['startport'] = helpers.get('FromPort')
-            args['endport'] = helpers.get('ToPort')
-
-        if helpers.get('CidrIp') is None:
-            args['cidrlist'] = '0.0.0.0/0'
-        else:
-            args['cidrlist'] = helpers.get('CidrIp')
-
-        return args
+    return args

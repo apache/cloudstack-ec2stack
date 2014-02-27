@@ -7,8 +7,8 @@ from ec2stack.helpers import get, error_response, \
     successful_response, require_parameters
 from ec2stack.core import Ec2stackError
 from ec2stack.services import USERS
-from ec2stack.providers.cloudstack import images, instances, keypair, \
-    password, security_group, volume
+from ec2stack.providers.cloudstack import images, instances, keypairs, \
+    passwords, security_groups, zones, volumes
 
 
 DEFAULT = Blueprint('default', __name__)
@@ -26,29 +26,31 @@ def index():
 def _get_action(action):
     actions = {
         'AuthorizeSecurityGroupEgress':
-        security_group.authenticate_security_group_egress,
+        security_groups.authenticate_security_group_egress,
         'AuthorizeSecurityGroupIngress':
-        security_group.authenticate_security_group_ingress,
-        'CreateKeyPair': keypair.create_keypair,
-        'CreateSecurityGroup': security_group.create_security_group,
-        'CreateVolume': volume.create_volume,
-        'DeleteKeyPair': keypair.delete_keypair,
-        'DeleteSecurityGroup': security_group.delete_security_group,
-        'DeleteVolume': volume.delete_volume,
+        security_groups.authenticate_security_group_ingress,
+        'CreateKeyPair': keypairs.create_keypair,
+        'CreateSecurityGroup': security_groups.create_security_group,
+        'CreateVolume': volumes.create_volume,
+        'DeleteKeyPair': keypairs.delete_keypair,
+        'DeleteSecurityGroup': security_groups.delete_security_group,
+        'DeleteVolume': volumes.delete_volume,
+        'DescribeAvailabilityZones': zones.describe_zones,
         'DescribeImageAttribute': images.describe_image_attribute,
         'DescribeImages': images.describe_images,
         'DescribeInstanceAttribute': instances.describe_instance_attribute,
         'DescribeInstances': instances.describe_instances,
-        'DescribeKeyPairs': keypair.describe_keypairs,
-        'DescribeVolumes': volume.describe_volumes,
-        'GetPasswordData': password.get_password_data,
-        'ImportKeyPair': keypair.import_keypair,
+        'DescribeKeyPairs': keypairs.describe_keypairs,
+        'DescribeSecurityGroups': security_groups.describe_security_groups,
+        'DescribeVolumes': volumes.describe_volumes,
+        'GetPasswordData': passwords.get_password_data,
+        'ImportKeyPair': keypairs.import_keypair,
         'RegisterSecretKey': registerSecretKey,
         'RemoveSecretKey': removeSecretKey,
         'RevokeSecurityGroupEgress':
-        security_group.revoke_security_group_egress,
+        security_groups.revoke_security_group_egress,
         'RevokeSecurityGroupIngress':
-        security_group.revoke_security_group_ingress,
+        security_groups.revoke_security_group_ingress,
     }
 
     if action in actions:
