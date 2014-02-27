@@ -1,1 +1,32 @@
-{ "queryasyncjobresultresponse" : {"accountid":"2edb0c28-95e4-11e3-b2e4-d19c9d3e5e1d","userid":"2edb33ec-95e4-11e3-b2e4-d19c9d3e5e1d","cmd":"org.apache.cloudstack.api.command.user.securitygroup.AuthorizeSecurityGroupEgressCmd","jobstatus":1,"jobprocstatus":0,"jobresultcode":0,"jobresulttype":"object","jobresult":{"securitygroup":{"id":"01104a6a-bd3c-4804-86fd-1ca6231f128d","name":"test5","description":"test5","account":"test","domainid":"2edae3e4-95e4-11e3-b2e4-d19c9d3e5e1d","domain":"ROOT","ingressrule":[],"egressrule":[{"ruleid":"1ff7ed29-d75a-47ad-a82a-da57da8d679e","protocol":"tcp","startport":1000,"endport":1024,"cidr":"0.0.0.0/0"}],"tags":[]}},"created":"2014-02-26T23:22:50+0000","jobid":"c72d64f5-062e-48ca-8ea5-8fe71987673a"} }
+{ "queryasyncjobresultresponse": {
+    "accountid": "2edb0c28-95e4-11e3-b2e4-d19c9d3e5e1d",
+    "userid": "2edb33ec-95e4-11e3-b2e4-d19c9d3e5e1d",
+    "cmd": "org.apache.cloudstack.api.command.user.securitygroup.AuthorizeSecurityGroupEgressCmd",
+    "jobstatus": 1,
+    "jobprocstatus": 0,
+    "jobresultcode": 0,
+    "jobresulttype": "object",
+    "jobresult": {
+        "securitygroup": {
+            "id": "01104a6a-bd3c-4804-86fd-1ca6231f128d",
+            "name": "test5",
+            "description": "test5",
+            "account": "test",
+            "domainid": "2edae3e4-95e4-11e3-b2e4-d19c9d3e5e1d",
+            "domain": "ROOT",
+            "ingressrule": [],
+            "egressrule": [
+                {
+                    "ruleid": "1ff7ed29-d75a-47ad-a82a-da57da8d679e",
+                    "protocol": "tcp",
+                    "startport": 1000,
+                    "endport": 1024,
+                    "cidr": "0.0.0.0/0"
+                }
+            ],
+            "tags": []
+        }
+    },
+    "created": "2014-02-26T23:22:50+0000",
+    "jobid": "c72d64f5-062e-48ca-8ea5-8fe71987673a"
+} }

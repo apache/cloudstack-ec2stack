@@ -1,5 +1,5 @@
 {
-        "listsecuritygroupsresponse": {
+    "listsecuritygroupsresponse": {
         "securitygroup": {}
-        }
-        }
+    }
+}
