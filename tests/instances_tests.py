@@ -16,7 +16,7 @@ class InstancesTestCase(Ec2StackAppTestCase):
 
         get = mock.Mock()
         get.return_value.text = read_file(
-            'tests/data/valid_describe_key_pairs.json'
+            'tests/data/valid_describe_instances.json'
         )
         get.return_value.status_code = 200
 
