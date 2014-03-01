@@ -68,13 +68,13 @@ def start_instance():
     previous_instance_state_description = describe_instance_by_id(instance_id)
     new_instance_state_description = _start_instance_request(instance_id)
     return _start_instance_response(
-        previous_instance_state_description, 
+        previous_instance_state_description,
         new_instance_state_description
     )
 
 
 def _start_instance_request(instance_id):
-    args = {'command': 'startVirtualMachine', 
+    args = {'command': 'startVirtualMachine',
             'id': instance_id}
 
     response = requester.make_request_async(args)
@@ -94,6 +94,7 @@ def _start_instance_response(previous_state, new_state):
 
     return response
 
+
 @helpers.authentication_required
 def terminate_instance():
     helpers.require_parameters(['InstanceId.1'])
@@ -101,13 +102,13 @@ def terminate_instance():
     previous_instance_state_description = describe_instance_by_id(instance_id)
     new_instance_state_description = _terminate_instance_request(instance_id)
     return _terminate_instance_response(
-        previous_instance_state_description, 
+        previous_instance_state_description,
         new_instance_state_description
     )
 
 
 def _terminate_instance_request(instance_id):
-    args = {'command': 'destroyVirtualMachine', 
+    args = {'command': 'destroyVirtualMachine',
             'id': instance_id}
 
     response = requester.make_request_async(args)
