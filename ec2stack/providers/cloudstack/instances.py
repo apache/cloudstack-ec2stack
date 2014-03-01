@@ -45,6 +45,10 @@ def describe_instance_attribute():
 
 def _describe_instance_attribute_response(response):
     attribute = helpers.get('Attribute')
+    if attribute not in response.keys():
+        errors.invalid_paramater_value(
+            'The specified attribute is not valid, please specify a valid ' +
+            'instance attribute like \'name\' or \'state\'')
 
     response = {
         'template_name_or_list': 'instance_attribute.xml',
