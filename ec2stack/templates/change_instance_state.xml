@@ -1,0 +1,50 @@
+{% extends "response.xml" %}
+{% block response_content %}
+    <instancesSet>
+        <item>
+            <instanceId>{{ new_state.id }}</instanceId>
+            <currentState>
+                {% if new_state.state == 'Starting' %}
+                <code>0</code>
+                <name>pending</name>
+                {% elif new_state.state == 'Running' %}
+                <code>16</code>
+                <name>running</name>
+                {% elif new_state.state == 'Destroyed' %}
+                <code>32</code>
+                <name>shutting-down</name>
+                {% elif new_state.state == 'Stopping' %}
+                <code>64</code>
+                <name>stopping</name>
+                {% elif new_state.state == 'Expunging' %}
+                <code>48</code>
+                <name>terminated</name>
+                {% elif new_state.state == 'Stopped' %}
+                <code>80</code>
+                <name>stopped</name>
+                {% endif %}
+            </currentState>
+            <previousState>
+                {% if previous_state.state == 'Starting' %}
+                <code>0</code>
+                <name>pending</name>
+                {% elif previous_state.state == 'Running' %}
+                <code>16</code>
+                <name>running</name>
+                {% elif new_state.state == 'Destroyed' %}
+                <code>32</code>
+                <name>shutting-down</name>
+                {% elif previous_state.state == 'Stopping' %}
+                <code>64</code>
+                <name>stopping</name>
+                {% elif previous_state.state == 'Expunging' %}
+                <code>48</code>
+                <name>terminated</name>
+                {% elif previous_state.state == 'Stopped' %}
+                <code>80</code>
+                <name>stopped</name>
+                {% endif %}
+            </previousState>
+        </item>
+    </instancesSet>
+{% endblock %}

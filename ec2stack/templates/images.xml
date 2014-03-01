@@ -7,9 +7,9 @@
                 {{ image.id }}
             </imageId>
             <name>{{ image.name }}</name>
-            {% if image.isready == 'true' %}
+            {% if image.isready == true %}
             <imageState>available</imageState>
-            {% elif image.isready == 'false' %}
+            {% elif image.isready == false %}
             <imageState>unavailable</imageState>
             {% endif %}
             <hypervisor>{{ image.hypervisor }}</hypervisor>
