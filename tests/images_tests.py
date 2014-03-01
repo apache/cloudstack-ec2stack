@@ -102,7 +102,7 @@ class ImagesTestCase(Ec2StackAppTestCase):
 
         get = mock.Mock()
         get.return_value.text = read_file(
-            'tests/data/valid_describe_image_attribute.json'
+            'tests/data/valid_describe_image.json'
         )
         get.return_value.status_code = 200
 
@@ -114,3 +114,25 @@ class ImagesTestCase(Ec2StackAppTestCase):
 
         self.assert_ok(response)
         assert 'DescribeImageAttributeResponse' in response.data
+
+    def test_describe_invalid_image_attribute(self):
+        data = self.get_example_data()
+        data['Action'] = 'DescribeImageAttribute'
+        data['ImageId'] = 'a32d70ee-95e4-11e3-b2e4-d19c9d3e5e1d'
+        data['Attribute'] = 'invalid_attribute'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+
+        get = mock.Mock()
+        get.return_value.text = read_file(
+            'tests/data/valid_describe_image.json'
+        )
+        get.return_value.status_code = 200
+
+        with mock.patch('requests.get', get):
+            response = self.post(
+                '/',
+                data=data
+            )
+
+        self.assert_bad_request(response)
+        assert 'InvalidParameterValue' in response.data

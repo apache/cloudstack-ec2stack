@@ -102,7 +102,7 @@ class InstancesTestCase(Ec2StackAppTestCase):
 
         get = mock.Mock()
         get.return_value.text = read_file(
-            'tests/data/valid_describe_instance_attribute.json'
+            'tests/data/valid_describe_instance.json'
         )
         get.return_value.status_code = 200
 
@@ -114,3 +114,27 @@ class InstancesTestCase(Ec2StackAppTestCase):
 
         self.assert_ok(response)
         assert 'DescribeInstanceAttributeResponse' in response.data
+
+    def test_describe_invalid_instance_attribute(self):
+        data = self.get_example_data()
+        data['Action'] = 'DescribeInstanceAttribute'
+        data['InstanceId'] = '43791f77-26f8-48ca-b557-3a9392f735ae'
+        data['Attribute'] = 'invalid_attribute'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+
+        get = mock.Mock()
+        get.return_value.text = read_file(
+            'tests/data/valid_describe_instance.json'
+        )
+        get.return_value.status_code = 200
+
+        with mock.patch('requests.get', get):
+            response = self.post(
+                '/',
+                data=data
+            )
+
+        self.assert_bad_request(response)
+        assert 'InvalidParameterValue' in response.data
+
+
