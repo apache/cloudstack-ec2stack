@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 from ec2stack.providers import cloudstack
-from ec2stack.providers.cloudstack import requester
+from ec2stack.providers.cloudstack import requester, service_offerings, zones
 
 from ec2stack import helpers, errors
 
@@ -56,6 +56,49 @@ def _describe_instance_attribute_response(response):
         'attribute': attribute,
         'id': response['id'],
         'value': response[attribute]
+    }
+
+    return response
+
+
+@helpers.authentication_required
+def run_instance():
+    helpers.require_parameters(['ImageId', 
+                                'Placement.AvailabilityZone', 
+                                'InstanceType'])
+    response = _run_instance_request()
+    return _run_instance_response(response)
+
+
+def _run_instance_request():
+    args = {}
+
+    availibity_zone_name = helpers.get('Placement.AvailabilityZone')
+    service_offering_name = helpers.get('InstanceType')
+
+    args['zoneid'] = zones.get_zone(availibity_zone_name)['id']
+
+
+    #args['serviceofferingid'] = \
+    #        service_offerings.get_service_offering(service_offering_name)['id']
+
+    args['serviceofferingid'] = \
+            service_offerings.get_service_offering('Small Instance')['id']
+    args['templateid'] = helpers.get('ImageId')
+    args['command'] = 'deployVirtualMachine'
+
+    response = requester.make_request_async(args)
+
+    response = response['virtualmachine']
+
+    return response
+
+
+def _run_instance_response(response):
+    response = {
+        'template_name_or_list': 'run_instance.xml',
+        'response_type': 'RunInstancesResponse',
+        'response': response
     }
 
     return response

@@ -51,6 +51,7 @@ def _get_action(action):
         security_groups.revoke_security_group_egress,
         'RevokeSecurityGroupIngress':
         security_groups.revoke_security_group_ingress,
+        'RunInstances': instances.run_instance,
         'StartInstances': instances.start_instance,
         'TerminateInstances': instances.terminate_instance,
     }

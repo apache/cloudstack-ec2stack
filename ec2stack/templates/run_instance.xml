@@ -1,0 +1,49 @@
+{% extends "response.xml" %}
+{% block response_content %}
+    <instancesSet>
+        <item>
+            <instanceId>{{ response.id }}</instanceId>
+            <imageId>{{ response.templateid }}</imageId>
+            <name>{{ response.name }}</name>
+            <instanceState>
+                {% if response.state == 'Starting' %}
+                <code>0</code>
+                <name>pending</name>
+                {% elif response.state == 'Running' %}
+                <code>16</code>
+                <name>running</name>
+                {% elif new_state.state == 'Destroyed' %}
+                <code>32</code>
+                <name>shutting-down</name>
+                {% elif response.state == 'Stopping' %}
+                <code>64</code>
+                <name>stopping</name>
+                {% elif response.state == 'Expunging' %}
+                <code>48</code>
+                <name>terminated</name>
+                {% elif response.state == 'Stopped' %}
+                <code>80</code>
+                <name>stopped</name>
+                {% endif %}
+            </instanceState>
+            <keyName>{{ response.keypair }}</keyName>
+            <instanceType>{{ response.serviceofferingname }}</instanceType>
+            <launchTime>{{ response.created }}</launchTime>
+            <placement>
+                <availabilityZone>{{ response.zonename }}</availabilityZone>
+            </placement>
+            {% if 'nic' in response %}
+            <ipAddress>{{ response.nic.0.ipaddress }}</ipAddress>
+            {% endif %}
+            <hypervisor>{{ response.hypervisor }}</hypervisor>
+            <groupSet>
+                {% for securitygroup in response.securitygroup %}
+                <item>
+                    <groupId>{{ securitygroup.id }}</groupId>
+                    <groupName>{{ securitygroup.name }}</groupName>
+                </item>
+                {% endfor %}
+            </groupSet>
+        </item>
+    </instancesSet>
+{% endblock %}
