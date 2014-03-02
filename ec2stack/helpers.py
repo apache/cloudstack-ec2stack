@@ -185,6 +185,8 @@ def _get_query_string(data):
         )
     )
 
+    query_string = query_string.replace('+', '%20')
+
     return query_string
 
 
