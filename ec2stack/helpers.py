@@ -142,13 +142,20 @@ def generate_signature(data=None, method=None, host=None):
     if data is None:
         data = request.form
 
+    signature_type = get('SignatureMethod', data)
+
     secretkey = get_secretkey(data)
     request_string = _get_request_string(data, method, host)
+
+    if signature_type == 'HmacSHA1':
+        digestmod = hashlib.sha1
+    else:
+        digestmod = hashlib.sha256
 
     signature = hmac.new(
         key=secretkey,
         msg=bytes(request_string),
-        digestmod=hashlib.sha256
+        digestmod=digestmod
     ).digest()
 
     signature = b64encode(signature)
@@ -184,6 +191,8 @@ def _get_query_string(data):
             zip(keys, values)
         )
     )
+
+    query_string = query_string.replace('+', '%20')
 
     return query_string
 

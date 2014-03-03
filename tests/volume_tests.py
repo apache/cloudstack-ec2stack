@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import mock
 import json
+
+import mock
 
 from ec2stack.helpers import read_file, generate_signature
 from . import Ec2StackAppTestCase
@@ -123,8 +124,8 @@ class VolumeTestCase(Ec2StackAppTestCase):
                     get_disk_offering
             ):
                 with mock.patch(
-                    'ec2stack.providers.cloudstack.zones.get_zone',
-                    get_zone
+                        'ec2stack.providers.cloudstack.zones.get_zone',
+                        get_zone
                 ):
                     response = self.post(
                         '/',
@@ -154,8 +155,8 @@ class VolumeTestCase(Ec2StackAppTestCase):
 
         with mock.patch('requests.get', get):
             with mock.patch(
-                'ec2stack.providers.cloudstack.zones.get_zone',
-                get_zone
+                    'ec2stack.providers.cloudstack.zones.get_zone',
+                    get_zone
             ):
                 response = self.post(
                     '/',
@@ -184,14 +185,14 @@ class VolumeTestCase(Ec2StackAppTestCase):
         ))
 
         with mock.patch('requests.get', get_request):
-                with mock.patch(
+            with mock.patch(
                     'ec2stack.providers.cloudstack.zones.get_zone',
                     get_zone
-                ):
-                    response = self.post(
-                        '/',
-                        data=data
-                    )
+            ):
+                response = self.post(
+                    '/',
+                    data=data
+                )
 
         self.assert_bad_request(response)
         assert 'InvalidSnapshot.NotFound' in response.data

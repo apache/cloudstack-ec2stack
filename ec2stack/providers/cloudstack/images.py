@@ -34,6 +34,10 @@ def describe_image_attribute():
 
 def _describe_image_attribute_response(response):
     attribute = helpers.get('Attribute')
+    if attribute not in response.keys():
+        errors.invalid_paramater_value(
+            'The specified attribute is not valid, please specify a valid ' +
+            'image attribute like \'name\' or \'isready\'')
 
     return {
         'template_name_or_list': 'image_attribute.xml',

@@ -47,12 +47,16 @@ def _get_action(action):
         'DetachVolume': volumes.detach_volume,
         'GetPasswordData': passwords.get_password_data,
         'ImportKeyPair': keypairs.import_keypair,
+        'RebootInstances': instances.reboot_instance,
         'RegisterSecretKey': register_secret_key,
         'RemoveSecretKey': remove_secret_key,
         'RevokeSecurityGroupEgress':
         security_groups.revoke_security_group_egress,
         'RevokeSecurityGroupIngress':
         security_groups.revoke_security_group_ingress,
+        'StartInstances': instances.start_instance,
+        'StopInstances': instances.stop_instance,
+        'TerminateInstances': instances.terminate_instance,
     }
 
     if action in actions:
