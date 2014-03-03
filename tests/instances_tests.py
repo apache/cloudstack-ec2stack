@@ -3,6 +3,8 @@
 
 import mock
 
+import json
+
 from ec2stack.helpers import read_file, generate_signature
 from . import Ec2StackAppTestCase
 
@@ -159,4 +161,43 @@ class InstancesTestCase(Ec2StackAppTestCase):
         self.assert_ok(response)
         assert 'DescribeInstanceAttributeResponse' in response.data
 
+    def test_run_instance(self):
+        data = self.get_example_data()
+        data['Action'] = 'RunInstances'
+        data['ImageId'] = 'image-id'
+        data['Placement.AvailabilityZone'] = 'Sandbox-simulator'
+        data['InstanceType'] = 'Small Instance'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost')
 
+        get = mock.Mock()
+        get.return_value.text = read_file(
+            'tests/data/valid_run_instance.json'
+        )
+        get.return_value.status_code = 200
+
+        get_service_offering = mock.Mock()
+        get_service_offering.return_value = json.loads(read_file(
+            'tests/data/service_offering_search.json'
+        ))
+
+        get_zone = mock.Mock()
+        get_zone.return_value = json.loads(read_file(
+            'tests/data/zones_search.json'
+        ))
+
+        with mock.patch('requests.get', get):
+            with mock.patch(
+                    'ec2stack.providers.cloudstack.service_offerings.get_service_offering',
+                    get_service_offering
+            ):
+                with mock.patch(
+                    'ec2stack.providers.cloudstack.zones.get_zone',
+                    get_zone
+                ):
+                    response = self.post(
+                        '/',
+                        data=data
+                    )
+
+        self.assert_ok(response)
+        assert 'RunInstancesResponse' in response.data

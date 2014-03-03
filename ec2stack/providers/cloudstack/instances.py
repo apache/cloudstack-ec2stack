@@ -77,13 +77,9 @@ def _run_instance_request():
     service_offering_name = helpers.get('InstanceType')
 
     args['zoneid'] = zones.get_zone(availibity_zone_name)['id']
-
-
-    #args['serviceofferingid'] = \
-    #        service_offerings.get_service_offering(service_offering_name)['id']
-
     args['serviceofferingid'] = \
-            service_offerings.get_service_offering('Small Instance')['id']
+            service_offerings.get_service_offering(service_offering_name)['id']
+
     args['templateid'] = helpers.get('ImageId')
     args['command'] = 'deployVirtualMachine'
 
