@@ -1,0 +1,77 @@
+{
+    "queryasyncjobresultresponse": {
+        "jobprocstatus": 0,
+        "created": "2014-03-03T15:44:44+0000",
+        "cmd": "org.apache.cloudstack.api.command.user.vm.DestroyVMCmd",
+        "userid": "2edb33ec-95e4-11e3-b2e4-d19c9d3e5e1d",
+        "jobstatus": 1,
+        "jobid": "919ad844-7cd5-4e8a-a60f-8707ef72446c",
+        "jobresultcode": 0,
+        "jobresulttype": "object",
+        "jobresult": {
+            "virtualmachine": {
+                "domain": "ROOT",
+                "domainid": "2edae3e4-95e4-11e3-b2e4-d19c9d3e5e1d",
+                "haenable": false,
+                "templatename": "CentOS 5.3(64-bit) no GUI (Simulator)",
+                "securitygroup": [
+                    {
+                        "egressrule": [],
+                        "account": "admin",
+                        "description": "Default Security Group",
+                        "tags": [],
+                        "ingressrule": [],
+                        "id": "1cc5720a-95e5-11e3-b2e4-d19c9d3e5e1d",
+                        "name": "default"
+                    }
+                ],
+                "zoneid": "1e47a2fc-61c7-401c-b90e-416b472ada64",
+                "cpunumber": 1,
+                "passwordenabled": false,
+                "instancename": "i-2-19-QA",
+                "id": "bc4100f2-e34e-47b0-ba6f-34cfe6d09fec",
+                "networkkbswrite": 360448,
+                "displayvm": true,
+                "state": "Destroyed",
+                "guestosid": "2e678976-95e4-11e3-b2e4-d19c9d3e5e1d",
+                "cpuused": "10%",
+                "cpuspeed": 500,
+                "serviceofferingid": "739292ce-3e12-4643-8ca1-abfdc2b2eb76",
+                "zonename": "Sandbox-simulator",
+                "isdynamicallyscalable": false,
+                "tags": [],
+                "nic": [
+                    {
+                        "networkid": "344ef1e8-e59e-416b-aa32-9bef9c352903",
+                        "macaddress": "06:49:26:00:01:03",
+                        "isolationuri": "ec2://untagged",
+                        "type": "Shared",
+                        "broadcasturi": "vlan://untagged",
+                        "traffictype": "Guest",
+                        "netmask": "255.255.255.0",
+                        "ipaddress": "60.147.41.7",
+                        "id": "81b2515b-e6c3-4309-9af8-4eddc376a2c1",
+                        "networkname": "guestNetworkForBasicZone",
+                        "gateway": "60.147.41.1",
+                        "isdefault": true
+                    }
+                ],
+                "memory": 512,
+                "jobstatus": 0,
+                "templateid": "a32d70ee-95e4-11e3-b2e4-d19c9d3e5e1d",
+                "affinitygroup": [],
+                "account": "admin",
+                "name": "bc4100f2-e34e-47b0-ba6f-34cfe6d09fec",
+                "networkkbsread": 720896,
+                "created": "2014-03-03T15:15:45+0000",
+                "hypervisor": "Simulator",
+                "jobid": "919ad844-7cd5-4e8a-a60f-8707ef72446c",
+                "rootdevicetype": "ROOT",
+                "rootdeviceid": 0,
+                "serviceofferingname": "Small Instance",
+                "templatedisplaytext": "CentOS 5.3(64-bit) no GUI (Simulator)"
+            }
+        },
+        "accountid": "2edb0c28-95e4-11e3-b2e4-d19c9d3e5e1d"
+    }
+}
