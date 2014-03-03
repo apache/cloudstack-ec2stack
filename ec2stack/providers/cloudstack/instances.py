@@ -37,25 +37,32 @@ def _describe_instances_response(response):
 
 @helpers.authentication_required
 def describe_instance_attribute():
-    helpers.require_parameters(['InstanceId', 'Attribute'])
     instance_id = helpers.get('InstanceId')
-    response = describe_instance_by_id(instance_id)
-    return _describe_instance_attribute_response(response)
-
-
-def _describe_instance_attribute_response(response):
     attribute = helpers.get('Attribute')
-    if attribute not in response.keys():
+
+    supported_attribute_map = {
+        'instanceType': 'serviceofferingname',
+        'groupSet': 'securitygroup'
+    }
+
+    if attribute not in supported_attribute_map.iterkeys():
         errors.invalid_paramater_value(
             'The specified attribute is not valid, please specify a valid ' +
-            'instance attribute like \'name\' or \'state\'')
+            'instance attribute.'
+        )
 
+    response = describe_instance_by_id(instance_id)
+    return _describe_instance_attribute_response(
+        response, attribute, supported_attribute_map)
+
+
+def _describe_instance_attribute_response(response, attribute, attr_map):
     response = {
         'template_name_or_list': 'instance_attribute.xml',
         'response_type': 'DescribeInstanceAttributeResponse',
         'attribute': attribute,
-        'id': response['id'],
-        'value': response[attribute]
+        'response': response[attr_map[attribute]],
+        'id': response['id']
     }
 
     return response

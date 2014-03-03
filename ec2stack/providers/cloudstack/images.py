@@ -28,23 +28,30 @@ def _describe_images_response(response):
 @helpers.authentication_required
 def describe_image_attribute():
     image_id = helpers.get('ImageId')
-    response = describe_image_by_id(image_id)
-    return _describe_image_attribute_response(response)
-
-
-def _describe_image_attribute_response(response):
     attribute = helpers.get('Attribute')
-    if attribute not in response.keys():
+
+    supported_attribute_map = {
+        'description': 'displaytext'
+    }
+
+    if attribute not in supported_attribute_map.iterkeys():
         errors.invalid_paramater_value(
             'The specified attribute is not valid, please specify a valid ' +
-            'image attribute like \'name\' or \'isready\'')
+            'image attribute.'
+        )
 
+    response = describe_image_by_id(image_id)
+    return _describe_image_attribute_response(
+        response, attribute, supported_attribute_map)
+
+
+def _describe_image_attribute_response(response, attribute, attr_map):
     return {
         'template_name_or_list': 'image_attribute.xml',
         'response_type': 'DescribeImageAttributeResponse',
-        'attribute': attribute,
         'id': response['id'],
-        'value': response[attribute]
+        'attribute': attribute,
+        'value': response[attr_map[attribute]]
     }
 
 

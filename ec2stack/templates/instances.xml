@@ -16,7 +16,7 @@
                         {% elif instance.state == 'Running' %}
                         <code>16</code>
                         <name>running</name>
-                        {% elif new_state.state == 'Destroyed' %}
+                        {% elif instance.state == 'Destroyed' %}
                         <code>32</code>
                         <name>shutting-down</name>
                         {% elif instance.state == 'Stopping' %}
