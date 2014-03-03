@@ -127,3 +127,34 @@ def _terminate_instance_response(previous_state, new_state):
     }
 
     return response
+
+
+@helpers.authentication_required
+def stop_instance():
+    helpers.require_parameters(['InstanceId.1'])
+    instance_id = helpers.get('InstanceId.1')
+    previous_instance_state_description = describe_instance_by_id(instance_id)
+    new_instance_state_description = _stop_instance_request(instance_id)
+    return _stop_instance_response(
+        previous_instance_state_description,
+        new_instance_state_description
+    )
+
+
+def _stop_instance_request(instance_id):
+    args = {'command': 'stopVirtualMachine',
+            'id': instance_id}
+    response = requester.make_request_async(args)
+    response = response['virtualmachine']
+    return response
+
+
+def _stop_instance_response(previous_state, new_state):
+    response = {
+        'template_name_or_list': 'change_instance_state.xml',
+        'response_type': 'StopInstancesResponse',
+        'previous_state': previous_state,
+        'new_state': new_state
+    }
+
+    return response

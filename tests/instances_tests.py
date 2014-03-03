@@ -136,5 +136,3 @@ class InstancesTestCase(Ec2StackAppTestCase):
 
         self.assert_bad_request(response)
         assert 'InvalidParameterValue' in response.data
-
-
