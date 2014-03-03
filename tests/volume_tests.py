@@ -330,7 +330,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
         self.assert_ok(response)
         assert 'DetachVolumeResponse' in response.data
 
-    def test_detach_volume_with_decive(self):
+    def test_detach_volume_with_device(self):
         data = self.get_example_data()
         data['Action'] = 'DetachVolume'
         data['VolumeId'] = '0896ccff-1b7a-4c17-8390-02a602de2efe'
