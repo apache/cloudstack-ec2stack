@@ -158,3 +158,29 @@ def _stop_instance_response(previous_state, new_state):
     }
 
     return response
+
+
+@helpers.authentication_required
+def reboot_instance():
+    helpers.require_parameters(['InstanceId.1'])
+    instance_id = helpers.get('InstanceId.1')
+    _reboot_instance_request(instance_id)
+    return _reboot_instance_response()
+
+
+def _reboot_instance_request(instance_id):
+    args = {'command': 'rebootVirtualMachine',
+            'id': instance_id}
+    response = requester.make_request_async(args)
+    response = response['virtualmachine']
+    return response
+
+
+def _reboot_instance_response():
+    response = {
+        'template_name_or_list': 'status.xml',
+        'response_type': 'RebootInstancesResponse',
+        'return': 'true'
+    }
+
+    return response

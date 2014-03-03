@@ -45,6 +45,7 @@ def _get_action(action):
         'DescribeVolumes': volumes.describe_volumes,
         'GetPasswordData': passwords.get_password_data,
         'ImportKeyPair': keypairs.import_keypair,
+        'RebootInstances': instances.reboot_instance,
         'RegisterSecretKey': register_secret_key,
         'RemoveSecretKey': remove_secret_key,
         'RevokeSecurityGroupEgress':
