@@ -145,10 +145,15 @@ def generate_signature(data=None, method=None, host=None):
     secretkey = get_secretkey(data)
     request_string = _get_request_string(data, method, host)
 
+    if get('SignatureMethod') == 'HmacSHA1':
+        digestmod=hashlib.sha1
+    else:
+        digestmod=hashlib.sha256
+
     signature = hmac.new(
         key=secretkey,
         msg=bytes(request_string),
-        digestmod=hashlib.sha256
+        digestmod=digestmod
     ).digest()
 
     signature = b64encode(signature)
