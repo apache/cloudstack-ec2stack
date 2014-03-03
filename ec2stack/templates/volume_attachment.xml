@@ -1,0 +1,13 @@
+{% extends "response.xml" %}
+{% block response_content %}
+    <volumeId>
+        {{ response.id }}
+    </volumeId>
+    {% if response.virtualmachineid %}
+    <instanceId>
+        {{ response.virtualmachineid }}
+    </instanceId>
+    {% endif %}
+    <status>{{ response.state }}</status>
+    <attachTime>{{ response.created }}</attachTime>
+{% endblock %}

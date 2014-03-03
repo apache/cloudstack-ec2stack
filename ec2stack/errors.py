@@ -44,6 +44,22 @@ def invalid_volume_id():
     )
 
 
+def volume_attached():
+    raise Ec2stackError(
+        '400',
+        'InvalidVolume.Attached',
+        'The specified Volume is already attached.'
+    )
+
+
+def volume_detached():
+    raise Ec2stackError(
+        '400',
+        'InvalidVolume.Detached',
+        'The specified Volume isn\'t attached.'
+    )
+
+
 def invalid_disk_offering_name():
     raise Ec2stackError(
         '400',
