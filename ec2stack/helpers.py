@@ -146,9 +146,9 @@ def generate_signature(data=None, method=None, host=None):
     request_string = _get_request_string(data, method, host)
 
     if get('SignatureMethod') == 'HmacSHA1':
-        digestmod=hashlib.sha1
+        digestmod = hashlib.sha1
     else:
-        digestmod=hashlib.sha256
+        digestmod = hashlib.sha256
 
     signature = hmac.new(
         key=secretkey,
