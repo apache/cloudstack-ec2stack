@@ -11,7 +11,11 @@ from ec2stack.providers.cloudstack import requester, disk_offerings, zones
 
 volume_error_to_aws = {
     'unable to find a snapshot': errors.invalid_snapshot_id,
-    'Unable to aquire volume with ID': errors.invalid_volume_id
+    'Unable to aquire volume with ID': errors.invalid_volume_id,
+    'Please specify a volume that is not attached': errors.volume_attached,
+    'The specified volume is not attached': errors.volume_detached,
+    'Invalid parameter virtualmachineid': errors.invalid_instance_id,
+    'Invalid parameter id': errors.invalid_volume_id
 }
 
 
@@ -76,6 +80,7 @@ def _create_volume_response(response):
         'response': response
     }
 
+
 @helpers.authentication_required
 def attach_volume():
     helpers.require_parameters(['VolumeId', 'InstanceId', 'Device'])
@@ -88,11 +93,12 @@ def _attach_volume_request():
 
     volume_id = helpers.get('VolumeId')
     instance_id = helpers.get('InstanceId')
-    
+    device = helpers.get('Device')
 
     args['id'] = volume_id
     args['command'] = 'attachVolume'
     args['virtualmachineid'] = instance_id
+    args['device'] = device
 
     response = requester.make_request_async(args)
 
@@ -124,10 +130,8 @@ def _detach_volume_request():
     volume_id = helpers.get('VolumeId')
 
     if helpers.contains_parameter('InstanceId'):
-        print('hello world instance')
         args['virtualmachineid'] = helpers.get('InstanceId')
     if helpers.contains_parameter('Device'):
-        print('hello world device')
         args['deviceid'] = helpers.get('Device')
 
     args['id'] = volume_id

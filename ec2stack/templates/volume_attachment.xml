@@ -3,9 +3,11 @@
     <volumeId>
         {{ response.id }}
     </volumeId>
+    {% if response.virtualmachineid %}
     <instanceId>
         {{ response.virtualmachineid }}
     </instanceId>
-    <status>{{ response.status }}</status>
-    <attachTime>{{ response.attached }}</attachTime>
+    {% endif %}
+    <status>{{ response.state }}</status>
+    <attachTime>{{ response.created }}</attachTime>
 {% endblock %}
