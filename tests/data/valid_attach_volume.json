@@ -1,0 +1,49 @@
+{
+    "queryasyncjobresultresponse": {
+        "jobprocstatus": 0,
+        "created": "2014-03-03T16:57:39+0000",
+        "cmd": "org.apache.cloudstack.api.command.user.volume.AttachVolumeCmd",
+        "userid": "a5fa60a6-a2d5-11e3-8f5e-e2e3ca4a127e",
+        "jobstatus": 1,
+        "jobid": "3f183a8b-8721-4faa-84fb-dcfa33f4aef2",
+        "jobresultcode": 0,
+        "jobresulttype": "object",
+        "jobresult": {
+            "volume": {
+                "domain": "ROOT",
+                "domainid": "a5f9ee28-a2d5-11e3-8f5e-e2e3ca4a127e",
+                "jobstatus": 0,
+                "zoneid": "426baaba-224d-419d-aea1-d65cb21e68ea",
+                "storageid": "Local Storage",
+                "vmname": "test",
+                "id": "0896ccff-1b7a-4c17-8390-02a602de2efe",
+                "size": 1073741824,
+                "destroyed": false,
+                "diskofferingdisplaytext": "Custom Disk",
+                "storage": "devcloud Local Storage",
+                "displayvolume": true,
+                "diskofferingname": "Custom",
+                "state": "Ready",
+                "vmdisplayname": "test",
+                "type": "DATADISK",
+                "zonename": "devcloud",
+                "tags": [],
+                "isextractable": true,
+                "path": "35e692a8-1135-414f-9c84-9f74e9faa8a4",
+                "account": "admin",
+                "name": "test",
+                "virtualmachineid": "ba918d10-f83a-459d-a5b9-330793c3c6a3",
+                "storagetype": "local",
+                "hypervisor": "XenServer",
+                "created": "2014-03-03T14:37:47+0000",
+                "attached": "2014-03-03T16:57:40+0000",
+                "jobid": "3f183a8b-8721-4faa-84fb-dcfa33f4aef2",
+                "deviceid": 1,
+                "diskofferingid": "5ce6263f-ee4b-420c-a921-04570b7bc526",
+                "vmstate": "Running",
+                "quiescevm": false
+            }
+        },
+        "accountid": "a5fa2942-a2d5-11e3-8f5e-e2e3ca4a127e"
+    }
+}

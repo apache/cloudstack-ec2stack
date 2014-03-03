@@ -99,7 +99,7 @@ class InstancesTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'DescribeInstanceAttribute'
         data['InstanceId'] = '43791f77-26f8-48ca-b557-3a9392f735ae'
-        data['Attribute'] = 'name'
+        data['Attribute'] = 'instanceType'
         data['Signature'] = generate_signature(data, 'POST', 'localhost')
 
         get = mock.Mock()

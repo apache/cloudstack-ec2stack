@@ -1,0 +1,43 @@
+{
+    "queryasyncjobresultresponse": {
+        "jobprocstatus": 0,
+        "created": "2014-03-03T16:57:26+0000",
+        "cmd": "org.apache.cloudstack.api.command.user.volume.DetachVolumeCmd",
+        "userid": "a5fa60a6-a2d5-11e3-8f5e-e2e3ca4a127e",
+        "jobstatus": 1,
+        "jobid": "436927af-f3ed-43ec-96d9-0a63eb97c566",
+        "jobresultcode": 0,
+        "jobresulttype": "object",
+        "jobresult": {
+            "volume": {
+                "domain": "ROOT",
+                "domainid": "a5f9ee28-a2d5-11e3-8f5e-e2e3ca4a127e",
+                "jobstatus": 0,
+                "zoneid": "426baaba-224d-419d-aea1-d65cb21e68ea",
+                "storageid": "Local Storage",
+                "id": "0896ccff-1b7a-4c17-8390-02a602de2efe",
+                "size": 1073741824,
+                "diskofferingname": "Custom",
+                "diskofferingdisplaytext": "Custom Disk",
+                "storage": "devcloud Local Storage",
+                "displayvolume": true,
+                "destroyed": false,
+                "state": "Ready",
+                "type": "DATADISK",
+                "zonename": "devcloud",
+                "tags": [],
+                "isextractable": true,
+                "path": "35e692a8-1135-414f-9c84-9f74e9faa8a4",
+                "account": "admin",
+                "name": "test",
+                "created": "2014-03-03T14:37:47+0000",
+                "storagetype": "local",
+                "hypervisor": "XenServer",
+                "jobid": "436927af-f3ed-43ec-96d9-0a63eb97c566",
+                "diskofferingid": "5ce6263f-ee4b-420c-a921-04570b7bc526",
+                "quiescevm": false
+            }
+        },
+        "accountid": "a5fa2942-a2d5-11e3-8f5e-e2e3ca4a127e"
+    }
+}
