@@ -3,7 +3,6 @@
 
 from ec2stack.providers import cloudstack
 from ec2stack.providers.cloudstack import requester, service_offerings, zones
-
 from ec2stack import helpers, errors
 
 
@@ -70,9 +69,8 @@ def _describe_instance_attribute_response(response, attribute, attr_map):
 
 @helpers.authentication_required
 def run_instance():
-    helpers.require_parameters(['ImageId',
-                                'Placement.AvailabilityZone',
-                                'InstanceType'])
+    helpers.require_parameters(
+        ['ImageId', 'InstanceType', 'MinCount', 'MaxCount'])
     response = _run_instance_request()
     return _run_instance_response(response)
 
@@ -80,29 +78,77 @@ def run_instance():
 def _run_instance_request():
     args = {}
 
-    availibity_zone_name = helpers.get('Placement.AvailabilityZone')
-    service_offering_name = helpers.get('InstanceType')
+    # TODO setup mappings for this.....
+    # if helpers.get('InstanceType') in current_app.config['InstanceMappings']:
+    #    instance_type = helpers.get('InstanceType')
+    # else:
+    instance_type = helpers.get('InstanceType')
 
-    args['zoneid'] = zones.get_zone(availibity_zone_name)['id']
     args['serviceofferingid'] = \
-        service_offerings.get_service_offering(service_offering_name)['id']
-
+        service_offerings.get_service_offering(instance_type)['id']
     args['templateid'] = helpers.get('ImageId')
+
+    if helpers.contains_parameter('Placement.AvailabilityZone'):
+        args['zoneid'] = zones.get_zone(
+            helpers.get('Placement.AvailabilityZone')
+        )
+    else:
+        args['zoneid'] = zones.get_zone(
+            # TODO get default zone from config
+            # current_app.config('CLOUDSTACK_DEFAULT_ZONE')
+            'Sandbox-simulator'
+        )['id']
+
+    if helpers.contains_parameter('KeyName'):
+        args['keypair'] = helpers.get('KeyName')
+
+    if helpers.contains_parameter('UserData'):
+        args['userdata'] = helpers.get('UserData')
+
+    if helpers.contains_parameter_with_keyword('SecurityGroupId.'):
+        keys = helpers.get_request_parameter_keys('SecurityGroupId.')
+        securitygroupids = []
+
+        for key in keys:
+            securitygroupids.append(helpers.get(key))
+
+        args['securitygroupids'] = ",".join(securitygroupids)
+
+    if helpers.contains_parameter_with_keyword('SecurityGroup.'):
+        keys = helpers.get_request_parameter_keys('SecurityGroup.')
+        securitygroupnames = []
+
+        for key in keys:
+            securitygroupnames.append(helpers.get(key))
+
+        args['securitygroupnames'] = ",".join(securitygroupnames)
+
     args['command'] = 'deployVirtualMachine'
 
     response = requester.make_request_async(args)
-
-    response = response['virtualmachine']
 
     return response
 
 
 def _run_instance_response(response):
-    response = {
-        'template_name_or_list': 'run_instance.xml',
-        'response_type': 'RunInstancesResponse',
-        'response': response
-    }
+    if 'errortext' in response:
+        if 'Invalid parameter templateid' in response['errortext']:
+            errors.invalid_image_id()
+        elif 'Unable to find group' in response['errortext']:
+            errors.invalid_security_group()
+        elif 'Invalid parameter securitygroupids' in response['errortext']:
+            errors.invalid_security_group()
+        elif 'A key pair with name' in response['errortext']:
+            errors.invalid_keypair_name()
+        else:
+            errors.invalid_paramater_value(response['errortext'])
+    else:
+        response = response['virtualmachine']
+        response = {
+            'template_name_or_list': 'run_instance.xml',
+            'response_type': 'RunInstancesResponse',
+            'response': response
+        }
 
     return response
 

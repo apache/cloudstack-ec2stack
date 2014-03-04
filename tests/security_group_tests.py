@@ -10,7 +10,6 @@ from . import Ec2StackAppTestCase
 
 
 class SecurityGroupTestCase(Ec2StackAppTestCase):
-
     def test_create_security_group(self):
         data = self.get_example_data()
         data['Action'] = 'CreateSecurityGroup'
