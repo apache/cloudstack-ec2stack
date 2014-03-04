@@ -128,9 +128,7 @@ def _valid_signature_version():
 
 def _valid_signature():
     signature = get('Signature')
-    print('Signature = ' + str(signature))
     generated_signature = generate_signature()
-    print('Generated signature = ' + str(generated_signature))
 
     if signature != generated_signature:
         raise Ec2stackError(
@@ -138,7 +136,6 @@ def _valid_signature():
             'AuthFailure',
             'AWS was not able to validate the provided access credentials.'
         )
-
 
 
 def generate_signature(data=None, method=None, host=None):

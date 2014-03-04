@@ -9,7 +9,6 @@
 
 
 class FlaskTestCaseMixin(object):
-
     @staticmethod
     def _html_data(kwargs):
         if not kwargs.get('content_type'):

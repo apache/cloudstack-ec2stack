@@ -1,16 +1,15 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import mock
-
 import json
+
+import mock
 
 from ec2stack.helpers import read_file, generate_signature
 from . import Ec2StackAppTestCase
 
 
 class InstancesTestCase(Ec2StackAppTestCase):
-
     def test_describe_instances(self):
         data = self.get_example_data()
         data['Action'] = 'DescribeInstances'
@@ -191,8 +190,8 @@ class InstancesTestCase(Ec2StackAppTestCase):
                     get_service_offering
             ):
                 with mock.patch(
-                    'ec2stack.providers.cloudstack.zones.get_zone',
-                    get_zone
+                        'ec2stack.providers.cloudstack.zones.get_zone',
+                        get_zone
                 ):
                     response = self.post(
                         '/',

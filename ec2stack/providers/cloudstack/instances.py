@@ -63,8 +63,8 @@ def _describe_instance_attribute_response(response):
 
 @helpers.authentication_required
 def run_instance():
-    helpers.require_parameters(['ImageId', 
-                                'Placement.AvailabilityZone', 
+    helpers.require_parameters(['ImageId',
+                                'Placement.AvailabilityZone',
                                 'InstanceType'])
     response = _run_instance_request()
     return _run_instance_response(response)
@@ -78,7 +78,7 @@ def _run_instance_request():
 
     args['zoneid'] = zones.get_zone(availibity_zone_name)['id']
     args['serviceofferingid'] = \
-            service_offerings.get_service_offering(service_offering_name)['id']
+        service_offerings.get_service_offering(service_offering_name)['id']
 
     args['templateid'] = helpers.get('ImageId')
     args['command'] = 'deployVirtualMachine'

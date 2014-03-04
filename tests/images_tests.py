@@ -8,7 +8,6 @@ from . import Ec2StackAppTestCase
 
 
 class ImagesTestCase(Ec2StackAppTestCase):
-
     def test_describe_image(self):
         data = self.get_example_data()
         data['Action'] = 'DescribeImages'
