@@ -15,6 +15,7 @@ class Ec2StackTestCase(TestCase):
 
 
 class Ec2StackAppTestCase(FlaskTestCaseMixin, Ec2StackTestCase):
+
     def _create_app(self):
         return create_app(settings=settings)
 

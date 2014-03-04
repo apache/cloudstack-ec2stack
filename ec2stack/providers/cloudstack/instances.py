@@ -96,7 +96,7 @@ def _run_instance_request():
         args['zoneid'] = zones.get_zone(
             # TODO get default zone from config
             # current_app.config('CLOUDSTACK_DEFAULT_ZONE')
-            'Sandbox-simulator'
+            'CH-GV2'
         )['id']
 
     if helpers.contains_parameter('KeyName'):
