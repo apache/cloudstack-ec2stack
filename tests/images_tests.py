@@ -97,7 +97,7 @@ class ImagesTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'DescribeImageAttribute'
         data['ImageId'] = 'a32d70ee-95e4-11e3-b2e4-d19c9d3e5e1d'
-        data['Attribute'] = 'isready'
+        data['Attribute'] = 'description'
         data['Signature'] = generate_signature(data, 'POST', 'localhost')
 
         get = mock.Mock()

@@ -25,6 +25,7 @@ def index():
 
 def _get_action(action):
     actions = {
+        'AttachVolume': volumes.attach_volume,
         'AuthorizeSecurityGroupEgress':
         security_groups.authenticate_security_group_egress,
         'AuthorizeSecurityGroupIngress':
@@ -43,8 +44,10 @@ def _get_action(action):
         'DescribeKeyPairs': keypairs.describe_keypairs,
         'DescribeSecurityGroups': security_groups.describe_security_groups,
         'DescribeVolumes': volumes.describe_volumes,
+        'DetachVolume': volumes.detach_volume,
         'GetPasswordData': passwords.get_password_data,
         'ImportKeyPair': keypairs.import_keypair,
+        'RebootInstances': instances.reboot_instance,
         'RegisterSecretKey': register_secret_key,
         'RemoveSecretKey': remove_secret_key,
         'RevokeSecurityGroupEgress':
@@ -53,6 +56,7 @@ def _get_action(action):
         security_groups.revoke_security_group_ingress,
         'RunInstances': instances.run_instance,
         'StartInstances': instances.start_instance,
+        'StopInstances': instances.stop_instance,
         'TerminateInstances': instances.terminate_instance,
     }
 

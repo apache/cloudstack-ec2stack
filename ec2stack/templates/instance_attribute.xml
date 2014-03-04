@@ -4,8 +4,16 @@
         {{ id }}
     </instanceId>
     <{{ attribute }}>
+    	{% if attribute == 'groupSet' %}
+    	{% for securitygroup in response %}
+    	<item>
+            <groupId>{{ securitygroup.id }}</groupId>
+        </item>
+        {% endfor %}
+        {% else %}
         <value>
-            {{ value }}
+            {{ response }}
         </value>
+        {% endif %}
     </{{ attribute }}>
 {% endblock %}

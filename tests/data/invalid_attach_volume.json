@@ -1,0 +1,17 @@
+{
+    "queryasyncjobresultresponse": {
+        "jobprocstatus": 0,
+        "created": "2014-03-03T14:58:12+0000",
+        "cmd": "org.apache.cloudstack.api.command.user.volume.AttachVolumeCmd",
+        "userid": "a5fa60a6-a2d5-11e3-8f5e-e2e3ca4a127e",
+        "jobstatus": 2,
+        "jobid": "706c88e5-72a2-415d-95bc-3edc05c45420",
+        "jobresultcode": 530,
+        "jobresulttype": "object",
+        "jobresult": {
+            "errorcode": 530,
+            "errortext": "Please specify a volume that is not attached to any VM."
+        },
+        "accountid": "a5fa2942-a2d5-11e3-8f5e-e2e3ca4a127e"
+    }
+}

@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import json
-
 import mock
+
+import json
 
 from ec2stack.helpers import read_file, generate_signature
 from . import Ec2StackAppTestCase
@@ -99,7 +99,7 @@ class InstancesTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'DescribeInstanceAttribute'
         data['InstanceId'] = '43791f77-26f8-48ca-b557-3a9392f735ae'
-        data['Attribute'] = 'name'
+        data['Attribute'] = 'instanceType'
         data['Signature'] = generate_signature(data, 'POST', 'localhost')
 
         get = mock.Mock()
@@ -139,16 +139,105 @@ class InstancesTestCase(Ec2StackAppTestCase):
         self.assert_bad_request(response)
         assert 'InvalidParameterValue' in response.data
 
-    def test_describe_instance_attribute(self):
+    def test_start_instance(self):
         data = self.get_example_data()
-        data['Action'] = 'DescribeInstanceAttribute'
-        data['InstanceId'] = '43791f77-26f8-48ca-b557-3a9392f735ae'
-        data['Attribute'] = 'name'
+        data['Action'] = 'StartInstances'
+        data['InstanceId.1'] = '076166a1-9f6e-11e3-b8df-3c075456b21a'
         data['Signature'] = generate_signature(data, 'POST', 'localhost')
 
         get = mock.Mock()
         get.return_value.text = read_file(
-            'tests/data/valid_describe_instance.json'
+            'tests/data/valid_start_instance.json'
+        )
+        get.return_value.status_code = 200
+
+        get_instance = mock.Mock()
+        get_instance.return_value = json.loads(read_file(
+            'tests/data/valid_get_instance_by_id.json'
+        ))
+
+        with mock.patch('requests.get', get):
+            with mock.patch(
+                    'ec2stack.providers.cloudstack.instances.describe_instance_by_id',
+                    get_instance
+            ):
+                response = self.post(
+                    '/',
+                    data=data
+                )
+
+        self.assert_ok(response)
+        assert 'StartInstancesResponse' in response.data
+
+    def test_stop_instance(self):
+        data = self.get_example_data()
+        data['Action'] = 'StopInstances'
+        data['InstanceId.1'] = '076166a1-9f6e-11e3-b8df-3c075456b21a'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+
+        get = mock.Mock()
+        get.return_value.text = read_file(
+            'tests/data/valid_stop_instance.json'
+        )
+        get.return_value.status_code = 200
+
+        get_instance = mock.Mock()
+        get_instance.return_value = json.loads(read_file(
+            'tests/data/valid_get_instance_by_id.json'
+        ))
+
+        with mock.patch('requests.get', get):
+            with mock.patch(
+                    'ec2stack.providers.cloudstack.instances.describe_instance_by_id',
+                    get_instance
+            ):
+                response = self.post(
+                    '/',
+                    data=data
+                )
+
+        self.assert_ok(response)
+        assert 'StopInstancesResponse' in response.data
+
+    def test_terminate_instance(self):
+        data = self.get_example_data()
+        data['Action'] = 'TerminateInstances'
+        data['InstanceId.1'] = '076166a1-9f6e-11e3-b8df-3c075456b21a'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+
+        get = mock.Mock()
+        get.return_value.text = read_file(
+            'tests/data/valid_terminate_instance.json'
+        )
+        get.return_value.status_code = 200
+
+        get_instance = mock.Mock()
+        get_instance.return_value = json.loads(read_file(
+            'tests/data/valid_get_instance_by_id.json'
+        ))
+
+        with mock.patch('requests.get', get):
+            with mock.patch(
+                    'ec2stack.providers.cloudstack.instances.describe_instance_by_id',
+                    get_instance
+            ):
+                response = self.post(
+                    '/',
+                    data=data
+                )
+
+        self.assert_ok(response)
+        assert 'TerminateInstancesResponse' in response.data
+
+    def test_reboot_instance(self):
+        data = self.get_example_data()
+        data['Action'] = 'RebootInstances'
+        data['InstanceId.1'] = '076166a1-9f6e-11e3-b8df-3c075456b21a'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+
+        get = mock.Mock()
+        get.return_value.text = read_file(
+            'tests/data/valid_reboot_instance.json'
         )
         get.return_value.status_code = 200
 
@@ -159,7 +248,7 @@ class InstancesTestCase(Ec2StackAppTestCase):
             )
 
         self.assert_ok(response)
-        assert 'DescribeInstanceAttributeResponse' in response.data
+        assert 'RebootInstancesResponse' in response.data
 
     def test_run_instance(self):
         data = self.get_example_data()
