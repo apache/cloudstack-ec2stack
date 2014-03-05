@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+from flask import current_app
+
 from ec2stack.providers import cloudstack
 from ec2stack.providers.cloudstack import requester, service_offerings, zones
 from ec2stack import helpers, errors
@@ -94,9 +96,7 @@ def _run_instance_request():
         )
     else:
         args['zoneid'] = zones.get_zone(
-            # TODO get default zone from config
-            # current_app.config('CLOUDSTACK_DEFAULT_ZONE')
-            'CH-GV2'
+            current_app.config['CLOUDSTACK_DEFAULT_ZONE']
         )['id']
 
     if helpers.contains_parameter('KeyName'):

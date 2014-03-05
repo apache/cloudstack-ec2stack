@@ -3,6 +3,8 @@
 
 import uuid
 
+from flask import current_app
+
 from ec2stack import errors
 from ec2stack import helpers
 from ec2stack.providers import cloudstack
@@ -54,8 +56,9 @@ def _create_volume_request():
 
     else:
         args['size'] = helpers.get('Size')
-        args['diskofferingid'] = \
-            disk_offerings.get_disk_offering('Custom')['id']
+        args['diskofferingid'] = disk_offerings.get_disk_offering(
+            current_app.config['CLOUDSTACK_CUSTOM_DISK_OFFERING']
+        )['id']
 
     zone_name = helpers.get('AvailabilityZone')
     zone_id = zones.get_zone(zone_name)['id']

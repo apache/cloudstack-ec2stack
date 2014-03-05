@@ -6,7 +6,6 @@ from ec2stack.providers import cloudstack
 
 
 def get_service_offering(offering_name):
-
     # We cannot use describe_item_request because there is a bug in
     # Cloudstack 4.0.0 which causes listServiceOfferings to return
     # an Empty response if a name is given.

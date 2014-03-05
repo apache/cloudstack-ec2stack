@@ -49,7 +49,9 @@ def _load_config_file():
 def _valid_config_file(app):
     for config_item in ['EC2STACK_BIND_ADDRESS', 'EC2STACK_PORT',
                         'CLOUDSTACK_HOST', 'CLOUDSTACK_PORT',
-                        'CLOUDSTACK_PROTOCOL', 'CLOUDSTACK_PATH']:
+                        'CLOUDSTACK_PROTOCOL', 'CLOUDSTACK_PATH',
+                        'CLOUDSTACK_CUSTOM_DISK_OFFERING',
+                        'CLOUDSTACK_DEFAULT_ZONE']:
         if config_item not in app.config:
             sys.exit('Configuration file is missing %s' % config_item)
 

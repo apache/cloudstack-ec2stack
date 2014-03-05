@@ -42,9 +42,22 @@ def _create_config_file(config_folder):
     if cloudstack_protocol == '':
         cloudstack_protocol = 'http'
 
-    cloudstack_path = raw_input('Cloudstack Path [/client/api]: ')
+    cloudstack_path = raw_input('Cloudstack path [/client/api]: ')
     if cloudstack_path == '':
         cloudstack_path = '/client/api'
+
+    cloudstack_custom_disk_offering = raw_input(
+        'Cloudstack custom disk offering name [Custom]: '
+    )
+    if cloudstack_custom_disk_offering == '':
+        cloudstack_custom_disk_offering = 'Custom'
+
+    while True:
+        cloudstack_default_zone = raw_input(
+            'Cloudstack default zone name: '
+        )
+        if cloudstack_default_zone != '':
+            break
 
     config_file = open(config_folder + '/ec2stack.conf', 'w+')
     config_file.write('EC2STACK_BIND_ADDRESS = \'%s\'\n' % ec2stack_address)
@@ -53,6 +66,10 @@ def _create_config_file(config_folder):
     config_file.write('CLOUDSTACK_PORT = \'%s\'\n' % cloudstack_port)
     config_file.write('CLOUDSTACK_PROTOCOL = \'%s\'\n' % cloudstack_protocol)
     config_file.write('CLOUDSTACK_PATH = \'%s\'\n' % cloudstack_path)
+    config_file.write(
+        'CLOUDSTACK_CUSTOM_DISK_OFFERING = \'%s\'\n' % cloudstack_custom_disk_offering)
+    config_file.write(
+        'CLOUDSTACK_DEFAULT_ZONE = \'%s\'\n' % cloudstack_default_zone)
     config_file.close()
 
 
