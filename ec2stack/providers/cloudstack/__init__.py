@@ -9,7 +9,7 @@ def describe_item(args, keyname, not_found, prefix):
     if helpers.contains_parameter_with_keyword(prefix):
         response = _describe_specific_item(args, keyname, not_found, prefix)
     else:
-        response = describe_items_request(args, not_found)
+        response = describe_items_request(args, {})
 
     return response
 
@@ -53,5 +53,7 @@ def describe_items_request(args, not_found):
 
     if 'count' in response:
         return response
-    else:
+    elif callable(not_found):
         return not_found()
+    else:
+        return not_found

@@ -75,7 +75,7 @@ class ImagesTestCase(Ec2StackAppTestCase):
     def test_empty_response_describe_images_by_id(self):
         data = self.get_example_data()
         data['Action'] = 'DescribeImages'
-        data['InstanceId.1'] = 'invalid-images-id'
+        data['ImageId.1'] = 'invalid-images-id'
         data['Signature'] = generate_signature(data, 'POST', 'localhost')
 
         get = mock.Mock()

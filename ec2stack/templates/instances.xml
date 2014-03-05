@@ -1,6 +1,7 @@
 {% extends "response.xml" %}
 {% block response_content %}
     <reservationSet>
+     {% if response %}
         <item>
             <reservationId>None</reservationId>
             <instancesSet>
@@ -52,5 +53,6 @@
                 {% endfor %}
             </instancesSet>
         </item>
+    {% endif %}
     </reservationSet>
 {% endblock %}
