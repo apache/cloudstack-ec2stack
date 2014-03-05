@@ -46,7 +46,12 @@ setup(
     author_email=AUTHOR_EMAIL,
     url=URL,
     license='Apache',
-    packages=['ec2stack'],
+    packages=['ec2stack',
+              'ec2stack.controllers',
+              'ec2stack.providers',
+              'ec2stack.models',
+              'ec2stack.models.users',
+              'ec2stack.providers.cloudstack'],
     include_package_data=True,
     zip_safe=False,
     data_files=DATA_FILES,
@@ -57,6 +62,6 @@ setup(
     entry_points="""
         [console_scripts]
         ec2stack = ec2stack.__main__:main
-        ec2stack-configure = configure:main
+        ec2stack-configure = ec2stack.configure:main
     """,
 )
