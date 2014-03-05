@@ -72,7 +72,7 @@ def _describe_instance_attribute_response(response, attribute, attr_map):
 @helpers.authentication_required
 def run_instance():
     helpers.require_parameters(
-        ['ImageId', 'InstanceType', 'MinCount', 'MaxCount'])
+        ['ImageId', 'MinCount', 'MaxCount'])
     response = _run_instance_request()
     return _run_instance_response(response)
 
@@ -80,11 +80,17 @@ def run_instance():
 def _run_instance_request():
     args = {}
 
-    # TODO setup mappings for this.....
-    # if helpers.get('InstanceType') in current_app.config['InstanceMappings']:
-    #    instance_type = helpers.get('InstanceType')
-    # else:
-    instance_type = helpers.get('InstanceType')
+    if helpers.get('InstanceType') is None:
+        instance_type = 'm1.small'
+    else:
+        instance_type = helpers.get('InstanceType')
+
+    if instance_type in current_app.config['COMPUTE_OFFERING_MAP']:
+        instance_type = current_app.config[
+            'COMPUTE_OFFERING_MAP'][
+            instance_type]
+    else:
+        instance_type = instance_type
 
     args['serviceofferingid'] = \
         service_offerings.get_service_offering(instance_type)['id']
