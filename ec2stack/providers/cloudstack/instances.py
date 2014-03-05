@@ -85,10 +85,9 @@ def _run_instance_request():
     else:
         instance_type = helpers.get('InstanceType')
 
-    if instance_type in current_app.config['COMPUTE_OFFERING_MAP']:
+    if instance_type in current_app.config['INSTANCE_TYPE_MAP']:
         instance_type = current_app.config[
-            'COMPUTE_OFFERING_MAP'][
-            instance_type]
+            'INSTANCE_TYPE_MAP'][instance_type]
     else:
         instance_type = instance_type
 
