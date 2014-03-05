@@ -101,12 +101,12 @@ class ec2stack {
     }
 
     exec { "Install awscli for Python2.6":
-    ####command => "easy_install awscli",
-    ####require => [ Exec["Install distribute 0.6.10 for Python 2.6"] ],
-    ####unless => "which aws",
-    ####timeout => 60 * 10,
-    ####tries => 5,
-    ####try_sleep => 30
+        command => "easy_install awscli",
+        require => [ Exec["Install distribute 0.6.10 for Python 2.6"] ],
+        unless => "which aws",
+        timeout => 60 * 10,
+        tries => 5,
+        try_sleep => 30
     }
 
     file {
