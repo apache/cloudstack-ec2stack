@@ -81,8 +81,9 @@ def register_secret_key():
         return {
             'template_name_or_list': 'secretkey.xml',
             'response_type': 'RegisterSecretKeyResponse',
-            'apikey': get('AWSAccessKeyId'),
-            'secretkey': get('AWSSecretKey'),
+            'AWSAccessKeyId': get('AWSAccessKeyId'),
+            'AWSSecretKey': get('AWSSecretKey'),
+            'Message': 'Successfully Registered!'
         }
     else:
         raise Ec2stackError(
@@ -103,8 +104,9 @@ def remove_secret_key():
         return {
             'template_name_or_list': 'secretkey.xml',
             'response_type': 'RemoveSecretKeyResponse',
-            'apikey': get('AWSAccessKeyId'),
-            'secretkey': get('AWSSecretKey'),
+            'AWSAccessKeyId': get('AWSAccessKeyId'),
+            'AWSSecretKey': get('AWSSecretKey'),
+            'Message': 'Successfully removed!'
         }
     else:
         raise Ec2stackError(

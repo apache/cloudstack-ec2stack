@@ -70,5 +70,7 @@ setup(
         [console_scripts]
         ec2stack = ec2stack.__main__:main
         ec2stack-configure = ec2stack.configure:main
+        ec2stack-register = ec2stack.secretkey_manager:register
+        ec2stack-remove = ec2stack.secretkey_manager:remove
     """,
 )
