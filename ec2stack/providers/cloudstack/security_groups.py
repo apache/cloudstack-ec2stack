@@ -78,12 +78,12 @@ def describe_security_groups():
         args, 'securitygroup', errors.invalid_security_group, 'Group'
     )
 
-    return _describe_images_response(
+    return _describe_security_groups_response(
         response
     )
 
 
-def _describe_images_response(response):
+def _describe_security_groups_response(response):
     return {
         'template_name_or_list': 'securitygroups.xml',
         'response_type': 'DescribeSecurityGroupsResponse',
