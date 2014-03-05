@@ -152,15 +152,15 @@ def _authenticate_security_group_response(response, rule_type):
 @helpers.authentication_required
 def revoke_security_group_ingress():
     rule_type = 'ingress'
-    response = _revoke_security_group_request(rule_type)
-    return _revoke_security_group_response(response, rule_type)
+    _revoke_security_group_request(rule_type)
+    return _revoke_security_group_response(rule_type)
 
 
 @helpers.authentication_required
 def revoke_security_group_egress():
     rule_type = 'egress'
-    response = _revoke_security_group_request(rule_type)
-    return _revoke_security_group_response(response, rule_type)
+    _revoke_security_group_request(rule_type)
+    return _revoke_security_group_response(rule_type)
 
 
 def _revoke_security_group_request(rule_type):
@@ -180,7 +180,7 @@ def _revoke_security_group_request(rule_type):
     return response
 
 
-def _revoke_security_group_response(response, rule_type):
+def _revoke_security_group_response(rule_type):
     if rule_type == 'ingress':
         rule_type = 'RevokeSecurityGroupIngressResponse'
     elif rule_type == 'egress':

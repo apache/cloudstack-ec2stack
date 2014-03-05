@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 import os
-import json
+
 from alembic import command
 from alembic.config import Config as AlembicConfig
 
