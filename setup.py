@@ -28,8 +28,7 @@ AUTHOR_EMAIL = 'brogand2@mail.dcu.ie, duffyi3@mail.dcu.ie'
 DESC = "EC2 compatible interface for Apache Cloudstack"
 LONG_DESC = read_file('README.rst')
 REQUIRES = [
-    'Flask', 'Flask-Migrate', 'Flask-Script', 'Flask-SQLAlchemy', 'Requests',
-    'factory-boy==1.3.0', 'mock', 'alembic==0.6.3'
+    'Flask', 'Flask-SQLAlchemy', 'Requests', 'alembic'
 ]
 DATA_FILES = []
 if os.getenv('VIRTUAL_ENV', False):
@@ -45,7 +44,7 @@ setup(
     author=AUTHOR,
     author_email=AUTHOR_EMAIL,
     url=URL,
-    license='Apache',
+    license='Apache License (2.0)',
     package_data={'': ['migrations/*'], 'ec2stack': ['templates/*.xml']},
     packages=['ec2stack',
               'ec2stack.controllers',
@@ -58,7 +57,14 @@ setup(
     data_files=DATA_FILES,
     install_requires=REQUIRES,
     classifiers=[
-        "Programming Language :: Python",
+        'Development Status :: 3 - Alpha',
+        'Environment :: Console',
+        'Intended Audience :: System Administrators',
+        'License :: OSI Approved :: Apache Software License',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python',
+        'Topic :: Utilities',
+        'Programming Language :: Python :: 2.7',
     ],
     entry_points="""
         [console_scripts]

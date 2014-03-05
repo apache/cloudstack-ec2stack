@@ -14,7 +14,7 @@
 # If you need them use the classes directly.
 class rpmrepos {
 
-    require rpmrepos::epel
-    require rpmrepos::rpmforge
+require rpmrepos::epel
+require rpmrepos::rpmforge
 
 }
