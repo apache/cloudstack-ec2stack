@@ -46,7 +46,7 @@ setup(
     author_email=AUTHOR_EMAIL,
     url=URL,
     license='Apache',
-    package_data={'': ['migrations/*']},
+    package_data={'': ['migrations/*'], 'ec2stack': ['templates/*.xml']},
     packages=['ec2stack',
               'ec2stack.controllers',
               'ec2stack.providers',
