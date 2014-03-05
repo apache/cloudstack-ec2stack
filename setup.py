@@ -29,7 +29,7 @@ DESC = "EC2 compatible interface for Apache Cloudstack"
 LONG_DESC = read_file('README.rst')
 REQUIRES = [
     'Flask', 'Flask-Migrate', 'Flask-Script', 'Flask-SQLAlchemy', 'Requests',
-    'factory-boy==1.3.0', 'mock'
+    'factory-boy==1.3.0', 'mock', 'alembic==0.6.3'
 ]
 DATA_FILES = []
 if os.getenv('VIRTUAL_ENV', False):
@@ -46,6 +46,7 @@ setup(
     author_email=AUTHOR_EMAIL,
     url=URL,
     license='Apache',
+    package_data={'': ['migrations/*']},
     packages=['ec2stack',
               'ec2stack.controllers',
               'ec2stack.providers',
