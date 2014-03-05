@@ -68,6 +68,14 @@ def invalid_disk_offering_name():
     )
 
 
+def invalid_service_offering_name():
+    raise Ec2stackError(
+        '400',
+        'InvalidServiceOffering.NotFound',
+        'The specified Service offering does not exist.'
+    )
+
+
 def invalid_keypair_name():
     raise Ec2stackError(
         '400',

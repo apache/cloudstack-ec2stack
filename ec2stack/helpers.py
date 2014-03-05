@@ -200,7 +200,7 @@ def _get_query_string(data):
 def error_response(code, error, message):
     response = make_response(
         render_template(
-            "generic_error.xml",
+            'generic_error.xml',
             response_type='Response',
             error=error,
             message=message,

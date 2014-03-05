@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import mock
-
 import json
+
+import mock
 
 from ec2stack.helpers import read_file, generate_signature
 from . import Ec2StackAppTestCase
@@ -12,7 +12,6 @@ from . import Ec2StackAppTestCase
 class DiskOfferingsTestCase(Ec2StackAppTestCase):
 
     def test_get_disk_offering(self):
-
         data = self.get_example_data()
         data['Action'] = 'CreateVolume'
         data['Size'] = '80'
