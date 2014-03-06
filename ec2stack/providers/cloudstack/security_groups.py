@@ -8,6 +8,57 @@ from ec2stack.providers.cloudstack import requester
 
 
 @helpers.authentication_required
+def authenticate_security_group_egress():
+    rule_type = 'egress'
+    response = _authenticate_security_group_request(rule_type)
+    return _authenticate_security_group_response(response, rule_type)
+
+
+def _authenticate_security_group_request(rule_type):
+    args = _parse_security_group_request()
+
+    if rule_type == 'egress':
+        args['command'] = 'authorizeSecurityGroupEgress'
+    elif rule_type == 'ingress':
+        args['command'] = 'authorizeSecurityGroupIngress'
+
+    response = requester.make_request_async(args)
+
+    return response
+
+
+def _authenticate_security_group_response(response, rule_type):
+    if 'errortext' in response:
+        if 'Failed to authorize security group' in response['errortext']:
+            cidrlist = str(helpers.get('CidrIp'))
+            protocol = str(helpers.get('IpProtocol'))
+            from_port = str(helpers.get('FromPort'))
+            to_port = str(helpers.get('toPort'))
+            raise Ec2stackError(
+                '400',
+                'InvalidPermission.Duplicate',
+                'the specified rule "peer: ' + cidrlist + ', ' + protocol +
+                ', from port: ' + from_port + ', to port: ' + to_port +
+                ', ALLOW" already exists'
+            )
+        elif 'Unable to find security group' in response['errortext']:
+            errors.invalid_security_group()
+
+        errors.invalid_paramater_value(response['errortext'])
+    else:
+        if rule_type == 'ingress':
+            rule_type = 'AuthorizeSecurityGroupIngressResponse'
+        elif rule_type == 'egress':
+            rule_type = 'AuthorizeSecurityGroupEgressResponse'
+
+        return {
+            'template_name_or_list': 'status.xml',
+            'response_type': rule_type,
+            'return': 'true'
+        }
+
+
+@helpers.authentication_required
 def create_security_group():
     helpers.require_parameters(['GroupName', 'GroupDescription'])
     response = _create_security_group_request()
@@ -96,57 +147,6 @@ def authenticate_security_group_ingress():
     rule_type = 'ingress'
     response = _authenticate_security_group_request(rule_type)
     return _authenticate_security_group_response(response, rule_type)
-
-
-@helpers.authentication_required
-def authenticate_security_group_egress():
-    rule_type = 'egress'
-    response = _authenticate_security_group_request(rule_type)
-    return _authenticate_security_group_response(response, rule_type)
-
-
-def _authenticate_security_group_request(rule_type):
-    args = _parse_security_group_request()
-
-    if rule_type == 'egress':
-        args['command'] = 'authorizeSecurityGroupEgress'
-    elif rule_type == 'ingress':
-        args['command'] = 'authorizeSecurityGroupIngress'
-
-    response = requester.make_request_async(args)
-
-    return response
-
-
-def _authenticate_security_group_response(response, rule_type):
-    if 'errortext' in response:
-        if 'Failed to authorize security group' in response['errortext']:
-            cidrlist = str(helpers.get('CidrIp'))
-            protocol = str(helpers.get('IpProtocol'))
-            from_port = str(helpers.get('FromPort'))
-            to_port = str(helpers.get('toPort'))
-            raise Ec2stackError(
-                '400',
-                'InvalidPermission.Duplicate',
-                'the specified rule "peer: ' + cidrlist + ', ' + protocol +
-                ', from port: ' + from_port + ', to port: ' + to_port +
-                ', ALLOW" already exists'
-            )
-        elif 'Unable to find security group' in response['errortext']:
-            errors.invalid_security_group()
-
-        errors.invalid_paramater_value(response['errortext'])
-    else:
-        if rule_type == 'ingress':
-            rule_type = 'AuthorizeSecurityGroupIngressResponse'
-        elif rule_type == 'egress':
-            rule_type = 'AuthorizeSecurityGroupEgressResponse'
-
-        return {
-            'template_name_or_list': 'status.xml',
-            'response_type': rule_type,
-            'return': 'true'
-        }
 
 
 @helpers.authentication_required

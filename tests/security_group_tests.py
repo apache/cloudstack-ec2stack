@@ -11,6 +11,180 @@ from . import Ec2StackAppTestCase
 
 class SecurityGroupTestCase(Ec2StackAppTestCase):
 
+    def test_authorize_security_group_ingress_by_name(self):
+        data = self.get_example_data()
+        data['Action'] = 'AuthorizeSecurityGroupIngress'
+        data['GroupName'] = 'test'
+        data['FromPort'] = '1000'
+        data['ToPort'] = '1024'
+        data['IpProtocol'] = 'tcp'
+        data['CidrIp'] = '0.0.0.0/0'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+
+        get = mock.Mock()
+        get.return_value.text = read_file(
+            'tests/data/authorize_security_group_ingress.json'
+        )
+        get.return_value.status_code = 200
+
+        with mock.patch('requests.get', get):
+            response = self.post(
+                '/',
+                data=data
+            )
+
+        self.assert_ok(response)
+        assert 'AuthorizeSecurityGroupIngressResponse' in response.data
+
+    def test_authorize_security_group_ingress_by_id(self):
+        data = self.get_example_data()
+        data['Action'] = 'AuthorizeSecurityGroupIngress'
+        data['GroupId'] = '7ae5b92f-3a0d-4977-bc33-f1aaecee5776'
+        data['FromPort'] = '-1'
+        data['ToPort'] = '-1'
+        data['IpProtocol'] = 'icmp'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+
+        get = mock.Mock()
+        get.return_value.text = read_file(
+            'tests/data/authorize_security_group_ingress.json'
+        )
+        get.return_value.status_code = 200
+
+        with mock.patch('requests.get', get):
+            response = self.post(
+                '/',
+                data=data
+            )
+
+        self.assert_ok(response)
+        assert 'AuthorizeSecurityGroupIngressResponse' in response.data
+
+    def test_authorize_security_group_egress_by_name(self):
+        data = self.get_example_data()
+        data['Action'] = 'AuthorizeSecurityGroupEgress'
+        data['GroupName'] = 'test'
+        data['FromPort'] = '1000'
+        data['ToPort'] = '1024'
+        data['IpProtocol'] = 'tcp'
+        data['CidrIp'] = '0.0.0.0/0'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+
+        get = mock.Mock()
+        get.return_value.text = read_file(
+            'tests/data/authorize_security_group_egress.json'
+        )
+        get.return_value.status_code = 200
+
+        with mock.patch('requests.get', get):
+            response = self.post(
+                '/',
+                data=data
+            )
+
+        self.assert_ok(response)
+        assert 'AuthorizeSecurityGroupEgressResponse' in response.data
+
+    def test_authorize_security_group_egress_by_id(self):
+        data = self.get_example_data()
+        data['Action'] = 'AuthorizeSecurityGroupEgress'
+        data['GroupId'] = '7ae5b92f-3a0d-4977-bc33-f1aaecee5776'
+        data['FromPort'] = '-1'
+        data['ToPort'] = '-1'
+        data['IpProtocol'] = 'icmp'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+
+        get = mock.Mock()
+        get.return_value.text = read_file(
+            'tests/data/authorize_security_group_egress.json'
+        )
+        get.return_value.status_code = 200
+
+        with mock.patch('requests.get', get):
+            response = self.post(
+                '/',
+                data=data
+            )
+
+        self.assert_ok(response)
+        assert 'AuthorizeSecurityGroupEgressResponse' in response.data
+
+    def test_duplicate_authorize_security_group(self):
+        data = self.get_example_data()
+        data['Action'] = 'AuthorizeSecurityGroupEgress'
+        data['GroupName'] = 'test'
+        data['FromPort'] = '1000'
+        data['ToPort'] = '1024'
+        data['IpProtocol'] = 'tcp'
+        data['CidrIp'] = '0.0.0.0/0'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+
+        get = mock.Mock()
+        get.return_value.text = read_file(
+            'tests/data/duplicate_authorize_security_group_egress.json'
+        )
+        get.return_value.status_code = 200
+
+        with mock.patch('requests.get', get):
+            response = self.post(
+                '/',
+                data=data
+            )
+
+        self.assert_bad_request(response)
+        assert 'InvalidPermission.Duplicate' in response.data
+
+    def test_invalid_rule_authorize_security_group(self):
+        data = self.get_example_data()
+        data['Action'] = 'AuthorizeSecurityGroupEgress'
+        data['GroupName'] = 'test'
+        data['FromPort'] = '1000'
+        data['ToPort'] = '99999'
+        data['IpProtocol'] = 'tcp'
+        data['CidrIp'] = '0.0.0.0/24'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+
+        get = mock.Mock()
+        get.return_value.text = read_file(
+            'tests/data/invalid_authorize_security_group_egress.json'
+        )
+        get.return_value.status_code = 200
+
+        with mock.patch('requests.get', get):
+            response = self.post(
+                '/',
+                data=data
+            )
+
+        self.assert_bad_request(response)
+        assert 'InvalidParameterValue' in response.data
+
+    def test_invalid_security_group_authorize_security_group(self):
+        data = self.get_example_data()
+        data['Action'] = 'AuthorizeSecurityGroupEgress'
+        data['GroupName'] = 'invalid-security-group'
+        data['FromPort'] = '1000'
+        data['ToPort'] = '1024'
+        data['IpProtocol'] = 'tcp'
+        data['CidrIp'] = '0.0.0.0/24'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+
+        get = mock.Mock()
+        get.return_value.text = read_file(
+            'tests/data/'
+            'invalid_security_group_authorize_security_group.json'
+        )
+        get.return_value.status_code = 431
+
+        with mock.patch('requests.get', get):
+            response = self.post(
+                '/',
+                data=data
+            )
+
+        self.assert_bad_request(response)
+        assert 'InvalidGroup.NotFound' in response.data
+
     def test_create_security_group(self):
         data = self.get_example_data()
         data['Action'] = 'CreateSecurityGroup'
@@ -248,180 +422,6 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
             'tests/data/empty_describe_security_groups.json'
         )
         get.return_value.status_code = 200
-
-        with mock.patch('requests.get', get):
-            response = self.post(
-                '/',
-                data=data
-            )
-
-        self.assert_bad_request(response)
-        assert 'InvalidGroup.NotFound' in response.data
-
-    def test_authorize_security_group_ingress_by_name(self):
-        data = self.get_example_data()
-        data['Action'] = 'AuthorizeSecurityGroupIngress'
-        data['GroupName'] = 'test'
-        data['FromPort'] = '1000'
-        data['ToPort'] = '1024'
-        data['IpProtocol'] = 'tcp'
-        data['CidrIp'] = '0.0.0.0/0'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
-
-        get = mock.Mock()
-        get.return_value.text = read_file(
-            'tests/data/authorize_security_group_ingress.json'
-        )
-        get.return_value.status_code = 200
-
-        with mock.patch('requests.get', get):
-            response = self.post(
-                '/',
-                data=data
-            )
-
-        self.assert_ok(response)
-        assert 'AuthorizeSecurityGroupIngressResponse' in response.data
-
-    def test_authorize_security_group_ingress_by_id(self):
-        data = self.get_example_data()
-        data['Action'] = 'AuthorizeSecurityGroupIngress'
-        data['GroupId'] = '7ae5b92f-3a0d-4977-bc33-f1aaecee5776'
-        data['FromPort'] = '-1'
-        data['ToPort'] = '-1'
-        data['IpProtocol'] = 'icmp'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
-
-        get = mock.Mock()
-        get.return_value.text = read_file(
-            'tests/data/authorize_security_group_ingress.json'
-        )
-        get.return_value.status_code = 200
-
-        with mock.patch('requests.get', get):
-            response = self.post(
-                '/',
-                data=data
-            )
-
-        self.assert_ok(response)
-        assert 'AuthorizeSecurityGroupIngressResponse' in response.data
-
-    def test_authorize_security_group_egress_by_name(self):
-        data = self.get_example_data()
-        data['Action'] = 'AuthorizeSecurityGroupEgress'
-        data['GroupName'] = 'test'
-        data['FromPort'] = '1000'
-        data['ToPort'] = '1024'
-        data['IpProtocol'] = 'tcp'
-        data['CidrIp'] = '0.0.0.0/0'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
-
-        get = mock.Mock()
-        get.return_value.text = read_file(
-            'tests/data/authorize_security_group_egress.json'
-        )
-        get.return_value.status_code = 200
-
-        with mock.patch('requests.get', get):
-            response = self.post(
-                '/',
-                data=data
-            )
-
-        self.assert_ok(response)
-        assert 'AuthorizeSecurityGroupEgressResponse' in response.data
-
-    def test_authorize_security_group_egress_by_id(self):
-        data = self.get_example_data()
-        data['Action'] = 'AuthorizeSecurityGroupEgress'
-        data['GroupId'] = '7ae5b92f-3a0d-4977-bc33-f1aaecee5776'
-        data['FromPort'] = '-1'
-        data['ToPort'] = '-1'
-        data['IpProtocol'] = 'icmp'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
-
-        get = mock.Mock()
-        get.return_value.text = read_file(
-            'tests/data/authorize_security_group_egress.json'
-        )
-        get.return_value.status_code = 200
-
-        with mock.patch('requests.get', get):
-            response = self.post(
-                '/',
-                data=data
-            )
-
-        self.assert_ok(response)
-        assert 'AuthorizeSecurityGroupEgressResponse' in response.data
-
-    def test_duplicate_authorize_security_group(self):
-        data = self.get_example_data()
-        data['Action'] = 'AuthorizeSecurityGroupEgress'
-        data['GroupName'] = 'test'
-        data['FromPort'] = '1000'
-        data['ToPort'] = '1024'
-        data['IpProtocol'] = 'tcp'
-        data['CidrIp'] = '0.0.0.0/0'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
-
-        get = mock.Mock()
-        get.return_value.text = read_file(
-            'tests/data/duplicate_authorize_security_group_egress.json'
-        )
-        get.return_value.status_code = 200
-
-        with mock.patch('requests.get', get):
-            response = self.post(
-                '/',
-                data=data
-            )
-
-        self.assert_bad_request(response)
-        assert 'InvalidPermission.Duplicate' in response.data
-
-    def test_invalid_rule_authorize_security_group(self):
-        data = self.get_example_data()
-        data['Action'] = 'AuthorizeSecurityGroupEgress'
-        data['GroupName'] = 'test'
-        data['FromPort'] = '1000'
-        data['ToPort'] = '99999'
-        data['IpProtocol'] = 'tcp'
-        data['CidrIp'] = '0.0.0.0/24'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
-
-        get = mock.Mock()
-        get.return_value.text = read_file(
-            'tests/data/invalid_authorize_security_group_egress.json'
-        )
-        get.return_value.status_code = 200
-
-        with mock.patch('requests.get', get):
-            response = self.post(
-                '/',
-                data=data
-            )
-
-        self.assert_bad_request(response)
-        assert 'InvalidParameterValue' in response.data
-
-    def test_invalid_security_group_authorize_security_group(self):
-        data = self.get_example_data()
-        data['Action'] = 'AuthorizeSecurityGroupEgress'
-        data['GroupName'] = 'invalid-security-group'
-        data['FromPort'] = '1000'
-        data['ToPort'] = '1024'
-        data['IpProtocol'] = 'tcp'
-        data['CidrIp'] = '0.0.0.0/24'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
-
-        get = mock.Mock()
-        get.return_value.text = read_file(
-            'tests/data/'
-            'invalid_security_group_authorize_security_group.json'
-        )
-        get.return_value.status_code = 431
 
         with mock.patch('requests.get', get):
             response = self.post(

@@ -39,26 +39,6 @@ def _create_keypair_response(response):
 
 
 @helpers.authentication_required
-def describe_keypairs():
-    args = {'command': 'listSSHKeyPairs'}
-    response = cloudstack.describe_item(
-        args, 'sshkeypair', errors.invalid_keypair_name, 'KeyName'
-    )
-
-    return _describe_keypair_response(
-        response
-    )
-
-
-def _describe_keypair_response(response):
-    return {
-        'template_name_or_list': 'keypairs.xml',
-        'response_type': 'DescribeKeyPairsResponse',
-        'response': response
-    }
-
-
-@helpers.authentication_required
 def delete_keypair():
     helpers.require_parameters(['KeyName'])
     _delete_keypair_request()
@@ -78,6 +58,26 @@ def _delete_keypair_response():
         'template_name_or_list': 'status.xml',
         'response_type': 'DeleteKeyPairResponse',
         'return': 'true'
+    }
+
+
+@helpers.authentication_required
+def describe_keypairs():
+    args = {'command': 'listSSHKeyPairs'}
+    response = cloudstack.describe_item(
+        args, 'sshkeypair', errors.invalid_keypair_name, 'KeyName'
+    )
+
+    return _describe_keypair_response(
+        response
+    )
+
+
+def _describe_keypair_response(response):
+    return {
+        'template_name_or_list': 'keypairs.xml',
+        'response_type': 'DescribeKeyPairsResponse',
+        'response': response
     }
 
 
