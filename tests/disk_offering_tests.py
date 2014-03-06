@@ -10,7 +10,6 @@ from . import Ec2StackAppTestCase
 
 
 class DiskOfferingsTestCase(Ec2StackAppTestCase):
-
     def test_get_disk_offering(self):
         data = self.get_example_data()
         data['Action'] = 'CreateVolume'

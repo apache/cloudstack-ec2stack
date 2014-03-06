@@ -2,9 +2,9 @@
 # encoding: utf-8
 
 import argparse
-import requests
-
 from xml.dom.minidom import parseString as xmlparse
+
+import requests
 
 
 def _generate_args(description):

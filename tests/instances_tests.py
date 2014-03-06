@@ -10,7 +10,6 @@ from . import Ec2StackAppTestCase
 
 
 class InstancesTestCase(Ec2StackAppTestCase):
-
     def test_describe_instance_attribute(self):
         data = self.get_example_data()
         data['Action'] = 'DescribeInstanceAttribute'
@@ -270,45 +269,94 @@ class InstancesTestCase(Ec2StackAppTestCase):
         self.assert_ok(response)
         assert 'TerminateInstancesResponse' in response.data
 
+    def test_run_instance(self):
+        data = self.get_example_data()
+        data['Action'] = 'RunInstances'
+        data['ImageId'] = 'a32d70ee-95e4-11e3-b2e4-d19c9d3e5e1d'
+        data['MinCount'] = '0'
+        data['MaxCount'] = '0'
+        data['SecurityGroupId.1'] = 'example-security-group-id'
+        data['SecurityGroup.1'] = 'example-security-group-name'
+        data['KeyName'] = 'example-ssh-key-name'
+        data['UserData'] = 'example-user-data'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost')
 
-# TODO revist this at a later point
-#    def test_run_instance(self):
-#        data = self.get_example_data()
-#        data['Action'] = 'RunInstances'
-#        data['ImageId'] = 'image-id'
-#        data['Placement.AvailabilityZone'] = 'Sandbox-simulator'
-#        data['InstanceType'] = 'Small Instance'
-#        data['Signature'] = generate_signature(data, 'POST', 'localhost')
-#
-#        get = mock.Mock()
-#        get.return_value.text = read_file(
-#            'tests/data/valid_run_instance.json'
-#        )
-#        get.return_value.status_code = 200
-#
-#        get_service_offering = mock.Mock()
-#        get_service_offering.return_value = json.loads(read_file(
-#            'tests/data/service_offering_search.json'
-#        ))
-#
-#        get_zone = mock.Mock()
-#        get_zone.return_value = json.loads(read_file(
-#            'tests/data/zones_search.json'
-#        ))
-#
-#        with mock.patch('requests.get', get):
-#            with mock.patch(
-#                    'ec2stack.providers.cloudstack.service_offerings.get_service_offering',
-#                    get_service_offering
-#            ):
-#                with mock.patch(
-#                        'ec2stack.providers.cloudstack.zones.get_zone',
-#                        get_zone
-#                ):
-#                    response = self.post(
-#                        '/',
-#                        data=data
-#                    )
-#
-#        self.assert_ok(response)
-#        assert 'RunInstancesResponse' in response.data
+        get = mock.Mock()
+        get.return_value.text = read_file(
+            'tests/data/valid_run_instance.json'
+        )
+        get.return_value.status_code = 200
+
+        get_service_offering = mock.Mock()
+        get_service_offering.return_value = json.loads(read_file(
+            'tests/data/service_offering_search.json'
+        ))
+
+        get_zone = mock.Mock()
+        get_zone.return_value = json.loads(read_file(
+            'tests/data/zones_search.json'
+        ))
+
+        with mock.patch('requests.get', get):
+            with mock.patch(
+                    'ec2stack.providers.cloudstack.service_offerings.get_service_offering',
+                    get_service_offering
+            ):
+                with mock.patch(
+                        'ec2stack.providers.cloudstack.zones.get_zone',
+                        get_zone
+                ):
+                    response = self.post(
+                        '/',
+                        data=data
+                    )
+
+        self.assert_ok(response)
+        assert 'RunInstancesResponse' in response.data
+
+    def test_run_instance_with_zone_and_type_(self):
+        data = self.get_example_data()
+        data['Action'] = 'RunInstances'
+        data['InstanceType'] = 'micro'
+        data['Placement.AvailabilityZone'] = 'example-zone'
+        data['ImageId'] = 'a32d70ee-95e4-11e3-b2e4-d19c9d3e5e1d'
+        data['MinCount'] = '0'
+        data['MaxCount'] = '0'
+        data['SecurityGroupId.1'] = 'example-security-group-id'
+        data['SecurityGroup.1'] = 'example-security-group-name'
+        data['KeyName'] = 'example-ssh-key-name'
+        data['UserData'] = 'example-user-data'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+
+        get = mock.Mock()
+        get.return_value.text = read_file(
+            'tests/data/valid_run_instance.json'
+        )
+        get.return_value.status_code = 200
+
+        get_service_offering = mock.Mock()
+        get_service_offering.return_value = json.loads(read_file(
+            'tests/data/service_offering_search.json'
+        ))
+
+        get_zone = mock.Mock()
+        get_zone.return_value = json.loads(read_file(
+            'tests/data/zones_search.json'
+        ))
+
+        with mock.patch('requests.get', get):
+            with mock.patch(
+                    'ec2stack.providers.cloudstack.service_offerings.get_service_offering',
+                    get_service_offering
+            ):
+                with mock.patch(
+                        'ec2stack.providers.cloudstack.zones.get_zone',
+                        get_zone
+                ):
+                    response = self.post(
+                        '/',
+                        data=data
+                    )
+
+        self.assert_ok(response)
+        assert 'RunInstancesResponse' in response.data
