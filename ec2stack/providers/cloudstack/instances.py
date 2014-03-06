@@ -188,12 +188,12 @@ def _reboot_instance_response():
 def start_instance():
     helpers.require_parameters(['InstanceId.1'])
     instance_id = helpers.get('InstanceId.1')
-    previous_instance_state_description = describe_instance_by_id(instance_id)
-    new_instance_state_description = _start_instance_request(instance_id)
+    previous_state = describe_instance_by_id(instance_id)
+    new_state = _start_instance_request(instance_id)
     return _modify_instance_state_response(
         'StartInstancesResponse',
-        previous_instance_state_description,
-        new_instance_state_description
+        previous_state,
+        new_state
     )
 
 
@@ -205,27 +205,6 @@ def _start_instance_request(instance_id):
 
     response = response['virtualmachine']
 
-    return response
-
-
-@helpers.authentication_required
-def stop_instance():
-    helpers.require_parameters(['InstanceId.1'])
-    instance_id = helpers.get('InstanceId.1')
-    previous_instance_state_description = describe_instance_by_id(instance_id)
-    new_instance_state_description = _stop_instance_request(instance_id)
-    return _modify_instance_state_response(
-        'StopInstancesResponse',
-        previous_instance_state_description,
-        new_instance_state_description
-    )
-
-
-def _stop_instance_request(instance_id):
-    args = {'command': 'stopVirtualMachine',
-            'id': instance_id}
-    response = requester.make_request_async(args)
-    response = response['virtualmachine']
     return response
 
 
@@ -241,15 +220,36 @@ def _modify_instance_state_response(response_type, previous_state, new_state):
 
 
 @helpers.authentication_required
+def stop_instance():
+    helpers.require_parameters(['InstanceId.1'])
+    instance_id = helpers.get('InstanceId.1')
+    previous_state = describe_instance_by_id(instance_id)
+    new_state = _stop_instance_request(instance_id)
+    return _modify_instance_state_response(
+        'StopInstancesResponse',
+        previous_state,
+        new_state
+    )
+
+
+def _stop_instance_request(instance_id):
+    args = {'command': 'stopVirtualMachine',
+            'id': instance_id}
+    response = requester.make_request_async(args)
+    response = response['virtualmachine']
+    return response
+
+
+@helpers.authentication_required
 def terminate_instance():
     helpers.require_parameters(['InstanceId.1'])
     instance_id = helpers.get('InstanceId.1')
-    previous_instance_state_description = describe_instance_by_id(instance_id)
-    new_instance_state_description = _terminate_instance_request(instance_id)
+    previous_state = describe_instance_by_id(instance_id)
+    new_state = _terminate_instance_request(instance_id)
     return _modify_instance_state_response(
         'TerminateInstancesResponse',
-        previous_instance_state_description,
-        new_instance_state_description
+        previous_state,
+        new_state
     )
 
 
