@@ -31,6 +31,26 @@ class InstancesTestCase(Ec2StackAppTestCase):
         self.assert_ok(response)
         assert 'DescribeInstancesResponse' in response.data
 
+     def test_empty_response_describe_instances(self):
+        data = self.get_example_data()
+        data['Action'] = 'DescribeInstances'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+
+        get = mock.Mock()
+        get.return_value.text = read_file(
+            'tests/data/empty_describe_instances.json'
+        )
+        get.return_value.status_code = 200
+
+        with mock.patch('requests.get', get):
+            response = self.post(
+                '/',
+                data=data
+            )
+
+        self.assert_ok(response)
+        assert 'DescribeInstancesResponse' in response.data
+
     def test_describe_instance_by_id(self):
         data = self.get_example_data()
         data['Action'] = 'DescribeInstances'
