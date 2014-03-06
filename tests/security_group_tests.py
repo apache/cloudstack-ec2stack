@@ -10,6 +10,7 @@ from . import Ec2StackAppTestCase
 
 
 class SecurityGroupTestCase(Ec2StackAppTestCase):
+
     def test_authorize_security_group_ingress_by_name(self):
         data = self.get_example_data()
         data['Action'] = 'AuthorizeSecurityGroupIngress'

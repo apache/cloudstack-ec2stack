@@ -10,6 +10,7 @@ from . import Ec2StackAppTestCase
 
 
 class KeyPairTestCase(Ec2StackAppTestCase):
+
     def test_create_keypair(self):
         data = self.get_example_data()
         data['Action'] = 'CreateKeyPair'
