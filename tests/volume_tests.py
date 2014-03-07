@@ -17,7 +17,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
         data['VolumeId'] = '0896ccff-1b7a-4c17-8390-02a602de2efe'
         data['InstanceId'] = 'ba918d10-f83a-459d-a5b9-330793c3c6a3'
         data['Device'] = '/dev/sha'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -40,7 +40,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
         data['VolumeId'] = '0896ccff-1b7a-4c17-8390-02a602de2efe'
         data['InstanceId'] = 'ba918d10-f83a-459d-a5b9-330793c3c6a3'
         data['Device'] = '/dev/sha'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -62,7 +62,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
         data['Action'] = 'CreateVolume'
         data['Size'] = '80'
         data['AvailabilityZone'] = 'Sandbox-simulator'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -102,7 +102,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
         data['Action'] = 'CreateVolume'
         data['SnapshotId'] = '076166a1-9f6e-11e3-b8df-3c075456b21a'
         data['AvailabilityZone'] = 'Sandbox-simulator'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -133,7 +133,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
         data['Action'] = 'CreateVolume'
         data['SnapshotId'] = 'invalid-snapshot-id'
         data['AvailabilityZone'] = 'Sandbox-simulator'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get_request = mock.Mock()
         get_request.return_value.text = read_file(
@@ -164,7 +164,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
         data['Action'] = 'CreateVolume'
         data['SnapshotId'] = '076166a1-9f6e-11e3-b8df-3c075456b21a'
         data['AvailabilityZone'] = 'Sandbox-simulator'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -186,7 +186,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
         data['Action'] = 'CreateVolume'
         data['Size'] = '80'
         data['AvailabilityZone'] = 'Sandbox-simulator'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get_request = mock.Mock()
         get_request.return_value.text = read_file(
@@ -207,7 +207,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'DeleteVolume'
         data['VolumeId'] = 'volumeid'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get_request = mock.Mock()
         get_request.return_value.text = read_file(
@@ -228,7 +228,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'DeleteVolume'
         data['VolumeId'] = 'volumeid'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get_request = mock.Mock()
         get_request.return_value.text = read_file(
@@ -248,7 +248,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
     def test_describe_volumes(self):
         data = self.get_example_data()
         data['Action'] = 'DescribeVolumes'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -269,7 +269,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'DescribeVolumes'
         data['VolumeId.1'] = 'de2d8297-eaaf-4e81-8ffe-97f37ddbbde5'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -291,7 +291,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'DescribeVolumes'
         data['VolumeId.1'] = 'invalid-volume-id'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -312,7 +312,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'DescribeVolumes'
         data['VolumeId.1'] = 'invalid-volume-id'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -333,7 +333,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'DetachVolume'
         data['VolumeId'] = '0896ccff-1b7a-4c17-8390-02a602de2efe'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -355,7 +355,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
         data['Action'] = 'DetachVolume'
         data['VolumeId'] = '0896ccff-1b7a-4c17-8390-02a602de2efe'
         data['InstanceId'] = 'ba918d10-f83a-459d-a5b9-330793c3c6a3'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -377,7 +377,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
         data['Action'] = 'DetachVolume'
         data['VolumeId'] = '0896ccff-1b7a-4c17-8390-02a602de2efe'
         data['Device'] = '/dev/'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -398,7 +398,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'DetachVolume'
         data['VolumeId'] = '0896ccff-1b7a-4c17-8390-02a602de2efe'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(

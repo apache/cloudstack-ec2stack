@@ -13,7 +13,7 @@ class PasswordTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'GetPasswordData'
         data['InstanceId'] = 'Test'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -34,7 +34,7 @@ class PasswordTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'GetPasswordData'
         data['InstanceId'] = 'Test'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(

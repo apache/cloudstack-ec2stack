@@ -19,7 +19,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
         data['ToPort'] = '1024'
         data['IpProtocol'] = 'tcp'
         data['CidrIp'] = '0.0.0.0/0'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -43,7 +43,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
         data['FromPort'] = '-1'
         data['ToPort'] = '-1'
         data['IpProtocol'] = 'icmp'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -68,7 +68,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
         data['ToPort'] = '1024'
         data['IpProtocol'] = 'tcp'
         data['CidrIp'] = '0.0.0.0/0'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -92,7 +92,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
         data['FromPort'] = '-1'
         data['ToPort'] = '-1'
         data['IpProtocol'] = 'icmp'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -117,7 +117,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
         data['ToPort'] = '1024'
         data['IpProtocol'] = 'tcp'
         data['CidrIp'] = '0.0.0.0/0'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -142,7 +142,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
         data['ToPort'] = '99999'
         data['IpProtocol'] = 'tcp'
         data['CidrIp'] = '0.0.0.0/24'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -167,7 +167,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
         data['ToPort'] = '1024'
         data['IpProtocol'] = 'tcp'
         data['CidrIp'] = '0.0.0.0/24'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -190,7 +190,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
         data['Action'] = 'CreateSecurityGroup'
         data['GroupName'] = 'securitygroupname'
         data['GroupDescription'] = 'security group description'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -212,7 +212,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
         data['Action'] = 'CreateSecurityGroup'
         data['GroupName'] = 'securitygroupname'
         data['GroupDescription'] = 'security group description'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -233,7 +233,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'DeleteSecurityGroup'
         data['GroupName'] = 'securitygroupname'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -254,7 +254,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'DeleteSecurityGroup'
         data['GroupId'] = 'securitygroupname'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -274,7 +274,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
     def test_invalid_delete_security_group(self):
         data = self.get_example_data()
         data['Action'] = 'DeleteSecurityGroup'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         response = self.post(
             '/',
@@ -287,7 +287,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
     def test_describe_security_groups(self):
         data = self.get_example_data()
         data['Action'] = 'DescribeSecurityGroups'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -308,7 +308,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'DescribeSecurityGroups'
         data['GroupId'] = '3b637c2e-b0a8-40ae-a7a3-2bef2871d36d'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -330,7 +330,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'DescribeSecurityGroups'
         data['GroupId'] = 'invalid-security-group-id'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -351,7 +351,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'DescribeSecurityGroups'
         data['GroupId'] = 'invalid-security-group-id'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -372,7 +372,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'DescribeSecurityGroups'
         data['GroupName'] = 'test'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -394,7 +394,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'DescribeSecurityGroups'
         data['GroupName'] = 'invalid-name'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -415,7 +415,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'DescribeSecurityGroups'
         data['GroupName'] = 'invalid-name'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -440,7 +440,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
         data['ToPort'] = '1024'
         data['IpProtocol'] = 'tcp'
         data['CidrIp'] = '192.168.0.0/24'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -474,7 +474,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
         data['ToPort'] = '-1'
         data['IpProtocol'] = 'icmp'
         data['CidrIp'] = '192.168.0.0/24'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -508,7 +508,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
         data['ToPort'] = '0'
         data['IpProtocol'] = 'invalid'
         data['CidrIp'] = '192.168.0.0/24'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(

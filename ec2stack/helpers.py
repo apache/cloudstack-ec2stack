@@ -138,14 +138,14 @@ def _valid_signature():
         )
 
 
-def generate_signature(data=None, method=None, host=None):
+def generate_signature(data=None, method=None, host=None, path=None):
     if data is None:
         data = request.form
 
     signature_type = get('SignatureMethod', data)
 
     secretkey = get_secretkey(data)
-    request_string = _get_request_string(data, method, host)
+    request_string = _get_request_string(data, method, host, path)
 
     if signature_type == 'HmacSHA1':
         digestmod = hashlib.sha1
@@ -163,15 +163,18 @@ def generate_signature(data=None, method=None, host=None):
     return signature
 
 
-def _get_request_string(data, method=None, host=None):
+def _get_request_string(data, method=None, host=None, path=None):
     if method is None:
         method = request.method
     if host is None:
         host = request.host
+    if path is None:
+        path = request.path
+
     query_string = _get_query_string(data)
 
     request_string = '\n'.join(
-        [method, host, '/', query_string]
+        [method, host, path, query_string]
     )
 
     return request_string.encode('utf-8')

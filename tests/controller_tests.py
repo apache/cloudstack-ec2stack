@@ -159,7 +159,7 @@ class ControllerTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'CreateKeyPair'
         data['KeyName'] = 'Test'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.status_code = 401

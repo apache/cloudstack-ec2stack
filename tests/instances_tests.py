@@ -16,7 +16,7 @@ class InstancesTestCase(Ec2StackAppTestCase):
         data['Action'] = 'DescribeInstanceAttribute'
         data['InstanceId'] = '43791f77-26f8-48ca-b557-3a9392f735ae'
         data['Attribute'] = 'instanceType'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -38,7 +38,7 @@ class InstancesTestCase(Ec2StackAppTestCase):
         data['Action'] = 'DescribeInstanceAttribute'
         data['InstanceId'] = '43791f77-26f8-48ca-b557-3a9392f735ae'
         data['Attribute'] = 'invalid_attribute'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -58,7 +58,7 @@ class InstancesTestCase(Ec2StackAppTestCase):
     def test_describe_instances(self):
         data = self.get_example_data()
         data['Action'] = 'DescribeInstances'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -78,7 +78,7 @@ class InstancesTestCase(Ec2StackAppTestCase):
     def test_empty_response_describe_instances(self):
         data = self.get_example_data()
         data['Action'] = 'DescribeInstances'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -99,7 +99,7 @@ class InstancesTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'DescribeInstances'
         data['InstanceId.1'] = 'aa10a43e-56db-4a34-88bd-1c2a51c0bc04'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -121,7 +121,7 @@ class InstancesTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'DescribeInstances'
         data['InstanceId.1'] = 'invalid-instance-id'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -142,7 +142,7 @@ class InstancesTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'DescribeInstances'
         data['InstanceId.1'] = 'invalid-instance-id'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -163,7 +163,7 @@ class InstancesTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'RebootInstances'
         data['InstanceId.1'] = '076166a1-9f6e-11e3-b8df-3c075456b21a'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -184,7 +184,7 @@ class InstancesTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'StartInstances'
         data['InstanceId.1'] = '076166a1-9f6e-11e3-b8df-3c075456b21a'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -214,7 +214,7 @@ class InstancesTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'StopInstances'
         data['InstanceId.1'] = '076166a1-9f6e-11e3-b8df-3c075456b21a'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -244,7 +244,7 @@ class InstancesTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'TerminateInstances'
         data['InstanceId.1'] = '076166a1-9f6e-11e3-b8df-3c075456b21a'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -280,7 +280,7 @@ class InstancesTestCase(Ec2StackAppTestCase):
         data['SecurityGroup.1'] = 'example-security-group-name'
         data['KeyName'] = 'example-ssh-key-name'
         data['UserData'] = 'example-user-data'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -327,7 +327,7 @@ class InstancesTestCase(Ec2StackAppTestCase):
         data['SecurityGroup.1'] = 'example-security-group-name'
         data['KeyName'] = 'example-ssh-key-name'
         data['UserData'] = 'example-user-data'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -372,7 +372,7 @@ class InstancesTestCase(Ec2StackAppTestCase):
         data['SecurityGroup.1'] = 'example-security-group-name'
         data['KeyName'] = 'example-ssh-key-name'
         data['UserData'] = 'example-user-data'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -417,7 +417,7 @@ class InstancesTestCase(Ec2StackAppTestCase):
         data['SecurityGroup.1'] = 'invalid-security-group-name'
         data['KeyName'] = 'example-ssh-key-name'
         data['UserData'] = 'example-user-data'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -462,7 +462,7 @@ class InstancesTestCase(Ec2StackAppTestCase):
         data['SecurityGroup.1'] = 'example-security-group-name'
         data['KeyName'] = 'invalid-ssh-key-name'
         data['UserData'] = 'example-user-data'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -507,7 +507,7 @@ class InstancesTestCase(Ec2StackAppTestCase):
         data['SecurityGroup.1'] = 'example-security-group-name'
         data['KeyName'] = 'example-ssh-key-name'
         data['UserData'] = 'example-user-data'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(

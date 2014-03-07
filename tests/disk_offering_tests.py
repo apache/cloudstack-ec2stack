@@ -16,7 +16,7 @@ class DiskOfferingsTestCase(Ec2StackAppTestCase):
         data['Action'] = 'CreateVolume'
         data['Size'] = '80'
         data['AvailabilityZone'] = 'Sandbox-simulator'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(

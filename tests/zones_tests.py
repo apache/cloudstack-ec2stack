@@ -14,7 +14,7 @@ class ZonesTestCase(Ec2StackAppTestCase):
     def test_describe_zone(self):
         data = self.get_example_data()
         data['Action'] = 'DescribeAvailabilityZones'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -35,7 +35,7 @@ class ZonesTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'DescribeAvailabilityZones'
         data['ZoneName.1'] = 'CH-GV2'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -57,7 +57,7 @@ class ZonesTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'DescribeAvailabilityZones'
         data['ZoneName.1'] = 'invalid-zone-name'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -78,7 +78,7 @@ class ZonesTestCase(Ec2StackAppTestCase):
         data = self.get_example_data()
         data['Action'] = 'DescribeAvailabilityZones'
         data['ZoneName.1'] = 'invalid-zone-name'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
@@ -100,7 +100,7 @@ class ZonesTestCase(Ec2StackAppTestCase):
         data['Action'] = 'CreateVolume'
         data['Size'] = '80'
         data['AvailabilityZone'] = 'Sandbox-simulator'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
         get.return_value.text = read_file(
