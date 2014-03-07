@@ -1,15 +1,15 @@
 {% extends "response.xml" %}
 {% block response_content %}
     <reservationSet>
-     {% if response %}
+        {% if response %}
         <item>
             <reservationId>None</reservationId>
+            <groupSet />
             <instancesSet>
-                {% for instance in response.virtualmachine %}
+            {% for instance in response.virtualmachine %}
                 <item>
                     <instanceId>{{ instance.id }}</instanceId>
                     <imageId>{{ instance.templateid }}</imageId>
-                    <name>{{ instance.name }}</name>
                     <instanceState>
                         {% if instance.state == 'Starting' %}
                         <code>0</code>
@@ -36,11 +36,13 @@
                     <launchTime>{{ instance.created }}</launchTime>
                     <placement>
                         <availabilityZone>{{ instance.zonename }}</availabilityZone>
+                        <tenancy>default</tenancy>
                     </placement>
                     {% if 'nic' in instance %}
+                    <privateIpAddress>{{ instance.nic.0.ipaddress }}</privateIpAddress>
                     <ipAddress>{{ instance.nic.0.ipaddress }}</ipAddress>
                     {% endif %}
-                    <hypervisor>{{ instance.hypervisor }}</hypervisor>
+
                     <groupSet>
                         {% for securitygroup in instance.securitygroup %}
                         <item>
@@ -49,10 +51,11 @@
                         </item>
                         {% endfor %}
                     </groupSet>
+                    <hypervisor>{{ instance.hypervisor }}</hypervisor>
                 </item>
-                {% endfor %}
+            {% endfor %}
             </instancesSet>
         </item>
-    {% endif %}
+        {% endif %}
     </reservationSet>
 {% endblock %}
