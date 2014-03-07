@@ -361,3 +361,183 @@ class InstancesTestCase(Ec2StackAppTestCase):
 
         self.assert_ok(response)
         assert 'RunInstancesResponse' in response.data
+
+    def test_run_instance_invalid_image_id(self):
+        data = self.get_example_data()
+        data['Action'] = 'RunInstances'
+        data['ImageId'] = 'invalid-id'
+        data['MinCount'] = '0'
+        data['MaxCount'] = '0'
+        data['SecurityGroupId.1'] = 'example-security-group-id'
+        data['SecurityGroup.1'] = 'example-security-group-name'
+        data['KeyName'] = 'example-ssh-key-name'
+        data['UserData'] = 'example-user-data'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+
+        get = mock.Mock()
+        get.return_value.text = read_file(
+            'tests/data/invalid_run_instance_image_not_found.json'
+        )
+        get.return_value.status_code = 431
+
+        get_service_offering = mock.Mock()
+        get_service_offering.return_value = json.loads(read_file(
+            'tests/data/service_offering_search.json'
+        ))
+
+        get_zone = mock.Mock()
+        get_zone.return_value = json.loads(read_file(
+            'tests/data/zones_search.json'
+        ))
+
+        with mock.patch('requests.get', get):
+            with mock.patch(
+                    'ec2stack.providers.cloudstack.service_offerings.get_service_offering',
+                    get_service_offering
+            ):
+                with mock.patch(
+                        'ec2stack.providers.cloudstack.zones.get_zone',
+                        get_zone
+                ):
+                    response = self.post(
+                        '/',
+                        data=data
+                    )
+
+        self.assert_bad_request(response)
+        assert 'InvalidAMIID.NotFound' in response.data
+
+    def test_run_instance_invalid_security_group(self):
+        data = self.get_example_data()
+        data['Action'] = 'RunInstances'
+        data['ImageId'] = 'a32d70ee-95e4-11e3-b2e4-d19c9d3e5e1d'
+        data['MinCount'] = '0'
+        data['MaxCount'] = '0'
+        data['SecurityGroupId.1'] = 'invalid-security-group-id'
+        data['SecurityGroup.1'] = 'invalid-security-group-name'
+        data['KeyName'] = 'example-ssh-key-name'
+        data['UserData'] = 'example-user-data'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+
+        get = mock.Mock()
+        get.return_value.text = read_file(
+            'tests/data/invalid_run_instance_security_group_not_found.json'
+        )
+        get.return_value.status_code = 431
+
+        get_service_offering = mock.Mock()
+        get_service_offering.return_value = json.loads(read_file(
+            'tests/data/service_offering_search.json'
+        ))
+
+        get_zone = mock.Mock()
+        get_zone.return_value = json.loads(read_file(
+            'tests/data/zones_search.json'
+        ))
+
+        with mock.patch('requests.get', get):
+            with mock.patch(
+                    'ec2stack.providers.cloudstack.service_offerings.get_service_offering',
+                    get_service_offering
+            ):
+                with mock.patch(
+                        'ec2stack.providers.cloudstack.zones.get_zone',
+                        get_zone
+                ):
+                    response = self.post(
+                        '/',
+                        data=data
+                    )
+
+        self.assert_bad_request(response)
+        assert 'InvalidGroup.NotFound' in response.data
+
+    def test_run_instance_invalid_keyname(self):
+        data = self.get_example_data()
+        data['Action'] = 'RunInstances'
+        data['ImageId'] = 'a32d70ee-95e4-11e3-b2e4-d19c9d3e5e1d'
+        data['MinCount'] = '0'
+        data['MaxCount'] = '0'
+        data['SecurityGroupId.1'] = 'example-security-group-id'
+        data['SecurityGroup.1'] = 'example-security-group-name'
+        data['KeyName'] = 'invalid-ssh-key-name'
+        data['UserData'] = 'example-user-data'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+
+        get = mock.Mock()
+        get.return_value.text = read_file(
+            'tests/data/invalid_run_instance_keypair_not_found.json'
+        )
+        get.return_value.status_code = 431
+
+        get_service_offering = mock.Mock()
+        get_service_offering.return_value = json.loads(read_file(
+            'tests/data/service_offering_search.json'
+        ))
+
+        get_zone = mock.Mock()
+        get_zone.return_value = json.loads(read_file(
+            'tests/data/zones_search.json'
+        ))
+
+        with mock.patch('requests.get', get):
+            with mock.patch(
+                    'ec2stack.providers.cloudstack.service_offerings.get_service_offering',
+                    get_service_offering
+            ):
+                with mock.patch(
+                        'ec2stack.providers.cloudstack.zones.get_zone',
+                        get_zone
+                ):
+                    response = self.post(
+                        '/',
+                        data=data
+                    )
+
+        self.assert_bad_request(response)
+        assert 'InvalidKeyPair.NotFound' in response.data
+
+    def test_run_instance_unknown_issue(self):
+        data = self.get_example_data()
+        data['Action'] = 'RunInstances'
+        data['ImageId'] = 'a32d70ee-95e4-11e3-b2e4-d19c9d3e5e1d'
+        data['MinCount'] = '0'
+        data['MaxCount'] = '0'
+        data['SecurityGroupId.1'] = 'example-security-group-id'
+        data['SecurityGroup.1'] = 'example-security-group-name'
+        data['KeyName'] = 'example-ssh-key-name'
+        data['UserData'] = 'example-user-data'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost')
+
+        get = mock.Mock()
+        get.return_value.text = read_file(
+            'tests/data/invalid_run_instance_unknown_issue.json'
+        )
+        get.return_value.status_code = 431
+
+        get_service_offering = mock.Mock()
+        get_service_offering.return_value = json.loads(read_file(
+            'tests/data/service_offering_search.json'
+        ))
+
+        get_zone = mock.Mock()
+        get_zone.return_value = json.loads(read_file(
+            'tests/data/zones_search.json'
+        ))
+
+        with mock.patch('requests.get', get):
+            with mock.patch(
+                    'ec2stack.providers.cloudstack.service_offerings.get_service_offering',
+                    get_service_offering
+            ):
+                with mock.patch(
+                        'ec2stack.providers.cloudstack.zones.get_zone',
+                        get_zone
+                ):
+                    response = self.post(
+                        '/',
+                        data=data
+                    )
+
+        self.assert_bad_request(response)
+        assert 'InvalidParameterValue' in response.data

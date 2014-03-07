@@ -1,0 +1,7 @@
+{
+    "deployvirtualmachineresponse": {
+        "errorcode": 431,
+        "uuidlist": [],
+        "errortext": "Unable to execute API command deployvirtualmachine due to invalid value. Object vm_template(uuid: c34bf3f0-318b-4d77-b0ca-f20f85d05d32) does not exist."
+    }
+}

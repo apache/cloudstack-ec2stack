@@ -137,11 +137,9 @@ def _run_instance_request():
 
 def _run_instance_response(response):
     if 'errortext' in response:
-        if 'Invalid parameter templateid' in response['errortext']:
+        if 'Object vm_template' in response['errortext']:
             errors.invalid_image_id()
-        elif 'Unable to find group' in response['errortext']:
-            errors.invalid_security_group()
-        elif 'Invalid parameter securitygroupids' in response['errortext']:
+        elif 'Object security_group' in response['errortext']:
             errors.invalid_security_group()
         elif 'A key pair with name' in response['errortext']:
             errors.invalid_keypair_name()
