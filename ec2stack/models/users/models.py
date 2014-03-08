@@ -11,9 +11,10 @@ class User(DB.Model):
 
     def __init__(self, apikey, secretkey):
         """
+        Create's a new user.
 
-        @param apikey:
-        @param secretkey:
+        @param apikey: apikey associated with the user.
+        @param secretkey: secret key associated with the user.
         """
         self.apikey = apikey
         self.secretkey = secretkey
