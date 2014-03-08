@@ -5,6 +5,11 @@ from ec2stack.core import Ec2stackError
 
 
 def invalid_snapshot_id():
+    """
+    Invalid snapshot Id.
+
+    @raise Ec2stackError: Defining a bad request and message.
+    """
     raise Ec2stackError(
         '400',
         'InvalidSnapshot.NotFound',
@@ -14,9 +19,9 @@ def invalid_snapshot_id():
 
 def invalid_image_id():
     """
+    Invalid Image Id Error.
 
-
-    @raise Ec2stackError:
+    @raise Ec2stackError: Defining a bad request and message.
     """
     raise Ec2stackError(
         '400',
@@ -27,9 +32,9 @@ def invalid_image_id():
 
 def invalid_instance_id():
     """
+    Invalid Instance Id.
 
-
-    @raise Ec2stackError:
+    @raise Ec2stackError: Defining a bad request and message.
     """
     raise Ec2stackError(
         '400',
@@ -40,9 +45,9 @@ def invalid_instance_id():
 
 def invalid_zone():
     """
+    Invalid Zone
 
-
-    @raise Ec2stackError:
+    @raise Ec2stackError: Defining a bad request and message.
     """
     raise Ec2stackError(
         '400',
@@ -53,9 +58,9 @@ def invalid_zone():
 
 def invalid_volume_id():
     """
+    Invalid volume Id.
 
-
-    @raise Ec2stackError:
+    @raise Ec2stackError: Defining a bad request and message.
     """
     raise Ec2stackError(
         '400',
@@ -64,11 +69,11 @@ def invalid_volume_id():
     )
 
 
-def volume_attached():
+def invalid_volume_attached():
     """
+    Invalid volume attached storage.
 
-
-    @raise Ec2stackError:
+    @raise Ec2stackError: Defining a bad request and message.
     """
     raise Ec2stackError(
         '400',
@@ -77,11 +82,11 @@ def volume_attached():
     )
 
 
-def volume_detached():
+def invalid_volume_detached():
     """
+    Invalid volume detached.
 
-
-    @raise Ec2stackError:
+    @raise Ec2stackError: Defining a bad request and message.
     """
     raise Ec2stackError(
         '400',
@@ -92,9 +97,9 @@ def volume_detached():
 
 def invalid_disk_offering_name():
     """
+    Invalid disk offering id
 
-
-    @raise Ec2stackError:
+    @raise Ec2stackError: Defining a bad request and message.
     """
     raise Ec2stackError(
         '400',
@@ -105,9 +110,9 @@ def invalid_disk_offering_name():
 
 def invalid_service_offering_name():
     """
+    Invalid Service Offering name
 
-
-    @raise Ec2stackError:
+    @raise Ec2stackError: Defining a bad request and message.
     """
     raise Ec2stackError(
         '400',
@@ -118,9 +123,9 @@ def invalid_service_offering_name():
 
 def invalid_keypair_name():
     """
+    Invalid key pair name.
 
-
-    @raise Ec2stackError:
+    @raise Ec2stackError: Defining a bad request and message.
     """
     raise Ec2stackError(
         '400',
@@ -131,9 +136,9 @@ def invalid_keypair_name():
 
 def duplicate_keypair_name():
     """
+    Duplicate key pair name.
 
-
-    @raise Ec2stackError:
+    @raise Ec2stackError: Defining a bad request and message.
     """
     raise Ec2stackError(
         '400',
@@ -144,9 +149,9 @@ def duplicate_keypair_name():
 
 def duplicate_security_group():
     """
+    Duplicate Security Group.
 
-
-    @raise Ec2stackError:
+    @raise Ec2stackError: Defining a bad request and message.
     """
     raise Ec2stackError(
         '400',
@@ -157,9 +162,9 @@ def duplicate_security_group():
 
 def invalid_security_group():
     """
+    Invalid Security Group.
 
-
-    @raise Ec2stackError:
+    @raise Ec2stackError: Defining a bad request and message.
     """
     raise Ec2stackError(
         '400',
@@ -170,9 +175,9 @@ def invalid_security_group():
 
 def invalid_permission():
     """
+    Invalid Permission.
 
-
-    @raise Ec2stackError:
+    @raise Ec2stackError: Defining a bad request and message.
     """
     raise Ec2stackError(
         '400',
@@ -181,11 +186,12 @@ def invalid_permission():
     )
 
 
-def missing_paramater(parameter):
+def missing_parameter(parameter):
     """
+    Missing Parameter.
 
-    @param parameter:
-    @raise Ec2stackError:
+    @param parameter: Parameter that is missing.
+    @raise Ec2stackError: Defining a bad request and message.
     """
     raise Ec2stackError(
         '400',
@@ -194,11 +200,12 @@ def missing_paramater(parameter):
     )
 
 
-def invalid_paramater_value(message):
+def invalid_parameter_value(message):
     """
+    Invalid Paramater Value.
 
-    @param message:
-    @raise Ec2stackError:
+    @param message: Error message to use.
+    @raise Ec2stackError: Defining a bad request and message.
     """
     raise Ec2stackError(
         '400',

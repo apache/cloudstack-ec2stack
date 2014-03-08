@@ -9,7 +9,7 @@ from alembic.config import Config as AlembicConfig
 
 def main():
     """
-
+    Entry point into the configuration application.
 
     """
     config_folder = _create_config_folder()
@@ -19,9 +19,9 @@ def main():
 
 def _create_config_folder():
     """
+    Creates a folder to hold the users configurations files.
 
-
-    @return:
+    @return: Path of the configuration folder.
     """
     config_folder = os.path.join(os.path.expanduser('~'), '.ec2stack')
     if not os.path.exists(config_folder):
@@ -32,8 +32,9 @@ def _create_config_folder():
 
 def _create_config_file(config_folder):
     """
+    Reads in configuration items and writes them out to the configuration file.
 
-    @param config_folder:
+    @param config_folder: Path of the configuration folder.
     """
     config_file = open(config_folder + '/ec2stack.conf', 'w+')
 
@@ -116,8 +117,7 @@ def _create_config_file(config_folder):
 
 def _create_database():
     """
-
-
+    Creates/Updates the database.
     """
     directory = os.path.join(os.path.dirname(__file__), '../migrations')
     config = AlembicConfig(os.path.join(

@@ -13,9 +13,10 @@ from ec2stack.models import User
 
 def create_app(settings=None):
     """
+    Creates a flask application.
 
-    @param settings:
-    @return:
+    @param settings: Settings override object.
+    @return: The flask application
     """
     app = Flask(__name__)
 
@@ -41,9 +42,9 @@ def create_app(settings=None):
 
 def _load_config_file():
     """
+    Checks that the users configuration file exists and returns its path.
 
-
-    @return:
+    @return: The path to the users configuration file.
     """
     config_file = os.path.join(
         os.path.expanduser('~'),
@@ -58,8 +59,9 @@ def _load_config_file():
 
 def _valid_config_file(app):
     """
+    Validates that the configuration file has all the required parameters.
 
-    @param app:
+    @param app: The flask application.
     """
     for config_item in ['EC2STACK_BIND_ADDRESS', 'EC2STACK_PORT',
                         'CLOUDSTACK_HOST', 'CLOUDSTACK_PORT',
@@ -72,9 +74,9 @@ def _valid_config_file(app):
 
 def _load_database():
     """
+    Checks that the users database exists and returns its uri.
 
-
-    @return:
+    @return: The uri to the users database.
     """
     database_file = os.path.join(
         os.path.expanduser('~'),

@@ -24,7 +24,7 @@ def describe_instance_attribute():
     }
 
     if attribute not in supported_attribute_map.iterkeys():
-        errors.invalid_paramater_value(
+        errors.invalid_parameter_value(
             'The specified attribute is not valid, please specify a valid ' +
             'instance attribute.'
         )
@@ -181,7 +181,7 @@ def _run_instance_response(response):
         elif 'A key pair with name' in response['errortext']:
             errors.invalid_keypair_name()
         else:
-            errors.invalid_paramater_value(response['errortext'])
+            errors.invalid_parameter_value(response['errortext'])
     else:
         response = response['virtualmachine']
         response = {

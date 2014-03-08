@@ -9,8 +9,7 @@ import ec2stack
 
 def main():
     """
-
-
+    Entry point for launching EC2Stack.
     """
     app = ec2stack.create_app()
 

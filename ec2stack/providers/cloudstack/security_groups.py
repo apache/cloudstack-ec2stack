@@ -60,7 +60,7 @@ def _authenticate_security_group_response(response, rule_type):
         elif 'Unable to find security group' in response['errortext']:
             errors.invalid_security_group()
 
-        errors.invalid_paramater_value(response['errortext'])
+        errors.invalid_parameter_value(response['errortext'])
     else:
         if rule_type == 'ingress':
             rule_type = 'AuthorizeSecurityGroupIngressResponse'

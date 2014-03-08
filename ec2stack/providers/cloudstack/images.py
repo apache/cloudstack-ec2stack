@@ -20,7 +20,7 @@ def describe_image_attribute():
     }
 
     if attribute not in supported_attribute_map.iterkeys():
-        errors.invalid_paramater_value(
+        errors.invalid_parameter_value(
             'The specified attribute is not valid, please specify a valid ' +
             'image attribute.'
         )

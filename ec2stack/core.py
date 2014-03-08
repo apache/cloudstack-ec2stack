@@ -19,10 +19,11 @@ class Service(object):
 
     def _isinstance(self, model, raise_error=True):
         """
+        Checks if the given model is an instance of the service.
 
-        @param model:
-        @param raise_error:
-        @return: @raise ValueError:
+        @param model: Model to be checked.
+        @param raise_error: ValueError if model isn't the correct type.
+        @return: Bool @raise ValueError: stating not of correct type.
         """
         valid_type = isinstance(model, self.__model__)
         if not valid_type and raise_error:
@@ -31,9 +32,10 @@ class Service(object):
 
     def save(self, model):
         """
+        Saves the given Model.
 
-        @param model:
-        @return:
+        @param model: The model to be saved.
+        @return: The saved model
         """
         self._isinstance(model)
         DB.session.add(model)
@@ -42,24 +44,27 @@ class Service(object):
 
     def get(self, primarykey):
         """
+        Get the model via primarykey.
 
-        @param primarykey:
-        @return:
+        @param primarykey: primarykey of the model you want.
+        @return: Found model.
         """
         return self.__model__.query.get(primarykey)
 
     def create(self, **kwargs):
         """
+        Creates a new object.
 
-        @param kwargs:
-        @return:
+        @param kwargs: Parameters for the model.
+        @return: Created model.
         """
         return self.save(self.__model__(**kwargs))
 
     def delete(self, model):
         """
+        Deletes the given model
 
-        @param model:
+        @param model: Model to be deleted.
         """
         self._isinstance(model)
         DB.session.delete(model)

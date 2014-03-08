@@ -18,10 +18,11 @@ from ec2stack import errors
 
 def get(item, data=None):
     """
+    Gets the specified item in the given data.
 
-    @param item:
-    @param data:
-    @return:
+    @param item: Key of the item.
+    @param data: Data the item is in.
+    @return: Item if found, otherwise None.
     """
     if data is None:
         data = request.form
@@ -34,9 +35,10 @@ def get(item, data=None):
 
 def authentication_required(f):
     """
+    Checked that the given signature is valid.
 
-    @param f:
-    @return:
+    @param f: Function to wrap around.
+    @return: Result of signature check.
     """
 
     @wraps(f)
@@ -56,39 +58,44 @@ def authentication_required(f):
 
 def normalize_dict_keys(dct):
     """
+    Normalizes all keys in the given dictionary.
 
-    @param dct:
-    @return:
+    @param dct: Dictionary to normalize.
+    @return: Dictionary normalized.
     """
     return dict((key.lower(), value) for key, value in dct.iteritems())
 
 
 def require_parameters(required_parameters):
     """
+    Checks that the given array of parameters are present.
 
-    @param required_parameters:
+    @param required_parameters: Array of required parameters.
     """
     for parameter in required_parameters:
         if not contains_parameter(parameter):
-            errors.missing_paramater(parameter)
+            errors.missing_parameter(parameter)
 
 
 def require_atleast_one_parameter(parameters):
     """
+    Require atleast one parameter.
 
-    @param parameters:
-    @return:
+    @param parameters: Array of possible parameters.
+    @return: void.
     """
     parameter = None
     for parameter in parameters:
         if contains_parameter(parameter):
             return
 
-    errors.missing_paramater(parameter)
+    errors.missing_parameter(parameter)
 
 
 def error_to_aws(response, error_map):
+    # TODO @BroganD1993 not a clue what this does. its all yours.
     """
+    
 
     @param response:
     @param error_map:
@@ -100,10 +107,11 @@ def error_to_aws(response, error_map):
 
 def contains_parameter(parameter, data=None):
     """
+    Checks if the parameter is contained within the given data.
 
-    @param parameter:
-    @param data:
-    @return:
+    @param parameter: Parameter to check.
+    @param data: Data to check in.
+    @return: Boolean.
     """
     if data is None:
         data = request.form
@@ -111,21 +119,23 @@ def contains_parameter(parameter, data=None):
     return (get(parameter, data)) is not None
 
 
-def contains_parameter_with_keyword(key):
+def contains_parameter_with_keyword(prefix):
     """
+    Checks if the request contains parameters with the given prefix.
 
-    @param key:
-    @return:
+    @param prefix: Prefix of parameters.
+    @return: Boolean.
     """
-    return len(get_request_parameter_keys(key)) >= 1
+    return len(get_request_parameter_keys(prefix)) >= 1
 
 
 def get_request_parameter_keys(prefix, data=None):
     """
+    Gets all parameters containing prefix.
 
-    @param prefix:
-    @param data:
-    @return:
+    @param prefix: Prefix of parameters.
+    @param data: Data to search.
+    @return: List of matching parameters.
     """
     if data is None:
         data = request.form
@@ -135,9 +145,11 @@ def get_request_parameter_keys(prefix, data=None):
 
 def get_secretkey(data=None):
     """
+    Get the secret key from the database.
 
-    @param data:
-    @return: @raise Ec2stackError:
+    @param data: Data to get the API KEY from.
+    @return: The users secret key.
+    @raise Ec2stackError: if the secretkey is not found.
     """
     if data is None:
         data = request.form
@@ -153,14 +165,14 @@ def get_secretkey(data=None):
             % apikey
         )
 
-    return user.secretkey.encode('utf-8')
+    return user.secretkey
 
 
 def _valid_signature_method():
     """
+    Check that the given signature method is correct.
 
-
-    @raise Ec2stackError:
+    @raise Ec2stackError: if the signature method is invalid.
     """
     signature_method = get('SignatureMethod')
     if signature_method not in ['HmacSHA1', 'HmacSHA256']:
@@ -174,9 +186,9 @@ def _valid_signature_method():
 
 def _valid_signature_version():
     """
+    Checks that the given signature version is correct.
 
-
-    @raise Ec2stackError:
+    @raise Ec2stackError: if the signature version is invalid.
     """
     signature_version = get('SignatureVersion')
     if signature_version != '2':
@@ -191,9 +203,9 @@ def _valid_signature_version():
 
 def _valid_signature():
     """
+    Checks that the given signature matches the signature generated.
 
-
-    @raise Ec2stackError:
+    @raise Ec2stackError: if the signature does not match the generated signature.
     """
     signature = get('Signature')
     generated_signature = generate_signature()
@@ -208,12 +220,13 @@ def _valid_signature():
 
 def generate_signature(data=None, method=None, host=None, path=None):
     """
+    Generates a signature.
 
-    @param data:
-    @param method:
-    @param host:
-    @param path:
-    @return:
+    @param data: Data of the request.
+    @param method: HTTP method used.
+    @param host: HTTP post.
+    @param path: HTTP hort.
+    @return: A signatured.
     """
     if data is None:
         data = request.form
@@ -241,12 +254,13 @@ def generate_signature(data=None, method=None, host=None, path=None):
 
 def _get_request_string(data, method=None, host=None, path=None):
     """
+    Creates the request string
 
-    @param data:
-    @param method:
-    @param host:
-    @param path:
-    @return:
+    @param data: Data of the request.
+    @param method: HTTP method used.
+    @param host: HTTP host.
+    @param path: HTTP path.
+    @return: Request string.
     """
     if method is None:
         method = request.method
@@ -266,9 +280,10 @@ def _get_request_string(data, method=None, host=None, path=None):
 
 def _get_query_string(data):
     """
+    Creates the query string.
 
-    @param data:
-    @return:
+    @param data: Data of the request.
+    @return: Query String.
     """
     params = {}
     for param in data:
@@ -291,11 +306,12 @@ def _get_query_string(data):
 
 def error_response(code, error, message):
     """
+    Returns a error response.
 
-    @param code:
-    @param error:
-    @param message:
-    @return:
+    @param code: Status code.
+    @param error: Error type.
+    @param message: Error message.
+    @return: Response.
     """
     response = make_response(
         render_template(
@@ -311,9 +327,10 @@ def error_response(code, error, message):
 
 def successful_response(**kwargs):
     """
+    Returns a successful response.
 
-    @param kwargs:
-    @return:
+    @param kwargs: Parameters to render the template with.
+    @return: Response.
     """
     content = render_template(request_id=uuid(), **kwargs)
     response = make_response(content)
@@ -322,10 +339,11 @@ def successful_response(**kwargs):
 
 def _create_response(response, code):
     """
+    Creates a response.
 
-    @param response:
-    @param code:
-    @return:
+    @param response: Response to use.
+    @param code: Status code of the response.
+    @return: Response.
     """
     response.headers['Content-Type'] = 'application/xml'
     response.status_code = int(code)
@@ -334,9 +352,10 @@ def _create_response(response, code):
 
 def read_file(name):
     """
+    Reads the given file.
 
-    @param name:
-    @return:
+    @param name: Filename of the file to read.
+    @return: Contents of the file.
     """
     filepath = os.path.join(
         os.path.dirname(os.path.realpath(__file__)),
