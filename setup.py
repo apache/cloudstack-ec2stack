@@ -2,7 +2,6 @@
 # encoding: utf-8
 
 import os
-from glob import glob
 
 from setuptools import setup
 
