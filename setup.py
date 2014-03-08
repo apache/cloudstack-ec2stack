@@ -30,11 +30,6 @@ LONG_DESC = read_file('README.rst')
 REQUIRES = [
     'Flask', 'Flask-SQLAlchemy', 'Requests', 'alembic'
 ]
-DATA_FILES = []
-if os.getenv('VIRTUAL_ENV', False):
-    DATA_FILES.append(('conf', glob('conf/*.conf')))
-else:
-    DATA_FILES.append(('/etc/ec2stack', glob('conf/*.conf')))
 
 setup(
     name=PROJECT,
@@ -51,10 +46,11 @@ setup(
               'ec2stack.providers',
               'ec2stack.models',
               'ec2stack.models.users',
-              'ec2stack.providers.cloudstack'],
+              'ec2stack.providers.cloudstack',
+              'migrations',
+              'migrations.versions'],
     include_package_data=True,
     zip_safe=False,
-    data_files=DATA_FILES,
     install_requires=REQUIRES,
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
