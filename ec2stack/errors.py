@@ -13,6 +13,11 @@ def invalid_snapshot_id():
 
 
 def invalid_image_id():
+    """
+
+
+    @raise Ec2stackError:
+    """
     raise Ec2stackError(
         '400',
         'InvalidAMIID.NotFound',
@@ -21,6 +26,11 @@ def invalid_image_id():
 
 
 def invalid_instance_id():
+    """
+
+
+    @raise Ec2stackError:
+    """
     raise Ec2stackError(
         '400',
         'InvalidInstanceId.NotFound',
@@ -29,6 +39,11 @@ def invalid_instance_id():
 
 
 def invalid_zone():
+    """
+
+
+    @raise Ec2stackError:
+    """
     raise Ec2stackError(
         '400',
         'InvalidZone.NotFound',
@@ -37,6 +52,11 @@ def invalid_zone():
 
 
 def invalid_volume_id():
+    """
+
+
+    @raise Ec2stackError:
+    """
     raise Ec2stackError(
         '400',
         'InvalidVolume.NotFound',
@@ -45,6 +65,11 @@ def invalid_volume_id():
 
 
 def volume_attached():
+    """
+
+
+    @raise Ec2stackError:
+    """
     raise Ec2stackError(
         '400',
         'InvalidVolume.Attached',
@@ -53,6 +78,11 @@ def volume_attached():
 
 
 def volume_detached():
+    """
+
+
+    @raise Ec2stackError:
+    """
     raise Ec2stackError(
         '400',
         'InvalidVolume.Detached',
@@ -61,6 +91,11 @@ def volume_detached():
 
 
 def invalid_disk_offering_name():
+    """
+
+
+    @raise Ec2stackError:
+    """
     raise Ec2stackError(
         '400',
         'InvalidDiskOffering.NotFound',
@@ -69,6 +104,11 @@ def invalid_disk_offering_name():
 
 
 def invalid_service_offering_name():
+    """
+
+
+    @raise Ec2stackError:
+    """
     raise Ec2stackError(
         '400',
         'InvalidServiceOffering.NotFound',
@@ -77,6 +117,11 @@ def invalid_service_offering_name():
 
 
 def invalid_keypair_name():
+    """
+
+
+    @raise Ec2stackError:
+    """
     raise Ec2stackError(
         '400',
         'InvalidKeyPair.NotFound',
@@ -85,6 +130,11 @@ def invalid_keypair_name():
 
 
 def duplicate_keypair_name():
+    """
+
+
+    @raise Ec2stackError:
+    """
     raise Ec2stackError(
         '400',
         'InvalidKeyPair.Duplicate',
@@ -93,6 +143,11 @@ def duplicate_keypair_name():
 
 
 def duplicate_security_group():
+    """
+
+
+    @raise Ec2stackError:
+    """
     raise Ec2stackError(
         '400',
         'InvalidGroup.Duplicate',
@@ -101,6 +156,11 @@ def duplicate_security_group():
 
 
 def invalid_security_group():
+    """
+
+
+    @raise Ec2stackError:
+    """
     raise Ec2stackError(
         '400',
         'InvalidGroup.NotFound',
@@ -109,6 +169,11 @@ def invalid_security_group():
 
 
 def invalid_permission():
+    """
+
+
+    @raise Ec2stackError:
+    """
     raise Ec2stackError(
         '400',
         'InvalidPermission.NotFound',
@@ -117,6 +182,11 @@ def invalid_permission():
 
 
 def missing_paramater(parameter):
+    """
+
+    @param parameter:
+    @raise Ec2stackError:
+    """
     raise Ec2stackError(
         '400',
         'MissingParameter',
@@ -125,6 +195,11 @@ def missing_paramater(parameter):
 
 
 def invalid_paramater_value(message):
+    """
+
+    @param message:
+    @raise Ec2stackError:
+    """
     raise Ec2stackError(
         '400',
         'InvalidParameterValue',

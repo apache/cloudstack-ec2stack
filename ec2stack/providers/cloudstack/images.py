@@ -7,6 +7,11 @@ from ec2stack.providers import cloudstack
 
 @helpers.authentication_required
 def describe_image_attribute():
+    """
+
+
+    @return:
+    """
     image_id = helpers.get('ImageId')
     attribute = helpers.get('Attribute')
 
@@ -26,6 +31,13 @@ def describe_image_attribute():
 
 
 def _describe_image_attribute_response(response, attribute, attr_map):
+    """
+
+    @param response:
+    @param attribute:
+    @param attr_map:
+    @return:
+    """
     return {
         'template_name_or_list': 'image_attribute.xml',
         'response_type': 'DescribeImageAttributeResponse',
@@ -37,6 +49,11 @@ def _describe_image_attribute_response(response, attribute, attr_map):
 
 @helpers.authentication_required
 def describe_images():
+    """
+
+
+    @return:
+    """
     args = {'templatefilter': 'executable', 'command': 'listTemplates'}
     response = cloudstack.describe_item(
         args, 'template', errors.invalid_image_id, 'ImageId'
@@ -48,6 +65,11 @@ def describe_images():
 
 
 def _describe_images_response(response):
+    """
+
+    @param response:
+    @return:
+    """
     return {
         'template_name_or_list': 'images.xml',
         'response_type': 'DescribeImagesResponse',
@@ -56,6 +78,11 @@ def _describe_images_response(response):
 
 
 def describe_image_by_id(image_id):
+    """
+
+    @param image_id:
+    @return:
+    """
     args = {
         'id': image_id,
         'templatefilter': 'executable',

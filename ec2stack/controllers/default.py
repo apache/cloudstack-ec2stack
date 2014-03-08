@@ -16,6 +16,11 @@ DEFAULT = Blueprint('default', __name__)
 
 @DEFAULT.route('/', methods=['POST'])
 def index():
+    """
+
+
+    @return:
+    """
     try:
         response_data = _get_action(get('Action'))()
         return successful_response(**response_data)
@@ -24,6 +29,11 @@ def index():
 
 
 def _get_action(action):
+    """
+
+    @param action:
+    @return: @raise Ec2stackError:
+    """
     actions = {
         'AttachVolume': volumes.attach_volume,
         'AuthorizeSecurityGroupEgress':
@@ -71,6 +81,11 @@ def _get_action(action):
 
 
 def register_secret_key():
+    """
+
+
+    @return: @raise Ec2stackError:
+    """
     require_parameters({'AWSAccessKeyId', 'AWSSecretKey'})
     found_user = USERS.get(get('AWSAccessKeyId'))
     if found_user is None:
@@ -94,6 +109,11 @@ def register_secret_key():
 
 
 def remove_secret_key():
+    """
+
+
+    @return: @raise Ec2stackError:
+    """
     require_parameters({'AWSAccessKeyId', 'AWSSecretKey'})
     accesskey = get('AWSAccessKeyId')
     secretkey = get('AWSSecretKey')
@@ -118,9 +138,19 @@ def remove_secret_key():
 
 @DEFAULT.app_errorhandler(404)
 def not_found(err):
+    """
+
+    @param err:
+    @return:
+    """
     return error_response('404', 'NotFound', 'Page not found')
 
 
 @DEFAULT.app_errorhandler(400)
 def bad_request(err):
+    """
+
+    @param err:
+    @return:
+    """
     return error_response('400', 'BadRequest', 'Bad Request')

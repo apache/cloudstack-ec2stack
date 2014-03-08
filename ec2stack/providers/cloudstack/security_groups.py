@@ -9,12 +9,22 @@ from ec2stack.providers.cloudstack import requester
 
 @helpers.authentication_required
 def authenticate_security_group_egress():
+    """
+
+
+    @return:
+    """
     rule_type = 'egress'
     response = _authenticate_security_group_request(rule_type)
     return _authenticate_security_group_response(response, rule_type)
 
 
 def _authenticate_security_group_request(rule_type):
+    """
+
+    @param rule_type:
+    @return:
+    """
     args = _parse_security_group_request()
 
     if rule_type == 'egress':
@@ -28,6 +38,12 @@ def _authenticate_security_group_request(rule_type):
 
 
 def _authenticate_security_group_response(response, rule_type):
+    """
+
+    @param response:
+    @param rule_type:
+    @return: @raise Ec2stackError:
+    """
     if 'errortext' in response:
         if 'Failed to authorize security group' in response['errortext']:
             cidrlist = str(helpers.get('CidrIp'))
@@ -60,12 +76,22 @@ def _authenticate_security_group_response(response, rule_type):
 
 @helpers.authentication_required
 def create_security_group():
+    """
+
+
+    @return:
+    """
     helpers.require_parameters(['GroupName', 'GroupDescription'])
     response = _create_security_group_request()
     return _create_security_group_response(response)
 
 
 def _create_security_group_request():
+    """
+
+
+    @return:
+    """
     args = {'command': 'createSecurityGroup', 'name': helpers.get('GroupName'),
             'description': helpers.get('GroupDescription')}
 
@@ -77,6 +103,11 @@ def _create_security_group_request():
 
 
 def _create_security_group_response(response):
+    """
+
+    @param response:
+    @return:
+    """
     if 'errortext' in response:
         errors.duplicate_security_group()
     else:
@@ -91,11 +122,21 @@ def _create_security_group_response(response):
 
 @helpers.authentication_required
 def delete_security_group():
+    """
+
+
+    @return:
+    """
     _delete_security_group_request()
     return _delete_security_group_response()
 
 
 def _delete_security_group_request():
+    """
+
+
+    @return:
+    """
     args = {}
 
     helpers.require_atleast_one_parameter(['GroupName', 'GroupId'])
@@ -114,6 +155,11 @@ def _delete_security_group_request():
 
 
 def _delete_security_group_response():
+    """
+
+
+    @return:
+    """
     return {
         'template_name_or_list': 'status.xml',
         'response_type': 'DeleteSecurityGroupResponse',
@@ -123,6 +169,11 @@ def _delete_security_group_response():
 
 @helpers.authentication_required
 def describe_security_groups():
+    """
+
+
+    @return:
+    """
     args = {'command': 'listSecurityGroups'}
 
     response = cloudstack.describe_item(
@@ -135,6 +186,11 @@ def describe_security_groups():
 
 
 def _describe_security_groups_response(response):
+    """
+
+    @param response:
+    @return:
+    """
     return {
         'template_name_or_list': 'securitygroups.xml',
         'response_type': 'DescribeSecurityGroupsResponse',
@@ -144,6 +200,11 @@ def _describe_security_groups_response(response):
 
 @helpers.authentication_required
 def authenticate_security_group_ingress():
+    """
+
+
+    @return:
+    """
     rule_type = 'ingress'
     response = _authenticate_security_group_request(rule_type)
     return _authenticate_security_group_response(response, rule_type)
@@ -151,6 +212,11 @@ def authenticate_security_group_ingress():
 
 @helpers.authentication_required
 def revoke_security_group_ingress():
+    """
+
+
+    @return:
+    """
     rule_type = 'ingress'
     _revoke_security_group_request(rule_type)
     return _revoke_security_group_response(rule_type)
@@ -158,12 +224,22 @@ def revoke_security_group_ingress():
 
 @helpers.authentication_required
 def revoke_security_group_egress():
+    """
+
+
+    @return:
+    """
     rule_type = 'egress'
     _revoke_security_group_request(rule_type)
     return _revoke_security_group_response(rule_type)
 
 
 def _revoke_security_group_request(rule_type):
+    """
+
+    @param rule_type:
+    @return:
+    """
     args = {}
 
     rules = _parse_security_group_request()
@@ -181,6 +257,11 @@ def _revoke_security_group_request(rule_type):
 
 
 def _revoke_security_group_response(rule_type):
+    """
+
+    @param rule_type:
+    @return:
+    """
     if rule_type == 'ingress':
         rule_type = 'RevokeSecurityGroupIngressResponse'
     elif rule_type == 'egress':
@@ -193,6 +274,12 @@ def _revoke_security_group_response(rule_type):
 
 
 def _find_rule(rule, rule_type):
+    """
+
+    @param rule:
+    @param rule_type:
+    @return:
+    """
     security_group = _get_security_group(rule)
 
     if rule_type in security_group:
@@ -206,6 +293,12 @@ def _find_rule(rule, rule_type):
 
 
 def _compare_rules(left, right):
+    """
+
+    @param left:
+    @param right:
+    @return:
+    """
     protocol_match = str(left['protocol']) == str(right['protocol'])
     cidr_match = str(left['cidrlist']) == str(right['cidr'])
 
@@ -227,6 +320,11 @@ def _compare_rules(left, right):
 
 
 def _get_security_group(args):
+    """
+
+    @param args:
+    @return:
+    """
     args['command'] = 'listSecurityGroups'
     response = cloudstack.describe_item_request(
         args, 'securitygroup', errors.invalid_security_group
@@ -236,6 +334,11 @@ def _get_security_group(args):
 
 
 def _parse_security_group_request(args=None):
+    """
+
+    @param args:
+    @return:
+    """
     if args is None:
         args = {}
 

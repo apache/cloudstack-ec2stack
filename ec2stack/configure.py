@@ -8,20 +8,33 @@ from alembic.config import Config as AlembicConfig
 
 
 def main():
+    """
+
+
+    """
     config_folder = _create_config_folder()
     _create_config_file(config_folder)
     _create_database()
 
 
 def _create_config_folder():
+    """
+
+
+    @return:
+    """
     config_folder = os.path.join(os.path.expanduser('~'), '.ec2stack')
     if not os.path.exists(config_folder):
         os.makedirs(config_folder)
-    os.chmod(config_folder, 0o700)
+    os.chmod(config_folder, 0700)
     return config_folder
 
 
 def _create_config_file(config_folder):
+    """
+
+    @param config_folder:
+    """
     config_file = open(config_folder + '/ec2stack.conf', 'w+')
 
     ec2stack_address = raw_input('EC2Stack bind address [0.0.0.0]: ')
@@ -102,6 +115,10 @@ def _create_config_file(config_folder):
 
 
 def _create_database():
+    """
+
+
+    """
     directory = os.path.join(os.path.dirname(__file__), '../migrations')
     config = AlembicConfig(os.path.join(
         directory,

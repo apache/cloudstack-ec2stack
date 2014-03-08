@@ -8,6 +8,11 @@ import requests
 
 
 def _generate_args(description):
+    """
+
+    @param description:
+    @return:
+    """
     parser = argparse.ArgumentParser(
         description=description
     )
@@ -33,6 +38,10 @@ def _generate_args(description):
 
 
 def register():
+    """
+
+
+    """
     args = _generate_args(
         'Command line utility for registering a secret key with ec2stack'
     )
@@ -41,6 +50,10 @@ def register():
 
 
 def remove():
+    """
+
+
+    """
     args = _generate_args(
         'Command line utility for removing a secret key from ec2stack'
     )
@@ -49,6 +62,10 @@ def remove():
 
 
 def _execute_request(args):
+    """
+
+    @param args:
+    """
     host = args.pop('ec2stack_server_address')
     response = requests.post(host, args)
     response = xmlparse(response.text)

@@ -8,6 +8,10 @@ import ec2stack
 
 
 def main():
+    """
+
+
+    """
     app = ec2stack.create_app()
 
     run_simple(

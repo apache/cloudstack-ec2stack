@@ -17,6 +17,12 @@ from ec2stack import errors
 
 
 def get(item, data=None):
+    """
+
+    @param item:
+    @param data:
+    @return:
+    """
     if data is None:
         data = request.form
 
@@ -27,6 +33,12 @@ def get(item, data=None):
 
 
 def authentication_required(f):
+    """
+
+    @param f:
+    @return:
+    """
+
     @wraps(f)
     def decorated(*args, **kwargs):
         required_params = {'Action', 'AWSAccessKeyId', 'Signature',
@@ -43,16 +55,30 @@ def authentication_required(f):
 
 
 def normalize_dict_keys(dct):
+    """
+
+    @param dct:
+    @return:
+    """
     return dict((key.lower(), value) for key, value in dct.iteritems())
 
 
 def require_parameters(required_parameters):
+    """
+
+    @param required_parameters:
+    """
     for parameter in required_parameters:
         if not contains_parameter(parameter):
             errors.missing_paramater(parameter)
 
 
 def require_atleast_one_parameter(parameters):
+    """
+
+    @param parameters:
+    @return:
+    """
     parameter = None
     for parameter in parameters:
         if contains_parameter(parameter):
@@ -62,12 +88,23 @@ def require_atleast_one_parameter(parameters):
 
 
 def error_to_aws(response, error_map):
+    """
+
+    @param response:
+    @param error_map:
+    """
     for errortext, error_function in error_map.iteritems():
         if errortext in response['errortext']:
             error_function()
 
 
 def contains_parameter(parameter, data=None):
+    """
+
+    @param parameter:
+    @param data:
+    @return:
+    """
     if data is None:
         data = request.form
 
@@ -75,10 +112,21 @@ def contains_parameter(parameter, data=None):
 
 
 def contains_parameter_with_keyword(key):
+    """
+
+    @param key:
+    @return:
+    """
     return len(get_request_parameter_keys(key)) >= 1
 
 
 def get_request_parameter_keys(prefix, data=None):
+    """
+
+    @param prefix:
+    @param data:
+    @return:
+    """
     if data is None:
         data = request.form
 
@@ -86,6 +134,11 @@ def get_request_parameter_keys(prefix, data=None):
 
 
 def get_secretkey(data=None):
+    """
+
+    @param data:
+    @return: @raise Ec2stackError:
+    """
     if data is None:
         data = request.form
 
@@ -104,6 +157,11 @@ def get_secretkey(data=None):
 
 
 def _valid_signature_method():
+    """
+
+
+    @raise Ec2stackError:
+    """
     signature_method = get('SignatureMethod')
     if signature_method not in ['HmacSHA1', 'HmacSHA256']:
         raise Ec2stackError(
@@ -115,6 +173,11 @@ def _valid_signature_method():
 
 
 def _valid_signature_version():
+    """
+
+
+    @raise Ec2stackError:
+    """
     signature_version = get('SignatureVersion')
     if signature_version != '2':
         raise Ec2stackError(
@@ -127,6 +190,11 @@ def _valid_signature_version():
 
 
 def _valid_signature():
+    """
+
+
+    @raise Ec2stackError:
+    """
     signature = get('Signature')
     generated_signature = generate_signature()
 
@@ -139,6 +207,14 @@ def _valid_signature():
 
 
 def generate_signature(data=None, method=None, host=None, path=None):
+    """
+
+    @param data:
+    @param method:
+    @param host:
+    @param path:
+    @return:
+    """
     if data is None:
         data = request.form
 
@@ -164,6 +240,14 @@ def generate_signature(data=None, method=None, host=None, path=None):
 
 
 def _get_request_string(data, method=None, host=None, path=None):
+    """
+
+    @param data:
+    @param method:
+    @param host:
+    @param path:
+    @return:
+    """
     if method is None:
         method = request.method
     if host is None:
@@ -181,6 +265,11 @@ def _get_request_string(data, method=None, host=None, path=None):
 
 
 def _get_query_string(data):
+    """
+
+    @param data:
+    @return:
+    """
     params = {}
     for param in data:
         if param != 'Signature':
@@ -201,6 +290,13 @@ def _get_query_string(data):
 
 
 def error_response(code, error, message):
+    """
+
+    @param code:
+    @param error:
+    @param message:
+    @return:
+    """
     response = make_response(
         render_template(
             'generic_error.xml',
@@ -214,18 +310,34 @@ def error_response(code, error, message):
 
 
 def successful_response(**kwargs):
+    """
+
+    @param kwargs:
+    @return:
+    """
     content = render_template(request_id=uuid(), **kwargs)
     response = make_response(content)
     return _create_response(response, '200')
 
 
 def _create_response(response, code):
+    """
+
+    @param response:
+    @param code:
+    @return:
+    """
     response.headers['Content-Type'] = 'application/xml'
     response.status_code = int(code)
     return response
 
 
 def read_file(name):
+    """
+
+    @param name:
+    @return:
+    """
     filepath = os.path.join(
         os.path.dirname(os.path.realpath(__file__)),
         '../',

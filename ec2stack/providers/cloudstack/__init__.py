@@ -6,6 +6,14 @@ from ec2stack.providers.cloudstack import requester
 
 
 def describe_item(args, keyname, not_found, prefix):
+    """
+
+    @param args:
+    @param keyname:
+    @param not_found:
+    @param prefix:
+    @return:
+    """
     if helpers.contains_parameter_with_keyword(prefix):
         response = _describe_specific_item(args, keyname, not_found, prefix)
     else:
@@ -15,6 +23,14 @@ def describe_item(args, keyname, not_found, prefix):
 
 
 def _describe_specific_item(args, keyname, not_found, prefix):
+    """
+
+    @param args:
+    @param keyname:
+    @param not_found:
+    @param prefix:
+    @return:
+    """
     keys = helpers.get_request_parameter_keys(prefix)
 
     response = {keyname: []}
@@ -34,6 +50,13 @@ def _describe_specific_item(args, keyname, not_found, prefix):
 
 
 def describe_item_request(args, keyname, not_found):
+    """
+
+    @param args:
+    @param keyname:
+    @param not_found:
+    @return:
+    """
     request = describe_items_request(args, not_found)
     request = request[keyname]
 
@@ -47,6 +70,12 @@ def describe_item_request(args, keyname, not_found):
 
 
 def describe_items_request(args, not_found):
+    """
+
+    @param args:
+    @param not_found:
+    @return:
+    """
     args['listAll'] = 'true'
     response = requester.make_request(args)
     response = response[response.keys()[0]]

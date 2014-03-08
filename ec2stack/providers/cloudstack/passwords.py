@@ -8,12 +8,22 @@ from ec2stack.providers.cloudstack import requester
 
 @helpers.authentication_required
 def get_password_data():
+    """
+
+
+    @return:
+    """
     helpers.require_parameters(['InstanceId'])
     response = _get_password_data_request()
     return _get_password_data_format_response(response)
 
 
 def _get_password_data_request():
+    """
+
+
+    @return:
+    """
     args = {'command': 'getVMPassword', 'id': helpers.get('InstanceId')}
 
     response = requester.make_request(args)
@@ -24,6 +34,11 @@ def _get_password_data_request():
 
 
 def _get_password_data_format_response(response):
+    """
+
+    @param response:
+    @return: @raise Ec2stackError:
+    """
     instanceid = helpers.get('InstanceId')
     if 'errortext' in response:
         raise Ec2stackError(

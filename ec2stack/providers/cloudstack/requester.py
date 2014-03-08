@@ -15,6 +15,11 @@ from ec2stack import helpers
 
 
 def make_request(args):
+    """
+
+    @param args:
+    @return:
+    """
     args['apikey'] = helpers.get('AWSAccessKeyId')
     args['response'] = 'json'
 
@@ -42,6 +47,13 @@ def make_request(args):
 
 
 def make_request_async(args, poll_period=2, timeout=3600):
+    """
+
+    @param args:
+    @param poll_period:
+    @param timeout:
+    @return:
+    """
     response = make_request(args)
 
     responsekey = response.keys()[0]
@@ -67,6 +79,12 @@ def make_request_async(args, poll_period=2, timeout=3600):
 
 
 def _generate_request_url(args, secretkey):
+    """
+
+    @param args:
+    @param secretkey:
+    @return:
+    """
     keys = sorted(args.keys())
     values = map(args.get, keys)
 
@@ -92,6 +110,12 @@ def _generate_request_url(args, secretkey):
 
 
 def _generate_signature(request_url, secretkey):
+    """
+
+    @param request_url:
+    @param secretkey:
+    @return:
+    """
     signature = request_url.lower().replace('+', '%20')
 
     signature = hmac.new(

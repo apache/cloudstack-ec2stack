@@ -10,5 +10,10 @@ class User(DB.Model):
     secretkey = DB.Column(DB.String(255), unique=True)
 
     def __init__(self, apikey, secretkey):
+        """
+
+        @param apikey:
+        @param secretkey:
+        """
         self.apikey = apikey
         self.secretkey = secretkey

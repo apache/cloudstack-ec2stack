@@ -12,6 +12,11 @@ from ec2stack.models import User
 
 
 def create_app(settings=None):
+    """
+
+    @param settings:
+    @return:
+    """
     app = Flask(__name__)
 
     if settings:
@@ -35,6 +40,11 @@ def create_app(settings=None):
 
 
 def _load_config_file():
+    """
+
+
+    @return:
+    """
     config_file = os.path.join(
         os.path.expanduser('~'),
         '.ec2stack/ec2stack.conf'
@@ -47,6 +57,10 @@ def _load_config_file():
 
 
 def _valid_config_file(app):
+    """
+
+    @param app:
+    """
     for config_item in ['EC2STACK_BIND_ADDRESS', 'EC2STACK_PORT',
                         'CLOUDSTACK_HOST', 'CLOUDSTACK_PORT',
                         'CLOUDSTACK_PROTOCOL', 'CLOUDSTACK_PATH',
@@ -57,6 +71,11 @@ def _valid_config_file(app):
 
 
 def _load_database():
+    """
+
+
+    @return:
+    """
     database_file = os.path.join(
         os.path.expanduser('~'),
         '.ec2stack/ec2stack.sqlite'

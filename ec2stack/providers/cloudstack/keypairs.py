@@ -11,12 +11,22 @@ from ec2stack import errors
 
 @helpers.authentication_required
 def create_keypair():
+    """
+
+
+    @return:
+    """
     helpers.require_parameters(['KeyName'])
     response = _create_keypair_request()
     return _create_keypair_response(response)
 
 
 def _create_keypair_request():
+    """
+
+
+    @return:
+    """
     args = {'command': 'createSSHKeyPair', 'name': helpers.get('KeyName')}
 
     response = requester.make_request(args)
@@ -27,6 +37,11 @@ def _create_keypair_request():
 
 
 def _create_keypair_response(response):
+    """
+
+    @param response:
+    @return:
+    """
     if 'errortext' in response:
         errors.duplicate_keypair_name()
     else:
@@ -40,12 +55,22 @@ def _create_keypair_response(response):
 
 @helpers.authentication_required
 def delete_keypair():
+    """
+
+
+    @return:
+    """
     helpers.require_parameters(['KeyName'])
     _delete_keypair_request()
     return _delete_keypair_response()
 
 
 def _delete_keypair_request():
+    """
+
+
+    @return:
+    """
     args = {'command': 'deleteSSHKeyPair', 'name': helpers.get('KeyName')}
 
     response = requester.make_request(args)
@@ -54,6 +79,11 @@ def _delete_keypair_request():
 
 
 def _delete_keypair_response():
+    """
+
+
+    @return:
+    """
     return {
         'template_name_or_list': 'status.xml',
         'response_type': 'DeleteKeyPairResponse',
@@ -63,6 +93,11 @@ def _delete_keypair_response():
 
 @helpers.authentication_required
 def describe_keypairs():
+    """
+
+
+    @return:
+    """
     args = {'command': 'listSSHKeyPairs'}
     response = cloudstack.describe_item(
         args, 'sshkeypair', errors.invalid_keypair_name, 'KeyName'
@@ -74,6 +109,11 @@ def describe_keypairs():
 
 
 def _describe_keypair_response(response):
+    """
+
+    @param response:
+    @return:
+    """
     return {
         'template_name_or_list': 'keypairs.xml',
         'response_type': 'DescribeKeyPairsResponse',
@@ -83,12 +123,22 @@ def _describe_keypair_response(response):
 
 @helpers.authentication_required
 def import_keypair():
+    """
+
+
+    @return:
+    """
     helpers.require_parameters(['KeyName', 'PublicKeyMaterial'])
     response = _import_keypair_request()
     return _import_keypair_response(response)
 
 
 def _import_keypair_request():
+    """
+
+
+    @return:
+    """
     args = {'command': 'registerSSHKeyPair', 'name': helpers.get('KeyName'),
             'publickey': b64decode(helpers.get('PublicKeyMaterial'))}
 
@@ -99,6 +149,11 @@ def _import_keypair_request():
 
 
 def _import_keypair_response(response):
+    """
+
+    @param response:
+    @return:
+    """
     if 'errortext' in response:
         errors.duplicate_keypair_name()
     else:

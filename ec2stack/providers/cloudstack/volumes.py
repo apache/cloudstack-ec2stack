@@ -23,12 +23,22 @@ volume_error_to_aws = {
 
 @helpers.authentication_required
 def attach_volume():
+    """
+
+
+    @return:
+    """
     helpers.require_parameters(['VolumeId', 'InstanceId', 'Device'])
     response = _attach_volume_request()
     return _attach_volume_response(response)
 
 
 def _attach_volume_request():
+    """
+
+
+    @return:
+    """
     args = {}
 
     volume_id = helpers.get('VolumeId')
@@ -46,6 +56,11 @@ def _attach_volume_request():
 
 
 def _attach_volume_response(response):
+    """
+
+    @param response:
+    @return:
+    """
     if 'errortext' in response:
         helpers.error_to_aws(response, volume_error_to_aws)
 
@@ -59,12 +74,22 @@ def _attach_volume_response(response):
 
 @helpers.authentication_required
 def create_volume():
+    """
+
+
+    @return:
+    """
     helpers.require_atleast_one_parameter(['SnapshotId', 'Size'])
     response = _create_volume_request()
     return _create_volume_response(response)
 
 
 def _create_volume_request():
+    """
+
+
+    @return:
+    """
     args = {}
 
     if helpers.contains_parameter('SnapshotId'):
@@ -89,6 +114,11 @@ def _create_volume_request():
 
 
 def _create_volume_response(response):
+    """
+
+    @param response:
+    @return:
+    """
     if 'errortext' in response:
         helpers.error_to_aws(response, volume_error_to_aws)
 
@@ -102,6 +132,11 @@ def _create_volume_response(response):
 
 @helpers.authentication_required
 def delete_volume():
+    """
+
+
+    @return:
+    """
     helpers.require_parameters(['VolumeId'])
     response = _delete_volume_request()
 
@@ -109,6 +144,11 @@ def delete_volume():
 
 
 def _delete_volume_request():
+    """
+
+
+    @return:
+    """
     args = {'id': helpers.get('VolumeId'), 'command': 'deleteVolume'}
 
     response = requester.make_request(args)
@@ -118,6 +158,11 @@ def _delete_volume_request():
 
 
 def _delete_volume_response(response):
+    """
+
+    @param response:
+    @return:
+    """
     if 'errortext' in response:
         helpers.error_to_aws(response, volume_error_to_aws)
 
@@ -130,6 +175,11 @@ def _delete_volume_response(response):
 
 @helpers.authentication_required
 def describe_volumes():
+    """
+
+
+    @return:
+    """
     args = {'command': 'listVolumes'}
     response = cloudstack.describe_item(
         args, 'volume', errors.invalid_volume_id, 'VolumeId'
@@ -141,6 +191,11 @@ def describe_volumes():
 
 
 def _describe_volumes_response(response):
+    """
+
+    @param response:
+    @return:
+    """
     return {
         'template_name_or_list': 'volumes.xml',
         'response_type': 'DescribeVolumesResponse',
@@ -150,12 +205,22 @@ def _describe_volumes_response(response):
 
 @helpers.authentication_required
 def detach_volume():
+    """
+
+
+    @return:
+    """
     helpers.require_parameters(['VolumeId'])
     response = _detach_volume_request()
     return _detach_volume_response(response)
 
 
 def _detach_volume_request():
+    """
+
+
+    @return:
+    """
     args = {}
 
     volume_id = helpers.get('VolumeId')
@@ -174,6 +239,11 @@ def _detach_volume_request():
 
 
 def _detach_volume_response(response):
+    """
+
+    @param response:
+    @return:
+    """
     if 'errortext' in response:
         helpers.error_to_aws(response, volume_error_to_aws)
 

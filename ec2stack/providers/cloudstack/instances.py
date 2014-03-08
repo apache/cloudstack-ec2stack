@@ -10,6 +10,11 @@ from ec2stack import helpers, errors
 
 @helpers.authentication_required
 def describe_instance_attribute():
+    """
+
+
+    @return:
+    """
     instance_id = helpers.get('InstanceId')
     attribute = helpers.get('Attribute')
 
@@ -30,6 +35,13 @@ def describe_instance_attribute():
 
 
 def _describe_instance_attribute_response(response, attribute, attr_map):
+    """
+
+    @param response:
+    @param attribute:
+    @param attr_map:
+    @return:
+    """
     response = {
         'template_name_or_list': 'instance_attribute.xml',
         'response_type': 'DescribeInstanceAttributeResponse',
@@ -43,6 +55,11 @@ def _describe_instance_attribute_response(response, attribute, attr_map):
 
 @helpers.authentication_required
 def describe_instances():
+    """
+
+
+    @return:
+    """
     args = {'command': 'listVirtualMachines'}
     response = cloudstack.describe_item(
         args, 'virtualmachine', errors.invalid_instance_id, 'InstanceId'
@@ -54,6 +71,11 @@ def describe_instances():
 
 
 def describe_instance_by_id(instance_id):
+    """
+
+    @param instance_id:
+    @return:
+    """
     args = {'id': instance_id, 'command': 'listVirtualMachines'}
     response = cloudstack.describe_item_request(
         args, 'virtualmachine', errors.invalid_instance_id
@@ -71,6 +93,11 @@ def _describe_instances_response(response):
 
 @helpers.authentication_required
 def run_instance():
+    """
+
+
+    @return:
+    """
     helpers.require_parameters(
         ['ImageId', 'MinCount', 'MaxCount'])
     response = _run_instance_request()
@@ -78,6 +105,11 @@ def run_instance():
 
 
 def _run_instance_request():
+    """
+
+
+    @return:
+    """
     args = {}
 
     if helpers.get('InstanceType') is None:
@@ -136,6 +168,11 @@ def _run_instance_request():
 
 
 def _run_instance_response(response):
+    """
+
+    @param response:
+    @return:
+    """
     if 'errortext' in response:
         if 'Object vm_template' in response['errortext']:
             errors.invalid_image_id()
@@ -158,6 +195,11 @@ def _run_instance_response(response):
 
 @helpers.authentication_required
 def reboot_instance():
+    """
+
+
+    @return:
+    """
     helpers.require_parameters(['InstanceId.1'])
     instance_id = helpers.get('InstanceId.1')
     _reboot_instance_request(instance_id)
@@ -165,6 +207,11 @@ def reboot_instance():
 
 
 def _reboot_instance_request(instance_id):
+    """
+
+    @param instance_id:
+    @return:
+    """
     args = {'command': 'rebootVirtualMachine',
             'id': instance_id}
     response = requester.make_request_async(args)
@@ -184,6 +231,11 @@ def _reboot_instance_response():
 
 @helpers.authentication_required
 def start_instance():
+    """
+
+
+    @return:
+    """
     helpers.require_parameters(['InstanceId.1'])
     instance_id = helpers.get('InstanceId.1')
     previous_state = describe_instance_by_id(instance_id)
@@ -196,6 +248,11 @@ def start_instance():
 
 
 def _start_instance_request(instance_id):
+    """
+
+    @param instance_id:
+    @return:
+    """
     args = {'command': 'startVirtualMachine',
             'id': instance_id}
 
@@ -207,6 +264,13 @@ def _start_instance_request(instance_id):
 
 
 def _modify_instance_state_response(response_type, previous_state, new_state):
+    """
+
+    @param response_type:
+    @param previous_state:
+    @param new_state:
+    @return:
+    """
     response = {
         'template_name_or_list': 'change_instance_state.xml',
         'response_type': response_type,
@@ -219,6 +283,11 @@ def _modify_instance_state_response(response_type, previous_state, new_state):
 
 @helpers.authentication_required
 def stop_instance():
+    """
+
+
+    @return:
+    """
     helpers.require_parameters(['InstanceId.1'])
     instance_id = helpers.get('InstanceId.1')
     previous_state = describe_instance_by_id(instance_id)
@@ -231,6 +300,11 @@ def stop_instance():
 
 
 def _stop_instance_request(instance_id):
+    """
+
+    @param instance_id:
+    @return:
+    """
     args = {'command': 'stopVirtualMachine',
             'id': instance_id}
     response = requester.make_request_async(args)
@@ -240,6 +314,11 @@ def _stop_instance_request(instance_id):
 
 @helpers.authentication_required
 def terminate_instance():
+    """
+
+
+    @return:
+    """
     helpers.require_parameters(['InstanceId.1'])
     instance_id = helpers.get('InstanceId.1')
     previous_state = describe_instance_by_id(instance_id)
@@ -252,6 +331,11 @@ def terminate_instance():
 
 
 def _terminate_instance_request(instance_id):
+    """
+
+    @param instance_id:
+    @return:
+    """
     args = {'command': 'destroyVirtualMachine',
             'id': instance_id}
 
