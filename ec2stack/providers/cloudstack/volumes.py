@@ -163,7 +163,6 @@ def _delete_volume_response(response):
     if 'errortext' in response:
         if 'Unable to aquire volume' in response['errortext']:
             errors.invalid_volume_id()
-    
 
     return {
         'template_name_or_list': 'status.xml',
@@ -250,7 +249,6 @@ def _detach_volume_response(response):
             errors.invalid_instance_id()
         if 'Invalid parameter id' in response['errortext']:
             errors.invalid_volume_id()
-
 
     response = response['volume']
     return {
