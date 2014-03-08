@@ -17,9 +17,10 @@ DEFAULT = Blueprint('default', __name__)
 @DEFAULT.route('/', methods=['POST'])
 def index():
     """
+    URL entry point. Parses the Action parameter and executes the associated
+    functions to generate a response.
 
-
-    @return:
+    @return: Response.
     """
     try:
         response_data = _get_action(get('Action'))()
@@ -30,9 +31,11 @@ def index():
 
 def _get_action(action):
     """
+    Finds the associated function for each action.
 
-    @param action:
-    @return: @raise Ec2stackError:
+    @param action: Action to be looked up.
+    @return: Function associated with specified action.
+    @raise Ec2stackError: Action is not found.
     """
     actions = {
         'AttachVolume': volumes.attach_volume,
@@ -82,9 +85,10 @@ def _get_action(action):
 
 def register_secret_key():
     """
+    Registers a user's API key and secret key
 
-
-    @return: @raise Ec2stackError:
+    @return: Response.
+    @raise Ec2stackError: API key already being registered.
     """
     require_parameters({'AWSAccessKeyId', 'AWSSecretKey'})
     found_user = USERS.get(get('AWSAccessKeyId'))
@@ -110,9 +114,10 @@ def register_secret_key():
 
 def remove_secret_key():
     """
+    Remove's a user's API key and secret key
 
-
-    @return: @raise Ec2stackError:
+    @return: Response.
+    @raise Ec2stackError: API key doesn't exist.
     """
     require_parameters({'AWSAccessKeyId', 'AWSSecretKey'})
     accesskey = get('AWSAccessKeyId')
@@ -139,9 +144,10 @@ def remove_secret_key():
 @DEFAULT.app_errorhandler(404)
 def not_found(err):
     """
+    Generates a 404 not found page.
 
-    @param err:
-    @return:
+    @param err: Error information.
+    @return: Response.
     """
     return error_response('404', 'NotFound', 'Page not found')
 
@@ -149,8 +155,9 @@ def not_found(err):
 @DEFAULT.app_errorhandler(400)
 def bad_request(err):
     """
+    Generates a 400 bad request page.
 
-    @param err:
-    @return:
+    @param err: Error information.
+    @return: Response.
     """
     return error_response('400', 'BadRequest', 'Bad Request')

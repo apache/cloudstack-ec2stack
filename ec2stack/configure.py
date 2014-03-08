@@ -73,8 +73,10 @@ def _create_config_file(config_folder):
     )
     if cloudstack_custom_disk_offering == '':
         cloudstack_custom_disk_offering = 'Custom'
+
     config_file.write(
-        'CLOUDSTACK_CUSTOM_DISK_OFFERING = \'%s\'\n' % cloudstack_custom_disk_offering)
+        'CLOUDSTACK_CUSTOM_DISK_OFFERING = \'%s\'\n' % cloudstack_custom_disk_offering
+    )
 
     while True:
         cloudstack_default_zone = raw_input(

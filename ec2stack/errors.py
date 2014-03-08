@@ -213,6 +213,7 @@ def invalid_parameter_value(message):
         message
     )
 
+
 def apikey_not_found(apikey):
     raise Ec2stackError(
         '401',
@@ -220,6 +221,7 @@ def apikey_not_found(apikey):
         'Unable to find a secret key for %s, please insure you registered'
         % apikey
     )
+
 
 def authentication_failure():
     raise Ec2stackError(

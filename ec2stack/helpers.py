@@ -195,7 +195,8 @@ def _valid_signature():
     """
     Checks that the given signature matches the signature generated.
 
-    @raise Ec2stackError: if the signature does not match the generated signature.
+    @raise Ec2stackError: if the signature does not match the generated
+                          signature.
     """
     signature = get('Signature')
     generated_signature = generate_signature()

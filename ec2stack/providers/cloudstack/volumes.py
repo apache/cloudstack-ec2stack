@@ -14,7 +14,8 @@ from ec2stack.providers.cloudstack import requester, disk_offerings, zones
 volume_error_to_aws = {
     'unable to find a snapshot': errors.invalid_snapshot_id,
     'Unable to aquire volume with ID': errors.invalid_volume_id,
-    'Please specify a volume that is not attached': errors.invalid_volume_attached,
+    'Please specify a volume that is not attached':
+    errors.invalid_volume_attached,
     'The specified volume is not attached': errors.invalid_volume_detached,
     'Invalid parameter virtualmachineid': errors.invalid_instance_id,
     'Invalid parameter id': errors.invalid_volume_id

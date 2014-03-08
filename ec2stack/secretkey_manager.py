@@ -9,9 +9,10 @@ import requests
 
 def _generate_args(description):
     """
+    Generates the base application with required parameters.
 
-    @param description:
-    @return:
+    @param description: Description of the command.
+    @return: the args associated with the command.
     """
     parser = argparse.ArgumentParser(
         description=description
@@ -39,7 +40,7 @@ def _generate_args(description):
 
 def register():
     """
-
+    Entry point for registering an api key and secret key.
 
     """
     args = _generate_args(
@@ -51,7 +52,7 @@ def register():
 
 def remove():
     """
-
+    Entry point for removing an api key and secret key.
 
     """
     args = _generate_args(
@@ -63,8 +64,9 @@ def remove():
 
 def _execute_request(args):
     """
+    Executes the register/remove request.
 
-    @param args:
+    @param args: Request payload.
     """
     host = args.pop('ec2stack_server_address')
     response = requests.post(host, args)
