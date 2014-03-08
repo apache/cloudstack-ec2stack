@@ -1,5 +1,3 @@
-*** Currently a work in progress ***
-
 ==================
 Cloudstack EC2 API
 ==================
@@ -20,48 +18,6 @@ Bridging Apache Cloudstack with existing public cloud providers APIs is needed i
 Usage
 -----
 
-Configuration
-'''''''''''''
+Please see the Software User Manual_ located on the Wiki.
 
-When you install ec2stack a default global configuration file is placed into /etc/ec2stack.conf or the site-package directory for ec2stack if you are running it within a virtualenv.
-
-You can override any global configuration options with a user configuration file. Simply create ~/.ec2stack with the options you wish to change.
-
-+------------------+--------------------------------------+
-| Option           | Description                          |
-+==================+======================================+
-| EC2STACK_HOST    | Address for ec2stack to listen on    |
-+------------------+--------------------------------------+
-| EC2STACK_PORT    | Port for ec2stack to bind to         |
-+------------------+--------------------------------------+
-
-Development
-'''''''''''
-
-Cloning the repository
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. code-block:: bash
-
-    git clone https://github.com/imduffy15/cloudstack-ec2api
-
-Development Environment
-~~~~~~~~~~~~~~~~~~~~~~~
-
-For ease of development a VagrantFile and Puppet Manifest is included which will provision a virtual machine with all required tools installed.
-
-Assuming you have Vagrant and Virtualbox installed executing ``vagrant up`` from the root of the codebase will result in a virtual machine being provisioned.
-
-When the virtual machine has booted you can login to it using ``vagrant ssh``
-
-From here you can setup a new virtualenv, install ec2stack and launch it:
-
-.. code-block:: bash
-
-    mkvirtualenv ec2stack
-    cd /vagrant
-    python setup.py develop
-    ec2stack-configure
-    ec2stack
-
-
+.. _User Software Manual: https://github.com/imduffy15/ec2stack/wiki/Software-User-Manual
