@@ -165,7 +165,7 @@ def get_secretkey(data=None):
             % apikey
         )
 
-    return user.secretkey
+    return user.secretkey.encode('utf-8')
 
 
 def _valid_signature_method():
