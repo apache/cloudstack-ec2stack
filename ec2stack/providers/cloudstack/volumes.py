@@ -11,16 +11,6 @@ from ec2stack.providers import cloudstack
 from ec2stack.providers.cloudstack import requester, disk_offerings, zones
 
 
-volume_error_to_aws = {
-    'unable to find a snapshot': errors.invalid_snapshot_id,
-    'Unable to aquire volume with ID': errors.invalid_volume_id,
-    'Please specify a volume that is not attached': errors.invalid_volume_attached,
-    'The specified volume is not attached': errors.invalid_volume_detached,
-    'Invalid parameter virtualmachineid': errors.invalid_instance_id,
-    'Invalid parameter id': errors.invalid_volume_id
-}
-
-
 @helpers.authentication_required
 def attach_volume():
     """
@@ -62,7 +52,12 @@ def _attach_volume_response(response):
     @return:
     """
     if 'errortext' in response:
-        helpers.error_to_aws(response, volume_error_to_aws)
+        if 'specify a volume that is not attached' in response['errortext']:
+            errors.invalid_volume_attached()
+        if 'Invalid parameter virtualmachineid' in response['errortext']:
+            errors.invalid_instance_id()
+        if 'Invalid parameter id' in response['errortext']:
+            errors.invalid_volume_id()
 
     response = response['volume']
     return {
@@ -79,7 +74,6 @@ def create_volume():
 
     @return:
     """
-    helpers.require_atleast_one_parameter(['SnapshotId', 'Size'])
     response = _create_volume_request()
     return _create_volume_response(response)
 
@@ -120,7 +114,10 @@ def _create_volume_response(response):
     @return:
     """
     if 'errortext' in response:
-        helpers.error_to_aws(response, volume_error_to_aws)
+        if 'Invalid parameter snapshotid' in response['errortext']:
+            errors.invalid_snapshot_id()
+        if 'unable to find a snapshot with id' in response['errortext']:
+            errors.invalid_snapshot_id()
 
     response = response['volume']
     return {
@@ -164,7 +161,9 @@ def _delete_volume_response(response):
     @return:
     """
     if 'errortext' in response:
-        helpers.error_to_aws(response, volume_error_to_aws)
+        if 'Unable to aquire volume' in response['errortext']:
+            errors.invalid_volume_id()
+    
 
     return {
         'template_name_or_list': 'status.xml',
@@ -245,7 +244,13 @@ def _detach_volume_response(response):
     @return:
     """
     if 'errortext' in response:
-        helpers.error_to_aws(response, volume_error_to_aws)
+        if 'specified volume is not attached' in response['errortext']:
+            errors.invalid_volume_detached()
+        if 'Invalid parameter virtualmachineid' in response['errortext']:
+            errors.invalid_instance_id()
+        if 'Invalid parameter id' in response['errortext']:
+            errors.invalid_volume_id()
+
 
     response = response['volume']
     return {

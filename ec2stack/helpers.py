@@ -91,19 +91,6 @@ def require_atleast_one_parameter(parameters):
     errors.missing_parameter(parameter)
 
 
-def error_to_aws(response, error_map):
-    # TODO @BroganD1993 not a clue what this does. its all yours.
-    """
-    
-
-    @param response:
-    @param error_map:
-    """
-    for errortext, error_function in error_map.iteritems():
-        if errortext in response['errortext']:
-            error_function()
-
-
 def contains_parameter(parameter, data=None):
     """
     Checks if the parameter is contained within the given data.

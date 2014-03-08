@@ -186,6 +186,19 @@ def invalid_permission():
     )
 
 
+def invalid_request(message):
+    """
+    Invalid Request.
+
+    @raise Ec2stackError: Defining a bad request and message.
+    """
+    raise Ec2stackError(
+        '400',
+        'InvalidRequest',
+        message
+    )
+
+
 def missing_parameter(parameter):
     """
     Missing Parameter.
