@@ -12,7 +12,6 @@ from functools import wraps
 from flask import request, make_response, render_template
 
 from ec2stack.services import USERS
-from ec2stack.core import Ec2stackError
 from ec2stack import errors
 
 
@@ -158,12 +157,7 @@ def get_secretkey(data=None):
     user = USERS.get(apikey)
 
     if user is None:
-        raise Ec2stackError(
-            '401',
-            'AuthFailure',
-            'Unable to find a secret key for %s, please insure you registered'
-            % apikey
-        )
+        errors.apikey_not_found(apikey)
 
     return user.secretkey.encode('utf-8')
 
@@ -176,9 +170,7 @@ def _valid_signature_method():
     """
     signature_method = get('SignatureMethod')
     if signature_method not in ['HmacSHA1', 'HmacSHA256']:
-        raise Ec2stackError(
-            '400',
-            'InvalidParameterValue',
+        errors.invalid_parameter_value(
             'Value (%s) for parameter SignatureMethod is invalid. '
             'Unknown signature method.' % signature_method
         )
@@ -192,9 +184,7 @@ def _valid_signature_version():
     """
     signature_version = get('SignatureVersion')
     if signature_version != '2':
-        raise Ec2stackError(
-            '400',
-            'InvalidParameterValue',
+        errors.invalid_parameter_value(
             'Value (%s) for parameter SignatureVersion is invalid.'
             'Valid Signature versions are 2.'
             % signature_version
@@ -211,11 +201,7 @@ def _valid_signature():
     generated_signature = generate_signature()
 
     if signature != generated_signature:
-        raise Ec2stackError(
-            '401',
-            'AuthFailure',
-            'AWS was not able to validate the provided access credentials.'
-        )
+        errors.authentication_failure()
 
 
 def generate_signature(data=None, method=None, host=None, path=None):

@@ -212,3 +212,18 @@ def invalid_parameter_value(message):
         'InvalidParameterValue',
         message
     )
+
+def apikey_not_found(apikey):
+    raise Ec2stackError(
+        '401',
+        'AuthFailure',
+        'Unable to find a secret key for %s, please insure you registered'
+        % apikey
+    )
+
+def authentication_failure():
+    raise Ec2stackError(
+        '401',
+        'AuthFailure',
+        'AWS was not able to validate the provided access credentials.'
+    )
