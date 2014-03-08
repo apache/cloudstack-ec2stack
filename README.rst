@@ -6,7 +6,6 @@ An EC2 Compatibility Interface For Apache Cloudstack
 ####################################################
 
 .. image:: https://api.travis-ci.org/imduffy15/ec2stack.png?branch=master
-|
 .. image:: https://badge.fury.io/py/ec2stack.png
 
 Description
@@ -23,6 +22,4 @@ Bridging Apache Cloudstack with existing public cloud providers APIs is needed i
 Usage
 -----
 
-Please see the `Software User Manual`_ located on the Wiki.
-
-.. _Software User Manual: https://github.com/imduffy15/ec2stack/wiki/Software-User-Manual
+Please see the Software User Manual (https://github.com/imduffy15/ec2stack/wiki/Software-User-Manual)
