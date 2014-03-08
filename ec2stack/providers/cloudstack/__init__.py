@@ -7,12 +7,13 @@ from ec2stack.providers.cloudstack import requester
 
 def describe_item(args, keyname, not_found, prefix):
     """
+    Describe a specific item or all items.
 
-    @param args:
-    @param keyname:
-    @param not_found:
-    @param prefix:
-    @return:
+    @param args: Arguments involved in the request.
+    @param keyname: Keyname of the cloudstack response.
+    @param not_found: Function to if the item is not found.
+    @param prefix: Parameter prefix.
+    @return: Response.
     """
     if helpers.contains_parameter_with_keyword(prefix):
         response = _describe_specific_item(args, keyname, not_found, prefix)
@@ -24,12 +25,13 @@ def describe_item(args, keyname, not_found, prefix):
 
 def _describe_specific_item(args, keyname, not_found, prefix):
     """
+    Describe a specific item based on args['id'] or args['name']
 
-    @param args:
-    @param keyname:
-    @param not_found:
-    @param prefix:
-    @return:
+    @param args: Arguments involved in the request.
+    @param keyname: Keyname of the cloudstack response.
+    @param not_found: Function to call if the item is not found.
+    @param prefix: Parameter prefix.
+    @return: Response.
     """
     keys = helpers.get_request_parameter_keys(prefix)
 
@@ -51,11 +53,12 @@ def _describe_specific_item(args, keyname, not_found, prefix):
 
 def describe_item_request(args, keyname, not_found):
     """
+    Executes the request and searches the Cloudstack response for the item.
 
-    @param args:
-    @param keyname:
-    @param not_found:
-    @return:
+    @param args: Arguments involved in the request.
+    @param keyname: Keyname of the cloudstack response.
+    @param not_found: Function to call if the item is not found.
+    @return: Response.
     """
     request = describe_items_request(args, not_found)
     request = request[keyname]
@@ -71,10 +74,11 @@ def describe_item_request(args, keyname, not_found):
 
 def describe_items_request(args, not_found):
     """
+    Executes the request.
 
-    @param args:
-    @param not_found:
-    @return:
+    @param args: Request payload.
+    @param not_found: Function to call on empty response from Cloudstack.
+    @return: Response.
     """
     args['listAll'] = 'true'
     response = requester.make_request(args)

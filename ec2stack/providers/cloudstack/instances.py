@@ -11,9 +11,9 @@ from ec2stack import helpers, errors
 @helpers.authentication_required
 def describe_instance_attribute():
     """
+    Describes an instance attribute
 
-
-    @return:
+    @return: Response.
     """
     instance_id = helpers.get('InstanceId')
     attribute = helpers.get('Attribute')
@@ -36,11 +36,12 @@ def describe_instance_attribute():
 
 def _describe_instance_attribute_response(response, attribute, attr_map):
     """
+    Generates a response for a describe instance attribute request.
 
-    @param response:
-    @param attribute:
-    @param attr_map:
-    @return:
+    @param response: Response from Cloudstack.
+    @param attribute: Attribute to Describe.
+    @param attr_map: Map of attributes from EC2 to Cloudstack.
+    @return: Response.
     """
     response = {
         'template_name_or_list': 'instance_attribute.xml',
@@ -56,9 +57,9 @@ def _describe_instance_attribute_response(response, attribute, attr_map):
 @helpers.authentication_required
 def describe_instances():
     """
+    Describe a specific instance or all instances.
 
-
-    @return:
+    @return: Response.
     """
     args = {'command': 'listVirtualMachines'}
     response = cloudstack.describe_item(
@@ -72,9 +73,10 @@ def describe_instances():
 
 def describe_instance_by_id(instance_id):
     """
+    Describe an instance by Id.
 
-    @param instance_id:
-    @return:
+    @param instance_id: Id of the instance.
+    @return: Response.
     """
     args = {'id': instance_id, 'command': 'listVirtualMachines'}
     response = cloudstack.describe_item_request(
@@ -84,6 +86,12 @@ def describe_instance_by_id(instance_id):
 
 
 def _describe_instances_response(response):
+    """
+    Generates a response for a describe instance request
+
+    @param response: Response from Cloudstack.
+    @return: Response.
+    """
     return {
         'template_name_or_list': 'instances.xml',
         'response_type': 'DescribeInstancesResponse',
@@ -94,9 +102,9 @@ def _describe_instances_response(response):
 @helpers.authentication_required
 def run_instance():
     """
+    Run a instance.
 
-
-    @return:
+    @return: Response.
     """
     helpers.require_parameters(
         ['ImageId', 'MinCount', 'MaxCount'])
@@ -106,9 +114,9 @@ def run_instance():
 
 def _run_instance_request():
     """
+    Request to bring up an instance
 
-
-    @return:
+    @return: Response.
     """
     args = {}
 
