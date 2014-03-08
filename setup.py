@@ -24,7 +24,7 @@ VERSION = '0.1'
 URL = 'http://github.com/imduffy15/ec2stack'
 AUTHOR = 'Darren Brogan, Ian Duffy'
 AUTHOR_EMAIL = 'brogand2@mail.dcu.ie, duffyi3@mail.dcu.ie'
-DESC = "EC2 compatible interface for Apache Cloudstack"
+DESC = "EC2 compatibility interface for Apache Cloudstack"
 LONG_DESC = read_file('README.rst')
 REQUIRES = [
     'Flask', 'Flask-SQLAlchemy', 'Requests', 'alembic'
