@@ -1,6 +1,9 @@
-==================
-Cloudstack EC2 API
-==================
+========
+EC2STACK
+========
+
+An EC2 Compatibility Interface For Apache Cloudstack
+####################################################
 
 .. image:: https://api.travis-ci.org/imduffy15/ec2stack.png?branch=master
 
