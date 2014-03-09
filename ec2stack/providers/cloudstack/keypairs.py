@@ -12,9 +12,9 @@ from ec2stack import errors
 @helpers.authentication_required
 def create_keypair():
     """
+    Create a keypair.
 
-
-    @return:
+    @return: Response.
     """
     helpers.require_parameters(['KeyName'])
     response = _create_keypair_request()
@@ -23,9 +23,10 @@ def create_keypair():
 
 def _create_keypair_request():
     """
+    Request to create a keypair.
 
-
-    @return:
+    @param: response
+    @return: Response.
     """
     args = {'command': 'createSSHKeyPair', 'name': helpers.get('KeyName')}
 
@@ -38,9 +39,10 @@ def _create_keypair_request():
 
 def _create_keypair_response(response):
     """
+    Generates a response for create keypair request.
 
-    @param response:
-    @return:
+    @param response: Response from cloudstack.
+    @return: Response.
     """
     if 'errortext' in response:
         errors.duplicate_keypair_name()
@@ -56,9 +58,9 @@ def _create_keypair_response(response):
 @helpers.authentication_required
 def delete_keypair():
     """
+    Delete a keypair.
 
-
-    @return:
+    @return: Response
     """
     helpers.require_parameters(['KeyName'])
     _delete_keypair_request()
@@ -67,9 +69,9 @@ def delete_keypair():
 
 def _delete_keypair_request():
     """
+    Request to delete a keypair.
 
-
-    @return:
+    @return: Response.
     """
     args = {'command': 'deleteSSHKeyPair', 'name': helpers.get('KeyName')}
 
@@ -80,9 +82,9 @@ def _delete_keypair_request():
 
 def _delete_keypair_response():
     """
+    Generates a response for delete keypair request.
 
-
-    @return:
+    @return: Response.
     """
     return {
         'template_name_or_list': 'status.xml',
@@ -94,9 +96,9 @@ def _delete_keypair_response():
 @helpers.authentication_required
 def describe_keypairs():
     """
+    Describes a specific keypair or all keypairs.
 
-
-    @return:
+    @return: Response.
     """
     args = {'command': 'listSSHKeyPairs'}
     response = cloudstack.describe_item(
@@ -110,9 +112,10 @@ def describe_keypairs():
 
 def _describe_keypair_response(response):
     """
+    Generates a response for describe keypair request.
 
-    @param response:
-    @return:
+    @param response: Response from cloudstack.
+    @return: Response.
     """
     return {
         'template_name_or_list': 'keypairs.xml',
@@ -124,9 +127,9 @@ def _describe_keypair_response(response):
 @helpers.authentication_required
 def import_keypair():
     """
+    Imports a keypair.
 
-
-    @return:
+    @return: Response
     """
     helpers.require_parameters(['KeyName', 'PublicKeyMaterial'])
     response = _import_keypair_request()
@@ -135,9 +138,9 @@ def import_keypair():
 
 def _import_keypair_request():
     """
+    Request to import a keypair.
 
-
-    @return:
+    @return: Response.
     """
     args = {'command': 'registerSSHKeyPair', 'name': helpers.get('KeyName'),
             'publickey': b64decode(helpers.get('PublicKeyMaterial'))}
@@ -150,9 +153,10 @@ def _import_keypair_request():
 
 def _import_keypair_response(response):
     """
+    Generates a response for import keypair request.
 
-    @param response:
-    @return:
+    @param response: Response from cloudstack.
+    @return: Response.
     """
     if 'errortext' in response:
         errors.duplicate_keypair_name()

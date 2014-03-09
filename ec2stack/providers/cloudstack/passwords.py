@@ -1,17 +1,16 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from ec2stack import helpers
-from ec2stack.core import Ec2stackError
+from ec2stack import helpers, errors
 from ec2stack.providers.cloudstack import requester
 
 
 @helpers.authentication_required
 def get_password_data():
     """
+    Gets the password for a specified instance.
 
-
-    @return:
+    @return: Response.
     """
     helpers.require_parameters(['InstanceId'])
     response = _get_password_data_request()
@@ -20,9 +19,9 @@ def get_password_data():
 
 def _get_password_data_request():
     """
+    Request to get password.
 
-
-    @return:
+    @return: Response.
     """
     args = {'command': 'getVMPassword', 'id': helpers.get('InstanceId')}
 
@@ -35,17 +34,13 @@ def _get_password_data_request():
 
 def _get_password_data_format_response(response):
     """
+    Generate a response for get password request.
 
-    @param response:
-    @return: @raise Ec2stackError:
+    @param response: Cloudstack response.
+    @return: Response
     """
-    instanceid = helpers.get('InstanceId')
     if 'errortext' in response:
-        raise Ec2stackError(
-            '400',
-            'InvalidInstanceID.NotFound',
-            'The instance ID \'%s\' does not exist.' % instanceid
-        )
+        errors.invalid_instance_id()
     else:
         response = response['password']
         return {

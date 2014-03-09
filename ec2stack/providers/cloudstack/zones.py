@@ -9,9 +9,9 @@ from ec2stack import helpers, errors
 @helpers.authentication_required
 def describe_zones():
     """
+    Describe a specific zone or all zones.
 
-
-    @return:
+    @return: Response.
     """
     args = {'command': 'listZones'}
     response = cloudstack.describe_item(
@@ -25,9 +25,10 @@ def describe_zones():
 
 def _describe_zones_response(response):
     """
+    Generates a response for a describe zones request.
 
-    @param response:
-    @return:
+    @param response: Response from Cloudstack.
+    @return: Response.
     """
     return {
         'template_name_or_list': 'zones.xml',
@@ -38,9 +39,10 @@ def _describe_zones_response(response):
 
 def get_zone(zone_name):
     """
+    Get the zone with the specified name.
 
-    @param zone_name:
-    @return:
+    @param zone_name: The name of the zone to get.
+    @return: Response.
     """
     args = {'name': zone_name, 'command': 'listZones'}
     response = cloudstack.describe_item_request(

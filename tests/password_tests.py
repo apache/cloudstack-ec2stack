@@ -49,4 +49,4 @@ class PasswordTestCase(Ec2StackAppTestCase):
             )
 
         self.assert_bad_request(response)
-        assert 'InvalidInstanceID.NotFound' in response.data
+        assert 'InvalidInstanceId.NotFound' in response.data

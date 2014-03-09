@@ -10,9 +10,9 @@ from ec2stack.providers.cloudstack import requester
 @helpers.authentication_required
 def authenticate_security_group_egress():
     """
+    Add one or more egress rules to a security group.
 
-
-    @return:
+    @return: Response.
     """
     rule_type = 'egress'
     response = _authenticate_security_group_request(rule_type)
@@ -21,9 +21,10 @@ def authenticate_security_group_egress():
 
 def _authenticate_security_group_request(rule_type):
     """
+    Request to add an egress rule to a security group.
 
-    @param rule_type:
-    @return:
+    @param rule_type: The type of rule to add.
+    @return: Response.
     """
     args = _parse_security_group_request()
 
@@ -39,10 +40,12 @@ def _authenticate_security_group_request(rule_type):
 
 def _authenticate_security_group_response(response, rule_type):
     """
+    Generare a response for authenticate security group request
 
-    @param response:
-    @param rule_type:
-    @return: @raise Ec2stackError:
+    @param response: Cloudstack response.
+    @param rule_type: The type of rule to add.
+    @raise Ec2stackError: If authorize security group fails
+    @return: Response
     """
     if 'errortext' in response:
         if 'Failed to authorize security group' in response['errortext']:
@@ -77,9 +80,9 @@ def _authenticate_security_group_response(response, rule_type):
 @helpers.authentication_required
 def create_security_group():
     """
+    Create a secirity group.
 
-
-    @return:
+    @return: Response.
     """
     helpers.require_parameters(['GroupName', 'GroupDescription'])
     response = _create_security_group_request()
@@ -88,9 +91,9 @@ def create_security_group():
 
 def _create_security_group_request():
     """
+    Request to create a security group.
 
-
-    @return:
+    @return: response.
     """
     args = {'command': 'createSecurityGroup', 'name': helpers.get('GroupName'),
             'description': helpers.get('GroupDescription')}
@@ -104,9 +107,9 @@ def _create_security_group_request():
 
 def _create_security_group_response(response):
     """
-
-    @param response:
-    @return:
+    Generate a response for create security group request
+    @param response: Cloudstack response.
+    @return: Response
     """
     if 'errortext' in response:
         errors.duplicate_security_group()
@@ -123,9 +126,9 @@ def _create_security_group_response(response):
 @helpers.authentication_required
 def delete_security_group():
     """
+    Deletes a specified security group.
 
-
-    @return:
+    @return: Response.
     """
     _delete_security_group_request()
     return _delete_security_group_response()
@@ -133,9 +136,9 @@ def delete_security_group():
 
 def _delete_security_group_request():
     """
+    Request to delete a security group.
 
-
-    @return:
+    @return: Response.
     """
     args = {}
 
@@ -156,9 +159,9 @@ def _delete_security_group_request():
 
 def _delete_security_group_response():
     """
+    Generate a response for delete security group request.
 
-
-    @return:
+    @return: response
     """
     return {
         'template_name_or_list': 'status.xml',
@@ -170,9 +173,9 @@ def _delete_security_group_response():
 @helpers.authentication_required
 def describe_security_groups():
     """
+    Describe one or more security groups
 
-
-    @return:
+    @return: Response
     """
     args = {'command': 'listSecurityGroups'}
 
@@ -187,9 +190,10 @@ def describe_security_groups():
 
 def _describe_security_groups_response(response):
     """
+    Generates a response for describe security group request
 
-    @param response:
-    @return:
+    @param response: Cloudstack response.
+    @return: Response.
     """
     return {
         'template_name_or_list': 'securitygroups.xml',
@@ -201,9 +205,9 @@ def _describe_security_groups_response(response):
 @helpers.authentication_required
 def authenticate_security_group_ingress():
     """
+    Add one or more ingress rules to a security group.
 
-
-    @return:
+    @return: Response.
     """
     rule_type = 'ingress'
     response = _authenticate_security_group_request(rule_type)
@@ -213,9 +217,9 @@ def authenticate_security_group_ingress():
 @helpers.authentication_required
 def revoke_security_group_ingress():
     """
+    Removes one or more ingress rules from a security group.
 
-
-    @return:
+    @return: Response.
     """
     rule_type = 'ingress'
     _revoke_security_group_request(rule_type)
@@ -225,9 +229,9 @@ def revoke_security_group_ingress():
 @helpers.authentication_required
 def revoke_security_group_egress():
     """
+    Removes one or more egress rules from a security group.
 
-
-    @return:
+    @return: Response.
     """
     rule_type = 'egress'
     _revoke_security_group_request(rule_type)
@@ -236,9 +240,10 @@ def revoke_security_group_egress():
 
 def _revoke_security_group_request(rule_type):
     """
+    Request to remove rule from security group
 
-    @param rule_type:
-    @return:
+    @param rule_type: The type of rule to remove.
+    @return: Response.
     """
     args = {}
 
@@ -258,9 +263,10 @@ def _revoke_security_group_request(rule_type):
 
 def _revoke_security_group_response(rule_type):
     """
+    Generate a response for revoke security group requests.
 
-    @param rule_type:
-    @return:
+    @param rule_type: The type of rule
+    @return: Response.
     """
     if rule_type == 'ingress':
         rule_type = 'RevokeSecurityGroupIngressResponse'
@@ -274,6 +280,7 @@ def _revoke_security_group_response(rule_type):
 
 
 def _find_rule(rule, rule_type):
+    # TODO @imduffy15 commenting.
     """
 
     @param rule:
@@ -293,6 +300,7 @@ def _find_rule(rule, rule_type):
 
 
 def _compare_rules(left, right):
+    # TODO @imduffy15 commenting.
     """
 
     @param left:
@@ -321,9 +329,10 @@ def _compare_rules(left, right):
 
 def _get_security_group(args):
     """
+    Get the security group with the specified name.
 
-    @param args:
-    @return:
+    @param args: Arguments to pass to request.
+    @return: Response.
     """
     args['command'] = 'listSecurityGroups'
     response = cloudstack.describe_item_request(
@@ -334,6 +343,7 @@ def _get_security_group(args):
 
 
 def _parse_security_group_request(args=None):
+    # TODO @imduffy15 commenting.
     """
 
     @param args:

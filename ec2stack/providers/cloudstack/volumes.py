@@ -14,9 +14,9 @@ from ec2stack.providers.cloudstack import requester, disk_offerings, zones
 @helpers.authentication_required
 def attach_volume():
     """
+    Attach a volume to the specified instance.
 
-
-    @return:
+    @return: Response.
     """
     helpers.require_parameters(['VolumeId', 'InstanceId', 'Device'])
     response = _attach_volume_request()
@@ -25,9 +25,9 @@ def attach_volume():
 
 def _attach_volume_request():
     """
+    Request to attach a volume.
 
-
-    @return:
+    @return: Response.
     """
     args = {}
 
@@ -47,9 +47,10 @@ def _attach_volume_request():
 
 def _attach_volume_response(response):
     """
+    Generates a response for attach volume request.
 
-    @param response:
-    @return:
+    @param response: Response from cloudstack.
+    @return: Response.
     """
     if 'errortext' in response:
         if 'specify a volume that is not attached' in response['errortext']:
@@ -70,9 +71,9 @@ def _attach_volume_response(response):
 @helpers.authentication_required
 def create_volume():
     """
+    Create a volume.
 
-
-    @return:
+    @return: Response.
     """
     response = _create_volume_request()
     return _create_volume_response(response)
@@ -80,9 +81,9 @@ def create_volume():
 
 def _create_volume_request():
     """
+    Request to create a volume.
 
-
-    @return:
+    @return: Response.
     """
     args = {}
 
@@ -90,6 +91,7 @@ def _create_volume_request():
         args['snapshotid'] = helpers.get('SnapshotId')
 
     else:
+        helpers.require_parameters(['Size'])
         args['size'] = helpers.get('Size')
         args['diskofferingid'] = disk_offerings.get_disk_offering(
             current_app.config['CLOUDSTACK_CUSTOM_DISK_OFFERING']
@@ -109,9 +111,10 @@ def _create_volume_request():
 
 def _create_volume_response(response):
     """
+    Generates a response for create volume request.
 
-    @param response:
-    @return:
+    @param response: Response from cloudstack.
+    @return: Response.
     """
     if 'errortext' in response:
         if 'Invalid parameter snapshotid' in response['errortext']:
@@ -130,9 +133,9 @@ def _create_volume_response(response):
 @helpers.authentication_required
 def delete_volume():
     """
+    Delete a volume.
 
-
-    @return:
+    @return: Response
     """
     helpers.require_parameters(['VolumeId'])
     response = _delete_volume_request()
@@ -142,9 +145,9 @@ def delete_volume():
 
 def _delete_volume_request():
     """
+    Request to delete a volume.
 
-
-    @return:
+    @return: Response.
     """
     args = {'id': helpers.get('VolumeId'), 'command': 'deleteVolume'}
 
@@ -156,9 +159,10 @@ def _delete_volume_request():
 
 def _delete_volume_response(response):
     """
+    Generates a response for delete volume request.
 
-    @param response:
-    @return:
+    @param response: Response from cloudstack.
+    @return: Response.
     """
     if 'errortext' in response:
         if 'Unable to aquire volume' in response['errortext']:
@@ -174,9 +178,9 @@ def _delete_volume_response(response):
 @helpers.authentication_required
 def describe_volumes():
     """
+    Describes a specific volume or all volumes.
 
-
-    @return:
+    @return: Response.
     """
     args = {'command': 'listVolumes'}
     response = cloudstack.describe_item(
@@ -190,9 +194,10 @@ def describe_volumes():
 
 def _describe_volumes_response(response):
     """
+    Generates a response for describe volume request.
 
-    @param response:
-    @return:
+    @param response: Response from cloudstack.
+    @return: Response.
     """
     return {
         'template_name_or_list': 'volumes.xml',
@@ -204,9 +209,9 @@ def _describe_volumes_response(response):
 @helpers.authentication_required
 def detach_volume():
     """
+    Detach a specified volume.
 
-
-    @return:
+    @return: Response.
     """
     helpers.require_parameters(['VolumeId'])
     response = _detach_volume_request()
@@ -215,9 +220,9 @@ def detach_volume():
 
 def _detach_volume_request():
     """
+    Request to detach a volume.
 
-
-    @return:
+    @return: Response
     """
     args = {}
 
@@ -238,9 +243,10 @@ def _detach_volume_request():
 
 def _detach_volume_response(response):
     """
+    Generates a response for detach volume request.
 
-    @param response:
-    @return:
+    @param response: Response from cloudstack.
+    @return: Response.
     """
     if 'errortext' in response:
         if 'specified volume is not attached' in response['errortext']:

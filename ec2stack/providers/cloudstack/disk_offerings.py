@@ -7,9 +7,10 @@ from ec2stack.providers import cloudstack
 
 def get_disk_offering(disk_name):
     """
+    Get the disk offering with the specified name.
 
-    @param disk_name:
-    @return:
+    @param disk_name: The name of the disk offering to get.
+    @return: Response.
     """
     args = {'name': disk_name, 'command': 'listDiskOfferings'}
     response = cloudstack.describe_item_request(

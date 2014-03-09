@@ -7,9 +7,10 @@ from ec2stack.providers import cloudstack
 
 def get_service_offering(offering_name):
     """
+    Get the service offering with the specified name.
 
-    @param offering_name:
-    @return:
+    @param offering_name: The name of the service offering to get.
+    @return: Response.
     """
 
     # We cannot use describe_item_request because there is a bug in

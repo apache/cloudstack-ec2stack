@@ -8,9 +8,9 @@ from ec2stack.providers import cloudstack
 @helpers.authentication_required
 def describe_image_attribute():
     """
+    Describes an image attribute.
 
-
-    @return:
+    @return: Response.
     """
     image_id = helpers.get('ImageId')
     attribute = helpers.get('Attribute')
@@ -32,11 +32,12 @@ def describe_image_attribute():
 
 def _describe_image_attribute_response(response, attribute, attr_map):
     """
+    Generates a response for a describe image attribute request.
 
-    @param response:
-    @param attribute:
-    @param attr_map:
-    @return:
+    @param response: Response from Cloudstack.
+    @param attribute: Attribute to Describe.
+    @param attr_map: Map of attributes from EC2 to Cloudstack.
+    @return: Response.
     """
     return {
         'template_name_or_list': 'image_attribute.xml',
@@ -50,9 +51,9 @@ def _describe_image_attribute_response(response, attribute, attr_map):
 @helpers.authentication_required
 def describe_images():
     """
+    Describe a specific image or all images.
 
-
-    @return:
+    @return: Response.
     """
     args = {'templatefilter': 'executable', 'command': 'listTemplates'}
     response = cloudstack.describe_item(
@@ -64,24 +65,12 @@ def describe_images():
     )
 
 
-def _describe_images_response(response):
-    """
-
-    @param response:
-    @return:
-    """
-    return {
-        'template_name_or_list': 'images.xml',
-        'response_type': 'DescribeImagesResponse',
-        'response': response
-    }
-
-
 def describe_image_by_id(image_id):
     """
+    Describe an image by Id.
 
-    @param image_id:
-    @return:
+    @param image_id: Id of the image.
+    @return: Response.
     """
     args = {
         'id': image_id,
@@ -91,3 +80,17 @@ def describe_image_by_id(image_id):
         args, 'template', errors.invalid_image_id
     )
     return response
+
+
+def _describe_images_response(response):
+    """
+    Generates a response for a describe images request.
+
+    @param response: Response from Cloudstack.
+    @return: Response.
+    """
+    return {
+        'template_name_or_list': 'images.xml',
+        'response_type': 'DescribeImagesResponse',
+        'response': response
+    }
