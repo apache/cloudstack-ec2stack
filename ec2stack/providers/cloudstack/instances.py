@@ -177,9 +177,10 @@ def _run_instance_request():
 
 def _run_instance_response(response):
     """
+    Generates a response for a run instance request.
 
-    @param response:
-    @return:
+    @param response: Response from Cloudstack.
+    @return: Response.
     """
     if 'errortext' in response:
         if 'Object vm_template' in response['errortext']:
@@ -204,9 +205,9 @@ def _run_instance_response(response):
 @helpers.authentication_required
 def reboot_instance():
     """
+    Reboot an instance.
 
-
-    @return:
+    @return: Response.
     """
     helpers.require_parameters(['InstanceId.1'])
     instance_id = helpers.get('InstanceId.1')
@@ -216,9 +217,10 @@ def reboot_instance():
 
 def _reboot_instance_request(instance_id):
     """
+    Request to reboot an instance.
 
-    @param instance_id:
-    @return:
+    @param instance_id: Id of instance to be rebooted
+    @return: Response.
     """
     args = {'command': 'rebootVirtualMachine',
             'id': instance_id}
@@ -228,6 +230,11 @@ def _reboot_instance_request(instance_id):
 
 
 def _reboot_instance_response():
+    """
+    Generates a response for a reboot instance request.
+
+    @return: Response.
+    """
     response = {
         'template_name_or_list': 'status.xml',
         'response_type': 'RebootInstancesResponse',
@@ -240,9 +247,9 @@ def _reboot_instance_response():
 @helpers.authentication_required
 def start_instance():
     """
+    Starts an instance.
 
-
-    @return:
+    @return: Response.
     """
     helpers.require_parameters(['InstanceId.1'])
     instance_id = helpers.get('InstanceId.1')
@@ -257,9 +264,10 @@ def start_instance():
 
 def _start_instance_request(instance_id):
     """
+    Request to start an instance.
 
-    @param instance_id:
-    @return:
+    @param instance_id: Id of instance to start.
+    @return: Response.
     """
     args = {'command': 'startVirtualMachine',
             'id': instance_id}
@@ -272,6 +280,7 @@ def _start_instance_request(instance_id):
 
 
 def _modify_instance_state_response(response_type, previous_state, new_state):
+    # TODO @BroganD1993 commenting.
     """
 
     @param response_type:
@@ -292,9 +301,9 @@ def _modify_instance_state_response(response_type, previous_state, new_state):
 @helpers.authentication_required
 def stop_instance():
     """
+    Stop an instance.
 
-
-    @return:
+    @return: Response.
     """
     helpers.require_parameters(['InstanceId.1'])
     instance_id = helpers.get('InstanceId.1')
@@ -309,9 +318,10 @@ def stop_instance():
 
 def _stop_instance_request(instance_id):
     """
+    Request to stop an instance.
 
-    @param instance_id:
-    @return:
+    @param instance_id: Id of instance to stop.
+    @return: Response.
     """
     args = {'command': 'stopVirtualMachine',
             'id': instance_id}
@@ -323,9 +333,9 @@ def _stop_instance_request(instance_id):
 @helpers.authentication_required
 def terminate_instance():
     """
+    Terminate an instance.
 
-
-    @return:
+    @return: Response.
     """
     helpers.require_parameters(['InstanceId.1'])
     instance_id = helpers.get('InstanceId.1')
@@ -340,9 +350,10 @@ def terminate_instance():
 
 def _terminate_instance_request(instance_id):
     """
+    Request ot terminate an instance.
 
-    @param instance_id:
-    @return:
+    @param instance_id: Id of instance to terminate.
+    @return: Response.
     """
     args = {'command': 'destroyVirtualMachine',
             'id': instance_id}
