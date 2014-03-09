@@ -55,10 +55,12 @@ def _attach_volume_response(response):
     if 'errortext' in response:
         if 'specify a volume that is not attached' in response['errortext']:
             errors.invalid_volume_attached()
-        if 'Invalid parameter virtualmachineid' in response['errortext']:
+        elif 'Invalid parameter virtualmachineid' in response['errortext']:
             errors.invalid_instance_id()
-        if 'Invalid parameter id' in response['errortext']:
+        elif 'Invalid parameter id' in response['errortext']:
             errors.invalid_volume_id()
+        else:
+            errors.invalid_request(response['errortext'])
 
     response = response['volume']
     return {
@@ -119,8 +121,10 @@ def _create_volume_response(response):
     if 'errortext' in response:
         if 'Invalid parameter snapshotid' in response['errortext']:
             errors.invalid_snapshot_id()
-        if 'unable to find a snapshot with id' in response['errortext']:
+        elif 'unable to find a snapshot with id' in response['errortext']:
             errors.invalid_snapshot_id()
+        else:
+            errors.invalid_request(response['errortext'])
 
     response = response['volume']
     return {
@@ -167,6 +171,8 @@ def _delete_volume_response(response):
     if 'errortext' in response:
         if 'Unable to aquire volume' in response['errortext']:
             errors.invalid_volume_id()
+        else:
+            errors.invalid_request(response['errortext'])
 
     return {
         'template_name_or_list': 'status.xml',
@@ -194,7 +200,7 @@ def describe_volumes():
 
 def _describe_volumes_response(response):
     """
-    Generates a response for describe volume request.
+    Generates a response for describe volumes request.
 
     @param response: Response from cloudstack.
     @return: Response.
@@ -251,10 +257,12 @@ def _detach_volume_response(response):
     if 'errortext' in response:
         if 'specified volume is not attached' in response['errortext']:
             errors.invalid_volume_detached()
-        if 'Invalid parameter virtualmachineid' in response['errortext']:
+        elif 'Invalid parameter virtualmachineid' in response['errortext']:
             errors.invalid_instance_id()
-        if 'Invalid parameter id' in response['errortext']:
+        elif 'Invalid parameter id' in response['errortext']:
             errors.invalid_volume_id()
+        else:
+            errors.invalid_request(response['errortext'])
 
     response = response['volume']
     return {
