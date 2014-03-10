@@ -49,7 +49,7 @@ def _attach_volume_response(response):
     """
     Generates a response for attach volume request.
 
-    @param response: Response from cloudstack.
+    @param response: Response from Cloudstack.
     @return: Response.
     """
     if 'errortext' in response:
@@ -115,7 +115,7 @@ def _create_volume_response(response):
     """
     Generates a response for create volume request.
 
-    @param response: Response from cloudstack.
+    @param response: Response from Cloudstack.
     @return: Response.
     """
     if 'errortext' in response:
@@ -165,7 +165,7 @@ def _delete_volume_response(response):
     """
     Generates a response for delete volume request.
 
-    @param response: Response from cloudstack.
+    @param response: Response from Cloudstack.
     @return: Response.
     """
     if 'errortext' in response:
@@ -202,7 +202,7 @@ def _describe_volumes_response(response):
     """
     Generates a response for describe volumes request.
 
-    @param response: Response from cloudstack.
+    @param response: Response from Cloudstack.
     @return: Response.
     """
     return {
@@ -228,7 +228,7 @@ def _detach_volume_request():
     """
     Request to detach a volume.
 
-    @return: Response
+    @return: Response.
     """
     args = {}
 
@@ -251,7 +251,7 @@ def _detach_volume_response(response):
     """
     Generates a response for detach volume request.
 
-    @param response: Response from cloudstack.
+    @param response: Response from Cloudstack.
     @return: Response.
     """
     if 'errortext' in response:

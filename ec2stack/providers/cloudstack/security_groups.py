@@ -10,7 +10,7 @@ from ec2stack.providers.cloudstack import requester
 @helpers.authentication_required
 def authenticate_security_group_egress():
     """
-    Add one or more egress rules to a security group.
+    Add egress rules to a security group.
 
     @return: Response.
     """
@@ -40,11 +40,11 @@ def _authenticate_security_group_request(rule_type):
 
 def _authenticate_security_group_response(response, rule_type):
     """
-    Generare a response for authenticate security group request
+    Generate a response for authenticate security group request.
 
     @param response: Cloudstack response.
     @param rule_type: The type of rule to add.
-    @raise Ec2stackError: If authorize security group fails
+    @raise Ec2stackError: If authorize security group fails.
     @return: Response
     """
     if 'errortext' in response:
@@ -80,7 +80,7 @@ def _authenticate_security_group_response(response, rule_type):
 @helpers.authentication_required
 def create_security_group():
     """
-    Create a secirity group.
+    Create a security group.
 
     @return: Response.
     """
@@ -107,9 +107,9 @@ def _create_security_group_request():
 
 def _create_security_group_response(response):
     """
-    Generate a response for create security group request
+    Generate a response for create security group request.
     @param response: Cloudstack response.
-    @return: Response
+    @return: Response.
     """
     if 'errortext' in response:
         errors.duplicate_security_group()
@@ -173,7 +173,7 @@ def _delete_security_group_response():
 @helpers.authentication_required
 def describe_security_groups():
     """
-    Describe one or more security groups
+    Describe one or more security groups.
 
     @return: Response
     """
@@ -190,7 +190,7 @@ def describe_security_groups():
 
 def _describe_security_groups_response(response):
     """
-    Generates a response for describe security group request
+    Generates a response for describe security group request.
 
     @param response: Cloudstack response.
     @return: Response.

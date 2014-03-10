@@ -10,7 +10,7 @@ def describe_item(args, keyname, not_found, prefix):
     Describe a specific item or all items.
 
     @param args: Arguments involved in the request.
-    @param keyname: Keyname of the cloudstack response.
+    @param keyname: Keyname of the Cloudstack response.
     @param not_found: Function to if the item is not found.
     @param prefix: Parameter prefix.
     @return: Response.
@@ -28,7 +28,7 @@ def _describe_specific_item(args, keyname, not_found, prefix):
     Describe a specific item based on args['id'] or args['name']
 
     @param args: Arguments involved in the request.
-    @param keyname: Keyname of the cloudstack response.
+    @param keyname: Keyname of the Cloudstack response.
     @param not_found: Function to call if the item is not found.
     @param prefix: Parameter prefix.
     @return: Response.
@@ -56,7 +56,7 @@ def describe_item_request(args, keyname, not_found):
     Executes the request and searches the Cloudstack response for the item.
 
     @param args: Arguments involved in the request.
-    @param keyname: Keyname of the cloudstack response.
+    @param keyname: Keyname of the Cloudstack response.
     @param not_found: Function to call if the item is not found.
     @return: Response.
     """

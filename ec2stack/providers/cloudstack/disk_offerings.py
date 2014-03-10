@@ -9,7 +9,7 @@ def get_disk_offering(disk_name):
     """
     Get the disk offering with the specified name.
 
-    @param disk_name: The name of the disk offering to get.
+    @param disk_name: Name of the disk offering to get.
     @return: Response.
     """
     args = {'name': disk_name, 'command': 'listDiskOfferings'}

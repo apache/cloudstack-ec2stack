@@ -25,7 +25,6 @@ def _create_keypair_request():
     """
     Request to create a keypair.
 
-    @param: response
     @return: Response.
     """
     args = {'command': 'createSSHKeyPair', 'name': helpers.get('KeyName')}
@@ -41,7 +40,7 @@ def _create_keypair_response(response):
     """
     Generates a response for create keypair request.
 
-    @param response: Response from cloudstack.
+    @param response: Response from Cloudstack.
     @return: Response.
     """
     if 'errortext' in response:
@@ -60,7 +59,7 @@ def delete_keypair():
     """
     Delete a keypair.
 
-    @return: Response
+    @return: Response.
     """
     helpers.require_parameters(['KeyName'])
     _delete_keypair_request()
@@ -114,7 +113,7 @@ def _describe_keypair_response(response):
     """
     Generates a response for describe keypair request.
 
-    @param response: Response from cloudstack.
+    @param response: Response from Cloudstack.
     @return: Response.
     """
     return {
@@ -129,7 +128,7 @@ def import_keypair():
     """
     Imports a keypair.
 
-    @return: Response
+    @return: Response.
     """
     helpers.require_parameters(['KeyName', 'PublicKeyMaterial'])
     response = _import_keypair_request()
@@ -155,7 +154,7 @@ def _import_keypair_response(response):
     """
     Generates a response for import keypair request.
 
-    @param response: Response from cloudstack.
+    @param response: Response from Cloudstack.
     @return: Response.
     """
     if 'errortext' in response:

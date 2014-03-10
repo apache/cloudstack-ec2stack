@@ -16,9 +16,10 @@ from ec2stack import helpers
 
 def make_request(args):
     """
+    Makes a request to Cloudstack.
 
-    @param args:
-    @return:
+    @param args: Request Payload.
+    @return: Response.
     """
     args['apikey'] = helpers.get('AWSAccessKeyId')
     args['response'] = 'json'
@@ -48,11 +49,12 @@ def make_request(args):
 
 def make_request_async(args, poll_period=2, timeout=3600):
     """
+    Makes an async request to Cloudstack
 
-    @param args:
-    @param poll_period:
-    @param timeout:
-    @return:
+    @param args: Request payload.
+    @param poll_period: Poll time period.
+    @param timeout: Time before giving up on the request.
+    @return: Response.
     """
     response = make_request(args)
 
@@ -80,10 +82,11 @@ def make_request_async(args, poll_period=2, timeout=3600):
 
 def _generate_request_url(args, secretkey):
     """
+    Generates a request URL.
 
-    @param args:
-    @param secretkey:
-    @return:
+    @param args: Request payload.
+    @param secretkey: User's secret key.
+    @return: Request URL.
     """
     keys = sorted(args.keys())
     values = map(args.get, keys)
@@ -111,10 +114,11 @@ def _generate_request_url(args, secretkey):
 
 def _generate_signature(request_url, secretkey):
     """
+    Generates a Signature.
 
-    @param request_url:
-    @param secretkey:
-    @return:
+    @param request_url: Request URL.
+    @param secretkey: User's secret key.
+    @return: Signature.
     """
     signature = request_url.lower().replace('+', '%20')
 
