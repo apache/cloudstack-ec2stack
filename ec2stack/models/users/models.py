@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+"""This module creates the user model.
+"""
+
 from ec2stack.core import DB
 
 

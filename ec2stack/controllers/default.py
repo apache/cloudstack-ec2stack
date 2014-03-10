@@ -85,7 +85,7 @@ def _get_action(action):
 
 def register_secret_key():
     """
-    Registers a user's API key and secret key
+    Register a user's API key and secret key
 
     @return: Response.
     @raise Ec2stackError: API key already being registered.
@@ -114,7 +114,7 @@ def register_secret_key():
 
 def remove_secret_key():
     """
-    Remove's a user's API key and secret key
+    Remove a user's API key and secret key
 
     @return: Response.
     @raise Ec2stackError: API key doesn't exist.

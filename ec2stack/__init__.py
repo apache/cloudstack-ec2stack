@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+"""This module creates the flask application.
+"""
+
 import os
 import sys
 

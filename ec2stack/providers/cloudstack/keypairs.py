@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+"""This module contains functions for handling requests in relation to keypairs
+"""
+
 from base64 import b64decode
 
 from ec2stack.providers import cloudstack

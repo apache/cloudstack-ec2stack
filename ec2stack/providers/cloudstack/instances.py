@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+"""This module contains functions for handling requests in relation to instances
+"""
+
 from flask import current_app
 
 from ec2stack.providers import cloudstack
@@ -190,7 +193,7 @@ def _run_instance_response(response):
         elif 'A key pair with name' in response['errortext']:
             errors.invalid_keypair_name()
         else:
-            errors.invalid_parameter_value(response['errortext'])
+            errors.invalid_request(response['errortext'])
     else:
         response = response['virtualmachine']
         response = {

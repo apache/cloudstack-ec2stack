@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+"""This module provides functions to generate an ec2stack configuration file.
+"""
+
 import os
 
 from alembic import command

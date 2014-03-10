@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+"""This module contains functions for handling requests in relation to volumes
+"""
+
 import uuid
 
 from flask import current_app

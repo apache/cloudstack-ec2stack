@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+"""This module contains functions for handling requests in relation to zones
+"""
+
 from ec2stack.providers import cloudstack
 
 from ec2stack import helpers, errors

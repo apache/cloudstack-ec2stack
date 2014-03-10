@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+"""This module contains helper functions used across the package namespace.
+"""
+
 from ec2stack import helpers
 from ec2stack.providers.cloudstack import requester
 

@@ -157,7 +157,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
             )
 
         self.assert_bad_request(response)
-        assert 'InvalidParameterValue' in response.data
+        assert 'InvalidRequest' in response.data
 
     def test_invalid_security_group_authorize_security_group(self):
         data = self.get_example_data()

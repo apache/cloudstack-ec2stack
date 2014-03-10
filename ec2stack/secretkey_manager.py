@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+"""This module provides functions to register AWSAccessKeyIds and AWSSecretKeys
+"""
+
 import argparse
 from xml.dom.minidom import parseString as xmlparse
 

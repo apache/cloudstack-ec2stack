@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+"""This module contains functions for handling requests in relation to disk
+offerings
+"""
+
 from ec2stack import errors
 from ec2stack.providers import cloudstack
 

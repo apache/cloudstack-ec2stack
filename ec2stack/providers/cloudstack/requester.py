@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+"""This module contains functions for handling the execution of requests
+against Cloudstack.
+"""
+
 from urllib import urlencode, quote_plus
 from hashlib import sha1
 from base64 import b64encode

@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+"""This module contains functions for handling requests in relation to security
+groups
+"""
+
 from ec2stack import helpers, errors
 from ec2stack.providers import cloudstack
 from ec2stack.core import Ec2stackError
@@ -62,8 +66,8 @@ def _authenticate_security_group_response(response, rule_type):
             )
         elif 'Unable to find security group' in response['errortext']:
             errors.invalid_security_group()
-
-        errors.invalid_parameter_value(response['errortext'])
+        else:
+            errors.invalid_request(response['errortext'])
     else:
         if rule_type == 'ingress':
             rule_type = 'AuthorizeSecurityGroupIngressResponse'
@@ -280,12 +284,12 @@ def _revoke_security_group_response(rule_type):
 
 
 def _find_rule(rule, rule_type):
-    # TODO @imduffy15 commenting.
     """
+    Searches a Cloudstack response for a rule and returns its Id.
 
-    @param rule:
-    @param rule_type:
-    @return:
+    @param rule: Rule to be found.
+    @param rule_type: Type of rule.
+    @return: Id of the rule.
     """
     security_group = _get_security_group(rule)
 
@@ -300,12 +304,12 @@ def _find_rule(rule, rule_type):
 
 
 def _compare_rules(left, right):
-    # TODO @imduffy15 commenting.
     """
+    Compares two rules to see if they are the same.
 
-    @param left:
-    @param right:
-    @return:
+    @param left: rule to be compared.
+    @param right: rule to compare with.
+    @return: Boolean
     """
     protocol_match = str(left['protocol']) == str(right['protocol'])
     cidr_match = str(left['cidrlist']) == str(right['cidr'])
@@ -343,11 +347,11 @@ def _get_security_group(args):
 
 
 def _parse_security_group_request(args=None):
-    # TODO @imduffy15 commenting.
     """
+    Parse the request parameters into a Cloudstack request payload.
 
-    @param args:
-    @return:
+    @param args: Arguments to include in the request.
+    @return: Request payload.
     """
     if args is None:
         args = {}

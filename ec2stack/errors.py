@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+"""This module contains functions for error reporting.
+"""
+
 from ec2stack.core import Ec2stackError
 
 
