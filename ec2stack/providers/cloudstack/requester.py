@@ -53,7 +53,7 @@ def make_request(args):
 
 def make_request_async(args, poll_period=2, timeout=3600):
     """
-    Makes an async request to Cloudstack
+    Makes an async request to Cloudstack.
 
     @param args: Request payload.
     @param poll_period: Poll time period.

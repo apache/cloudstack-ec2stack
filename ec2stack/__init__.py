@@ -19,7 +19,7 @@ def create_app(settings=None):
     Creates a flask application.
 
     @param settings: Settings override object.
-    @return: The flask application
+    @return: The flask application.
     """
     app = Flask(__name__)
 
@@ -45,9 +45,9 @@ def create_app(settings=None):
 
 def _load_config_file():
     """
-    Checks that the users configuration file exists and returns its path.
+    Checks that the user's configuration file exists and returns its path.
 
-    @return: The path to the users configuration file.
+    @return: The path to the user's configuration file.
     """
     config_file = os.path.join(
         os.path.expanduser('~'),
@@ -77,9 +77,9 @@ def _valid_config_file(app):
 
 def _load_database():
     """
-    Checks that the users database exists and returns its uri.
+    Checks that the user's database exists and returns its uri.
 
-    @return: The uri to the users database.
+    @return: The uri to the user's database.
     """
     database_file = os.path.join(
         os.path.expanduser('~'),

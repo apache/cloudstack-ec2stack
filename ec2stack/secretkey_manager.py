@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-"""This module provides functions to register AWSAccessKeyIds and AWSSecretKeys
+"""This module provides functions to register AWSAccessKeyIds and AWSSecretKeys.
 """
 
 import argparse
@@ -15,7 +15,7 @@ def _generate_args(description):
     Generates the base application with required parameters.
 
     @param description: Description of the command.
-    @return: the args associated with the command.
+    @return: The args associated with the command.
     """
     parser = argparse.ArgumentParser(
         description=description

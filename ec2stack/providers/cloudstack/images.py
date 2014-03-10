@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-"""This module contains functions for handling requests in relation to images
+"""This module contains functions for handling requests in relation to images.
 """
 
 from ec2stack import helpers, errors

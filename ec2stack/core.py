@@ -38,7 +38,7 @@ class Service(object):
         Saves the given Model.
 
         @param model: The model to be saved.
-        @return: The saved model
+        @return: The saved model.
         """
         self._isinstance(model)
         DB.session.add(model)
@@ -65,7 +65,7 @@ class Service(object):
 
     def delete(self, model):
         """
-        Deletes the given model
+        Deletes the given model.
 
         @param model: Model to be deleted.
         """

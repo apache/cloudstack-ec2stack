@@ -48,7 +48,7 @@ def invalid_instance_id():
 
 def invalid_zone():
     """
-    Invalid Zone
+    Invalid Zone.
 
     @raise Ec2stackError: Defining a bad request and message.
     """
@@ -74,7 +74,7 @@ def invalid_volume_id():
 
 def invalid_volume_attached():
     """
-    Invalid volume attached storage.
+    Invalid volume, volume is already attached.
 
     @raise Ec2stackError: Defining a bad request and message.
     """
@@ -87,7 +87,7 @@ def invalid_volume_attached():
 
 def invalid_volume_detached():
     """
-    Invalid volume detached.
+    Invalid volume, volume is already detached.
 
     @raise Ec2stackError: Defining a bad request and message.
     """
@@ -100,7 +100,7 @@ def invalid_volume_detached():
 
 def invalid_disk_offering_name():
     """
-    Invalid disk offering id
+    Invalid disk offering id.
 
     @raise Ec2stackError: Defining a bad request and message.
     """
@@ -113,7 +113,7 @@ def invalid_disk_offering_name():
 
 def invalid_service_offering_name():
     """
-    Invalid Service Offering name
+    Invalid Service Offering name.
 
     @raise Ec2stackError: Defining a bad request and message.
     """

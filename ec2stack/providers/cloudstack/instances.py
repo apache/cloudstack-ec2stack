@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-"""This module contains functions for handling requests in relation to instances
+"""This module contains functions for handling requests in relation to
+instances.
 """
 
 from flask import current_app
@@ -14,7 +15,7 @@ from ec2stack import helpers, errors
 @helpers.authentication_required
 def describe_instance_attribute():
     """
-    Describes an instance attribute
+    Describes an instance attribute.
 
     @return: Response.
     """
@@ -90,7 +91,7 @@ def describe_instance_by_id(instance_id):
 
 def _describe_instances_response(response):
     """
-    Generates a response for a describe instance request
+    Generates a response for a describe instance request.
 
     @param response: Response from Cloudstack.
     @return: Response.
@@ -222,7 +223,7 @@ def _reboot_instance_request(instance_id):
     """
     Request to reboot an instance.
 
-    @param instance_id: Id of instance to be rebooted
+    @param instance_id: Id of instance to be rebooted.
     @return: Response.
     """
     args = {'command': 'rebootVirtualMachine',

@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 """This module contains functions for handling requests in relation to disk
-offerings
+offerings.
 """
 
 from ec2stack import errors

@@ -37,7 +37,7 @@ def get(item, data=None):
 
 def authentication_required(f):
     """
-    Checked that the given signature is valid.
+    Check that the given signature is valid.
 
     @param f: Function to wrap around.
     @return: Result of signature check.
@@ -203,7 +203,7 @@ def generate_signature(data=None, method=None, host=None, path=None):
     @param method: HTTP method used.
     @param host: HTTP post.
     @param path: HTTP hort.
-    @return: A signatured.
+    @return: A signature.
     """
     if data is None:
         data = request.form
@@ -231,7 +231,7 @@ def generate_signature(data=None, method=None, host=None, path=None):
 
 def _get_request_string(data, method=None, host=None, path=None):
     """
-    Creates the request string
+    Creates the request string.
 
     @param data: Data of the request.
     @param method: HTTP method used.

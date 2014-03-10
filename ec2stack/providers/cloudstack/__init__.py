@@ -28,7 +28,7 @@ def describe_item(args, keyname, not_found, prefix):
 
 def _describe_specific_item(args, keyname, not_found, prefix):
     """
-    Describe a specific item based on args['id'] or args['name']
+    Describe a specific item based on args['id'] or args['name'].
 
     @param args: Arguments involved in the request.
     @param keyname: Keyname of the Cloudstack response.

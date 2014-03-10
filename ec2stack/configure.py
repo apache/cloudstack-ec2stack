@@ -22,7 +22,7 @@ def main():
 
 def _create_config_folder():
     """
-    Creates a folder to hold the users configurations files.
+    Creates a folder to hold the user's configuration files.
 
     @return: Path of the configuration folder.
     """

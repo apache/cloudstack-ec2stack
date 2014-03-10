@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-"""This module is used to launch EC2Stack
+"""This module is used to launch EC2Stack.
 """
 
 from werkzeug.serving import run_simple

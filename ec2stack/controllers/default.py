@@ -85,10 +85,10 @@ def _get_action(action):
 
 def register_secret_key():
     """
-    Register a user's API key and secret key
+    Register a user's API key and secret key.
 
     @return: Response.
-    @raise Ec2stackError: API key already being registered.
+    @raise Ec2stackError: API key already registered.
     """
     require_parameters({'AWSAccessKeyId', 'AWSSecretKey'})
     found_user = USERS.get(get('AWSAccessKeyId'))
