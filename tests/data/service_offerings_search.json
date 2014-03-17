@@ -1,0 +1,34 @@
+{
+    "serviceoffering": [
+        {
+            "name": "Small Instance",
+            "created": "2014-02-15T02:01:42+0000",
+            "storagetype": "shared",
+            "limitcpuuse": false,
+            "memory": 512,
+            "offerha": false,
+            "isvolatile": false,
+            "cpunumber": 1,
+            "cpuspeed": 500,
+            "displaytext": "Small Instance",
+            "issystem": false,
+            "id": "739292ce-3e12-4643-8ca1-abfdc2b2eb76",
+            "defaultuse": false
+        },
+        {
+            "name": "Medium Instance",
+            "created": "2014-07-15T02:01:42+0000",
+            "storagetype": "shared",
+            "limitcpuuse": false,
+            "memory": 2014,
+            "offerha": false,
+            "isvolatile": false,
+            "cpunumber": 2,
+            "cpuspeed": 500,
+            "displaytext": "Medium Instance",
+            "issystem": false,
+            "id": "879654ce-4f12-4643-8ca1-789542eb76",
+            "defaultuse": false
+        }
+    ]
+}

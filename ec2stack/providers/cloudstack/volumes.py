@@ -122,9 +122,7 @@ def _create_volume_response(response):
     @return: Response.
     """
     if 'errortext' in response:
-        if 'Invalid parameter snapshotid' in response['errortext']:
-            errors.invalid_snapshot_id()
-        elif 'unable to find a snapshot with id' in response['errortext']:
+        if 'unable to find a snapshot with id' in response['errortext']:
             errors.invalid_snapshot_id()
         else:
             errors.invalid_request(response['errortext'])

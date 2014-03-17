@@ -44,7 +44,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
 
         get = mock.Mock()
         get.return_value.text = read_file(
-            'tests/data/invalid_attach_volume.json'
+            'tests/data/invalid_attach_volume_volume_attached.json'
         )
         get.return_value.status_code = 200
 
@@ -56,6 +56,52 @@ class VolumeTestCase(Ec2StackAppTestCase):
 
         self.assert_bad_request(response)
         assert 'InvalidVolume.Attached' in response.data
+
+    def test_attach_volume_volume_not_found(self):
+        data = self.get_example_data()
+        data['Action'] = 'AttachVolume'
+        data['VolumeId'] = '0896ccff-1b7a-4c17-8390-02a602de2efe'
+        data['InstanceId'] = 'ba918d10-f83a-459d-a5b9-330793c3c6a3'
+        data['Device'] = '/dev/sha'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
+
+        get = mock.Mock()
+        get.return_value.text = read_file(
+            'tests/data/invalid_attach_volume_volume_not_found.json'
+        )
+        get.return_value.status_code = 200
+
+        with mock.patch('requests.get', get):
+            response = self.post(
+                '/',
+                data=data
+            )
+
+        self.assert_bad_request(response)
+        assert 'InvalidVolume.NotFound' in response.data
+
+    def test_attach_volume_invalid_virtualmachine(self):
+        data = self.get_example_data()
+        data['Action'] = 'AttachVolume'
+        data['VolumeId'] = '0896ccff-1b7a-4c17-8390-02a602de2efe'
+        data['InstanceId'] = 'ba918d10-f83a-459d-a5b9-330793c3c6a3'
+        data['Device'] = '/dev/sha'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
+
+        get = mock.Mock()
+        get.return_value.text = read_file(
+            'tests/data/invalid_attach_volume_instance_not_found.json'
+        )
+        get.return_value.status_code = 200
+
+        with mock.patch('requests.get', get):
+            response = self.post(
+                '/',
+                data=data
+            )
+
+        self.assert_bad_request(response)
+        assert 'InvalidInstanceId.NotFound' in response.data
 
     def test_create_volume_by_size(self):
         data = self.get_example_data()
@@ -350,6 +396,48 @@ class VolumeTestCase(Ec2StackAppTestCase):
         self.assert_ok(response)
         assert 'DetachVolumeResponse' in response.data
 
+    def test_detach_volume_invalid_volume(self):
+        data = self.get_example_data()
+        data['Action'] = 'DetachVolume'
+        data['VolumeId'] = '0896ccff-1b7a-4c17-8390-02a602de2efe'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
+
+        get = mock.Mock()
+        get.return_value.text = read_file(
+            'tests/data/invalid_detach_volume_volume_detached.json'
+        )
+        get.return_value.status_code = 200
+
+        with mock.patch('requests.get', get):
+            response = self.post(
+                '/',
+                data=data
+            )
+
+        self.assert_bad_request(response)
+        assert 'InvalidVolume.Detached' in response.data
+
+    def test_detach_volume_volume_not_found(self):
+        data = self.get_example_data()
+        data['Action'] = 'DetachVolume'
+        data['VolumeId'] = '0896ccff-1b7a-4c17-8390-02a602de2efe'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
+
+        get = mock.Mock()
+        get.return_value.text = read_file(
+            'tests/data/invalid_detach_volume_volume_not_found.json'
+        )
+        get.return_value.status_code = 200
+
+        with mock.patch('requests.get', get):
+            response = self.post(
+                '/',
+                data=data
+            )
+
+        self.assert_bad_request(response)
+        assert 'InvalidVolume.NotFound' in response.data
+
     def test_detach_volume_with_virtualmachine(self):
         data = self.get_example_data()
         data['Action'] = 'DetachVolume'
@@ -372,6 +460,28 @@ class VolumeTestCase(Ec2StackAppTestCase):
         self.assert_ok(response)
         assert 'DetachVolumeResponse' in response.data
 
+    def test_detach_volume_with_virtualmachine_invalid_virtualmachine(self):
+        data = self.get_example_data()
+        data['Action'] = 'DetachVolume'
+        data['VolumeId'] = '0896ccff-1b7a-4c17-8390-02a602de2efe'
+        data['InstanceId'] = 'ba918d10-f83a-459d-a5b9-330793c3c6a3'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
+
+        get = mock.Mock()
+        get.return_value.text = read_file(
+            'tests/data/invalid_detach_volume_instance_not_found.json'
+        )
+        get.return_value.status_code = 200
+
+        with mock.patch('requests.get', get):
+            response = self.post(
+                '/',
+                data=data
+            )
+
+        self.assert_bad_request(response)
+        assert 'InvalidInstanceId.NotFound' in response.data
+
     def test_detach_volume_with_device(self):
         data = self.get_example_data()
         data['Action'] = 'DetachVolume'
@@ -393,24 +503,3 @@ class VolumeTestCase(Ec2StackAppTestCase):
 
         self.assert_ok(response)
         assert 'DetachVolumeResponse' in response.data
-
-    def test_detach_volume_invalid_volume(self):
-        data = self.get_example_data()
-        data['Action'] = 'DetachVolume'
-        data['VolumeId'] = '0896ccff-1b7a-4c17-8390-02a602de2efe'
-        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
-
-        get = mock.Mock()
-        get.return_value.text = read_file(
-            'tests/data/invalid_detach_volume.json'
-        )
-        get.return_value.status_code = 200
-
-        with mock.patch('requests.get', get):
-            response = self.post(
-                '/',
-                data=data
-            )
-
-        self.assert_bad_request(response)
-        assert 'InvalidVolume.Detached' in response.data
