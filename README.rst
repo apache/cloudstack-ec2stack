@@ -5,7 +5,7 @@ EC2STACK
 An EC2 Compatibility Interface For Apache Cloudstack
 ####################################################
 
-.. image:: https://api.travis-ci.org/imduffy15/ec2stack.png?branch=master
+.. image:: https://api.travis-ci.org/BroganD1993/ec2stack.png?branch=master
 .. image:: https://badge.fury.io/py/ec2stack.png
 
 Description
