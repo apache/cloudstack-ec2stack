@@ -234,7 +234,7 @@ def apikey_not_found(apikey):
     raise Ec2stackError(
         '401',
         'AuthFailure',
-        'Unable to find a secret key for %s, please insure you registered'
+        'Unable to find a secret key for %s, please ensure you registered'
         % apikey
     )
 
