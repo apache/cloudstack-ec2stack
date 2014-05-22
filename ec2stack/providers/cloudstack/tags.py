@@ -10,7 +10,7 @@ from ec2stack.providers.cloudstack import requester
 
 
 @helpers.authentication_required
-def create_tag():
+def create_tags():
     """
     Create a tag.
 
@@ -67,6 +67,7 @@ def describe_tags():
     @return: Response.
     """
     args = {'command': 'listTags'}
+    response = requester.make_request(args)
     response = cloudstack.describe_item(
         args, 'tag', {}, 'TagId'
     )
@@ -84,7 +85,7 @@ def _describe_tags_response(response):
     @return: Response.
     """
     return {
-        'template_name_or_list': 'images.xml',
+        'template_name_or_list': 'tags.xml',
         'response_type': 'DescribeTagsResponse',
         'response': response
     }

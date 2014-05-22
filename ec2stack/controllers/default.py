@@ -45,6 +45,7 @@ def _get_action(action):
         security_groups.authenticate_security_group_ingress,
         'CreateKeyPair': keypairs.create_keypair,
         'CreateSecurityGroup': security_groups.create_security_group,
+        'CreateTag': tags.create_tags,
         'CreateVolume': volumes.create_volume,
         'DeleteKeyPair': keypairs.delete_keypair,
         'DeleteSecurityGroup': security_groups.delete_security_group,
