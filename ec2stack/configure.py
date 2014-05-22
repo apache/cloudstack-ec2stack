@@ -96,28 +96,67 @@ def _create_config_file(config_folder):
     )
 
     if configure_instance_type_mapings.lower() in ['yes', 'y']:
-        instance_type_map = {}
-        while True:
-            key = raw_input(
-                'Insert the AWS EC2 instance type you wish to map: '
-            )
+        config_file = _read_user_instance_mappings(config_file)
 
-            value = raw_input(
-                'Insert the name of the instance type you wish to map this to: '
-            )
+    configure_resource_type_mapings = raw_input(
+        'Do you wish to input resource type to resource id mappings'
+        + ' for tag support? (Yes/No): '
+    )
 
-            instance_type_map[key] = value
-
-            add_more = raw_input(
-                'Do you wish to add more mappings? (Yes/No): ')
-            if add_more.lower() in ['no', 'n']:
-                break
-
-        config_file.write(
-            'INSTANCE_TYPE_MAP = %s\n' % instance_type_map
-        )
+    if configure_resource_type_mapings.lower() in ['yes', 'y']:
+        config_file = _read_user_resource_type_mappings(config_file)
 
     config_file.close()
+
+
+def _read_user_instance_mappings(config_file):
+    instance_type_map = {}
+    while True:
+        key = raw_input(
+            'Insert the AWS EC2 instance type you wish to map: '
+        )
+
+        value = raw_input(
+            'Insert the name of the instance type you wish to map this to: '
+        )
+
+        instance_type_map[key] = value
+
+        add_more = raw_input(
+            'Do you wish to add more mappings? (Yes/No): ')
+        if add_more.lower() in ['no', 'n']:
+            break
+
+    config_file.write(
+        'INSTANCE_TYPE_MAP = %s\n' % instance_type_map
+    )
+
+    return config_file
+
+
+def _read_user_resource_type_mappings(config_file):
+    resource_type_map = {}
+    while True:
+        key = raw_input(
+            'Insert the cloudstack resource id you wish to map: '
+        )
+
+        value = raw_input(
+            'Insert the cloudstack resource type you wish to map this to: '
+        )
+
+        resource_type_map[key] = value
+
+        add_more = raw_input(
+            'Do you wish to add more mappings? (Yes/No): ')
+        if add_more.lower() in ['no', 'n']:
+            break
+
+    config_file.write(
+        'RESOURCE_TYPE_MAP = %s\n' % resource_type_map
+    )
+
+    return config_file
 
 
 def _create_database():
