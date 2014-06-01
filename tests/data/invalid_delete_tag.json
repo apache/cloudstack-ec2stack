@@ -1,0 +1,17 @@
+{
+    "queryasyncjobresultresponse": {
+        "jobprocstatus": 0,
+        "created": "2014-06-01T13:43:16+0200",
+        "cmd": "org.apache.cloudstack.api.command.user.tag.DeleteTagsCmd",
+        "userid": "26a772da-dc25-4f2b-b0f1-e095e3717a30",
+        "jobstatus": 2,
+        "jobid": "3cca108f-53df-4a57-8975-3caf29e9d313",
+        "jobresultcode": 530,
+        "jobresulttype": "object",
+        "jobresult": {
+            "errorcode": 530,
+            "errortext": "Unable to find resource by id a0ae3a53-1f4d-42d3-bbb8-7227bb0e0d and type UserVm"
+        },
+        "accountid": "ddbdf378-e8d9-47e0-964b-661d0d8414b8"
+    }
+}

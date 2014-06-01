@@ -17,8 +17,8 @@ def create_tags():
 
     @return: Response.
     """
-    _create_tag_request()
-    return _create_tag_response()
+    response = _create_tag_request()
+    return _create_tag_response(response)
 
 
 def _create_tag_request():
@@ -51,12 +51,16 @@ def _create_tag_request():
     return response
 
 
-def _create_tag_response():
+def _create_tag_response(response):
     """
     Generates a response for a create tag request.
 
     @return: Response.
     """
+    if 'errortext' in response:
+        if 'Unable to find resource by id' in response['errortext']:
+            errors.invalid_resource_id()
+
     return {
         'template_name_or_list': 'status.xml',
         'response_type': 'CreateTagsResponse',
@@ -71,8 +75,8 @@ def delete_tags():
 
     @return: Response.
     """
-    _delete_tag_request()
-    return _delete_tag_response()
+    response = _delete_tag_request()
+    return _delete_tag_response(response)
 
 
 def _delete_tag_request():
@@ -102,12 +106,16 @@ def _delete_tag_request():
     return response
 
 
-def _delete_tag_response():
+def _delete_tag_response(response):
     """
     Generates a response for a delete tag request.
 
     @return: Response.
     """
+    if 'errortext' in response:
+        if 'Unable to find resource by id' in response['errortext']:
+            errors.invalid_resource_id()
+
     return {
         'template_name_or_list': 'status.xml',
         'response_type': 'DeleteTagsResponse',
