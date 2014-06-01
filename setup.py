@@ -2,10 +2,7 @@
 # encoding: utf-8
 
 import os
-<<<<<<< HEAD
-=======
 
->>>>>>> tag_support
 from setuptools import setup
 
 
