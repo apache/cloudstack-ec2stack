@@ -48,8 +48,6 @@ def _create_tag_request():
 
     response = requester.make_request_async(args)
 
-    response = response['createtagsresponse']
-
     return response
 
 
@@ -86,15 +84,20 @@ def _delete_tag_request():
     key = helpers.get('Tag.1.Key')
     resource_id = helpers.get('ResourceId.1')
 
+    if resource_id in current_app.config['RESOURCE_TYPE_MAP']:
+        resource_type = current_app.config['RESOURCE_TYPE_MAP'][resource_id]
+    else:
+        errors.invalid_request(
+            str(resource_id) + " not found in configuration")
+
     args = {
-        'command': 'deleteTag',
+        'command': 'deleteTags',
         'resourceids': resource_id,
+        'resourcetype': resource_type,
         'tags[0].key': key
     }
 
     response = requester.make_request_async(args)
-
-    response = response['deletetagsresponse']
 
     return response
 
