@@ -36,13 +36,12 @@ def _create_tag_request():
         resource_type = current_app.config['RESOURCE_TYPE_MAP'][resource_id]
     else:
         errors.invalid_request(
-            str(resource_id) +
-            " not found in configuration")
+            str(resource_id) + " not found in configuration")
 
     args = {
         'command': 'createTags',
-        'resourceIds': resource_id,
-        'resourceType': resource_type,
+        'resourceids': resource_id,
+        'resourcetype': resource_type,
         'tags[0].key': key,
         'tags[0].value': value
     }
@@ -89,7 +88,7 @@ def _delete_tag_request():
 
     args = {
         'command': 'deleteTag',
-        'resourceIds': resource_id,
+        'resourceids': resource_id,
         'tags[0].key': key
     }
 

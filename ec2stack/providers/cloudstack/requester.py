@@ -32,7 +32,11 @@ def make_request(args):
 
     request_url = _generate_request_url(args, secretkey)
 
+    print request_url
+
     response = requests.get(request_url)
+
+    print response.text
 
     if response.status_code in [401, 432]:
         abort(400)
@@ -100,6 +104,9 @@ def _generate_request_url(args, secretkey):
             zip(keys, values)
         )
     )
+
+    request_url = request_url.replace('%5B', '[')
+    request_url = request_url.replace('%5D', ']')
 
     signature = _generate_signature(request_url, secretkey)
 
