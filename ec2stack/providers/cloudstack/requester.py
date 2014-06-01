@@ -101,6 +101,9 @@ def _generate_request_url(args, secretkey):
         )
     )
 
+    request_url = request_url.replace('%5B', '[')
+    request_url = request_url.replace('%5D', ']')
+
     signature = _generate_signature(request_url, secretkey)
 
     request_url += '&signature=%s' % signature

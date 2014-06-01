@@ -150,6 +150,19 @@ def duplicate_keypair_name():
     )
 
 
+def invalid_resource_id():
+    """
+    Resource with this ID does not exist.
+
+    @raise Ec2stackError: Defining a bad request and message.
+    """
+    raise Ec2stackError(
+        '400',
+        'InvalidID',
+        'The specified ID for the resource you are trying to tag is not valid.'
+    )
+
+
 def duplicate_security_group():
     """
     Duplicate Security Group.

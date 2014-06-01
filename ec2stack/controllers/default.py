@@ -8,7 +8,7 @@ from ec2stack.helpers import get, error_response, \
 from ec2stack.core import Ec2stackError
 from ec2stack.services import USERS
 from ec2stack.providers.cloudstack import images, instances, keypairs, \
-    passwords, security_groups, zones, volumes
+    passwords, security_groups, zones, volumes, tags
 
 
 DEFAULT = Blueprint('default', __name__)
@@ -45,9 +45,11 @@ def _get_action(action):
         security_groups.authenticate_security_group_ingress,
         'CreateKeyPair': keypairs.create_keypair,
         'CreateSecurityGroup': security_groups.create_security_group,
+        'CreateTags': tags.create_tags,
         'CreateVolume': volumes.create_volume,
         'DeleteKeyPair': keypairs.delete_keypair,
         'DeleteSecurityGroup': security_groups.delete_security_group,
+        'DeleteTags': tags.delete_tags,
         'DeleteVolume': volumes.delete_volume,
         'DescribeAvailabilityZones': zones.describe_zones,
         'DescribeImageAttribute': images.describe_image_attribute,
@@ -56,6 +58,7 @@ def _get_action(action):
         'DescribeInstances': instances.describe_instances,
         'DescribeKeyPairs': keypairs.describe_keypairs,
         'DescribeSecurityGroups': security_groups.describe_security_groups,
+        'DescribeTags': tags.describe_tags,
         'DescribeVolumes': volumes.describe_volumes,
         'DetachVolume': volumes.detach_volume,
         'GetPasswordData': passwords.get_password_data,

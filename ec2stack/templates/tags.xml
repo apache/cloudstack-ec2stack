@@ -1,0 +1,11 @@
+{% extends "response.xml" %}
+{% block response_content %}
+    {% for tag in response.tag %}
+        <item>
+            <resourceId>{{tag.resourceid}}</resourceId>
+            <resourceType>{{tag.resourcetype}}</resourceType>
+            <key>{{tag.key}}</key>
+            <value>{{tag.value}}</value>
+        </item>
+    {% endfor %}
+{% endblock %}
