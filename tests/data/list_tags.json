@@ -1,0 +1,25 @@
+{
+    "listtagsresponse": {
+        "count": 2,
+        "tag": [
+            {
+                "account": "brogand93@darrenbrogan.ie",
+                "domainid": "42f2b0d0-3953-485f-984d-b8d67185d358",
+                "resourcetype": "UserVm",
+                "resourceid": "a0ae3a53-1f4d-42d3-bbb8-7227bb0e0d69",
+                "domain": "brogand93@darrenbrogan.ie",
+                "value": "po",
+                "key": "gjh"
+            },
+            {
+                "account": "brogand93@darrenbrogan.ie",
+                "domainid": "42f2b0d0-3953-485f-984d-b8d67185d358",
+                "resourcetype": "UserVm",
+                "resourceid": "a0ae3a53-1f4d-42d3-bbb8-7227bb0e0d69",
+                "domain": "brogand93@darrenbrogan.ie",
+                "value": "test",
+                "key": "testkey"
+            }
+        ]
+    }
+}

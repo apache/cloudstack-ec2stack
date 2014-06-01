@@ -8,6 +8,7 @@ CLOUDSTACK_CUSTOM_DISK_OFFERING = 'Custom'
 CLOUDSTACK_DEFAULT_ZONE = 'CH-GV2'
 
 INSTANCE_TYPE_MAP = {'m1.small': 'micro'}
+RESOURCE_TYPE_MAP = {'exampleresourceid': 'UserVm'}
 
 DEBUG = False
 TESTING = True

@@ -1,0 +1,16 @@
+{
+    "queryasyncjobresultresponse": {
+        "jobprocstatus": 0,
+        "created": "2014-06-01T12:00:56+0200",
+        "cmd": "org.apache.cloudstack.api.command.user.tag.CreateTagsCmd",
+        "userid": "26a772da-dc25-4f2b-b0f1-e095e3717a30",
+        "jobstatus": 1,
+        "jobid": "036bf202-6fe5-4b73-8823-d9e22cd3c63f",
+        "jobresultcode": 0,
+        "jobresulttype": "object",
+        "jobresult": {
+            "success": true
+        },
+        "accountid": "ddbdf378-e8d9-47e0-964b-661d0d8414b8"
+    }
+}
