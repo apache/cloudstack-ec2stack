@@ -5,6 +5,7 @@ omit =
     *__init__*
     *__main__*
     ec2stack/configure.py
+    ec2stack/secretkey_manager.py
 
 [report]
 exclude_lines =
