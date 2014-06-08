@@ -1,0 +1,15 @@
+[run]
+source = ec2stack
+
+omit =
+    *__init__*
+    *__main__*
+    ec2stack/configure.py
+    ec2stack/secretkey_manager.py
+
+[report]
+exclude_lines =
+    if 0:
+    if __name__ == .__main__.:
+
+ignore_errors = True
