@@ -1,6 +1,12 @@
 History
 =======
 
+0.4.0 (9-06-2014)
+__________________
+
+* Make api version used in responses dynamic
+
+
 0.3.0 (8-06-2014)
 __________________
 
