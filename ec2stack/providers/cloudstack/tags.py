@@ -148,5 +148,5 @@ def _describe_tags_response(response):
     return {
         'template_name_or_list': 'tags.xml',
         'response_type': 'DescribeTagsResponse',
-        'response': response
+        'response': response['listtagsresponse']
     }

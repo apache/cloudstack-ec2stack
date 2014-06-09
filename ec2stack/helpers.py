@@ -309,7 +309,8 @@ def successful_response(**kwargs):
     @param kwargs: Parameters to render the template with.
     @return: Response.
     """
-    content = render_template(request_id=uuid(), **kwargs)
+    api_version = str(get("Version"))
+    content = render_template(request_id=uuid(), api_version=api_version, **kwargs)
     response = make_response(content)
     return _create_response(response, '200')
 
