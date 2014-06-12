@@ -26,4 +26,4 @@ Bridging Apache Cloudstack with existing public cloud providers APIs is needed i
 Usage
 -----
 
-Please see the Software User Manual (https://github.com/imduffy15/ec2stack/wiki/Software-User-Manual)
+Please see the Software User Manual (https://github.com/brogand1993/ec2stack/wiki/Software-User-Manual)
