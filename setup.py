@@ -27,7 +27,7 @@ AUTHOR_EMAIL = 'brogand2@mail.dcu.ie, duffyi3@mail.dcu.ie'
 DESC = "EC2 compatibility interface for Apache Cloudstack"
 LONG_DESC = read_file('README.rst')
 REQUIRES = [
-    'Flask-SQLAlchemy', 'flask', 'Requests', 'alembic'
+    'Flask-SQLAlchemy', 'flask', 'requests', 'alembic'
 ]
 
 setup(
