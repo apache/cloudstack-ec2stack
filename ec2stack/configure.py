@@ -5,8 +5,10 @@
 """
 
 import os
+import argparse
 
 from alembic import command
+from ConfigParser import SafeConfigParser
 from alembic.config import Config as AlembicConfig
 
 
@@ -39,46 +41,62 @@ def _create_config_file(config_folder):
 
     @param config_folder: Path of the configuration folder.
     """
-    config_file = open(config_folder + '/ec2stack.conf', 'w+')
+    args = _generate_args()
+    profile = args.pop('profile')
+    config_file_path = config_folder + '/ec2stack.conf'
+    config = _modify_config_profile(config_file_path, profile)
+    config_file = open(config_file_path, 'w+')
+    config.write(config_file)
 
-    ec2stack_address = raw_input('EC2Stack bind address [0.0.0.0]: ')
-    if ec2stack_address == '':
-        ec2stack_address = '0.0.0.0'
-    config_file.write('EC2STACK_BIND_ADDRESS = \'%s\'\n' % ec2stack_address)
 
-    ec2stack_port = raw_input('EC2Stack bind port [5000]: ')
-    if ec2stack_port == '':
-        ec2stack_port = '5000'
-    config_file.write('EC2STACK_PORT = \'%s\'\n' % ec2stack_port)
-
-    cloudstack_host = raw_input('Cloudstack host [localhost]: ')
-    if cloudstack_host == '':
-        cloudstack_host = 'localhost'
-    config_file.write('CLOUDSTACK_HOST = \'%s\'\n' % cloudstack_host)
-
-    cloudstack_port = raw_input('Cloudstack port [8080]: ')
-    if cloudstack_port == '':
-        cloudstack_port = '8080'
-    config_file.write('CLOUDSTACK_PORT = \'%s\'\n' % cloudstack_port)
-
-    cloudstack_protocol = raw_input('Cloudstack protocol [http]: ')
-    if cloudstack_protocol == '':
-        cloudstack_protocol = 'http'
-    config_file.write('CLOUDSTACK_PROTOCOL = \'%s\'\n' % cloudstack_protocol)
-
-    cloudstack_path = raw_input('Cloudstack path [/client/api]: ')
-    if cloudstack_path == '':
-        cloudstack_path = '/client/api'
-    config_file.write('CLOUDSTACK_PATH = \'%s\'\n' % cloudstack_path)
-
-    cloudstack_custom_disk_offering = raw_input(
-        'Cloudstack custom disk offering name [Custom]: '
+def _generate_args():
+    """
+    Generate command line arguments for configuration.
+    """
+    parser = argparse.ArgumentParser(
+        'Command line utility for configuring ec2stack'
     )
-    if cloudstack_custom_disk_offering == '':
-        cloudstack_custom_disk_offering = 'Custom'
 
-    config_file.write(
-        'CLOUDSTACK_CUSTOM_DISK_OFFERING = \'%s\'\n' % cloudstack_custom_disk_offering
+    parser.add_argument(
+        '-p',
+        '--profile',
+        required=False,
+        help='The profile to configure, default is initial',
+        default='initial'
+    )
+
+    args = parser.parse_args()
+
+    return vars(args)
+
+
+def _modify_config_profile(config_file, profile):
+    config = SafeConfigParser()
+    config.read(config_file)
+
+    if not config.has_section(profile):
+        config.add_section(profile)
+
+    config = _set_attribute_of_profile(
+        config, profile, 'ec2stack_bind_address', 'EC2Stack bind address', 'localhost'
+    )
+    config = _set_attribute_of_profile(
+        config, profile, 'ec2stack_port', 'EC2Stack bind port', '5000'
+    )
+    config = _set_attribute_of_profile(
+        config, profile, 'cloudstack_host', 'Cloudstack host', 'localhost'
+    )
+    config = _set_attribute_of_profile(
+        config, profile, 'cloudstack_port', 'Cloudstack port', '8080'
+    )
+    config = _set_attribute_of_profile(
+        config, profile, 'cloudstack_protocol', 'Cloudstack protocol', 'http'
+    )
+    config = _set_attribute_of_profile(
+        config, profile, 'cloudstack_path', 'Cloudstack path', '/client/api'
+    )
+    config = _set_attribute_of_profile(
+        config, profile, 'cloudstack_custom_disk_offering', 'Cloudstack custom disk offering name', 'Custom'
     )
 
     while True:
@@ -86,17 +104,21 @@ def _create_config_file(config_folder):
             'Cloudstack default zone name: '
         )
         if cloudstack_default_zone != '':
-            config_file.write(
-                'CLOUDSTACK_DEFAULT_ZONE = \'%s\'\n' %
-                cloudstack_default_zone)
+            config.set(profile, 'CLOUDSTACK_DEFAULT_ZONE', cloudstack_default_zone)
             break
 
+    config = _set_optional_attributes_of_profile(config, profile)
+
+    return config
+
+
+def _set_optional_attributes_of_profile(config, profile):
     configure_instance_type_mapings = raw_input(
         'Do you wish to input instance type mappings? (Yes/No): '
     )
 
     if configure_instance_type_mapings.lower() in ['yes', 'y']:
-        config_file = _read_user_instance_mappings(config_file)
+        config = _read_user_instance_mappings(config, profile)
 
     configure_resource_type_mapings = raw_input(
         'Do you wish to input resource type to resource id mappings'
@@ -104,13 +126,15 @@ def _create_config_file(config_folder):
     )
 
     if configure_resource_type_mapings.lower() in ['yes', 'y']:
-        config_file = _read_user_resource_type_mappings(config_file)
+        config = _read_user_resource_type_mappings(config, profile)
 
-    config_file.close()
+    return config
 
 
-def _read_user_instance_mappings(config_file):
-    instance_type_map = {}
+def _read_user_instance_mappings(config, profile):
+    instance_section = profile + "instancemap"
+    config.add_section(instance_section)
+
     while True:
         key = raw_input(
             'Insert the AWS EC2 instance type you wish to map: '
@@ -120,22 +144,20 @@ def _read_user_instance_mappings(config_file):
             'Insert the name of the instance type you wish to map this to: '
         )
 
-        instance_type_map[key] = value
+        config.set(instance_section, key, value)
 
         add_more = raw_input(
             'Do you wish to add more mappings? (Yes/No): ')
         if add_more.lower() in ['no', 'n']:
             break
 
-    config_file.write(
-        'INSTANCE_TYPE_MAP = %s\n' % instance_type_map
-    )
-
-    return config_file
+    return config
 
 
-def _read_user_resource_type_mappings(config_file):
-    resource_type_map = {}
+def _read_user_resource_type_mappings(config, profile):
+    resource_section = profile + "resourcemap"
+    config.add_section(resource_section)
+
     while True:
         key = raw_input(
             'Insert the cloudstack resource id you wish to map: '
@@ -145,18 +167,32 @@ def _read_user_resource_type_mappings(config_file):
             'Insert the cloudstack resource type you wish to map this to: '
         )
 
-        resource_type_map[key] = value
+        config.set(resource_section, key, value)
 
         add_more = raw_input(
             'Do you wish to add more mappings? (Yes/No): ')
         if add_more.lower() in ['no', 'n']:
             break
 
-    config_file.write(
-        'RESOURCE_TYPE_MAP = %s\n' % resource_type_map
-    )
+    return config
 
-    return config_file
+
+def _set_attribute_of_profile(config, profile, attribute, message, default):
+    if config.has_option(profile, attribute):
+        default = config.get(profile, attribute)
+
+    attribute_value = _read_in_config_attribute_or_use_default(message, default)
+
+    config.set(profile, attribute, attribute_value)
+    return config
+
+
+def _read_in_config_attribute_or_use_default(message, default):
+    attribute = raw_input(message + ' [' + default + ']: ')
+    if attribute == '':
+        attribute = default
+
+    return attribute
 
 
 def _create_database():
