@@ -6,8 +6,10 @@
 
 import os
 import sys
+import argparse
 
 from flask import Flask
+from ConfigParser import SafeConfigParser
 
 from ec2stack.controllers import *
 from ec2stack.core import DB
@@ -26,12 +28,14 @@ def create_app(settings=None):
     if settings:
         app.config.from_object(settings)
     else:
+        args = _generate_args()
+        profile = args.pop('profile')
+        app.config['DEBUG'] = args.pop('debug')
         config_file = _load_config_file()
-        app.config.from_pyfile(config_file)
         database_uri = _load_database()
+        _config_from_config_profile(config_file, profile, app)
         app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
 
-    _valid_config_file(app)
     DB.init_app(app)
 
     default_controller = __import__(
@@ -41,6 +45,33 @@ def create_app(settings=None):
     app.register_blueprint(default_controller)
 
     return app
+
+
+def _generate_args():
+    """
+    Generate command line arguments for ec2stack.
+    """
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        '-p',
+        '--profile',
+        required=False,
+        help='The profile to run ec2stack with, default is initial',
+        default='initial'
+    )
+
+    parser.add_argument(
+        '-d',
+        '--debug',
+        required=False,
+        help='Turn debug on for application',
+        default=False
+    )
+
+    args = parser.parse_args()
+
+    return vars(args)
 
 
 def _load_config_file():
@@ -60,20 +91,36 @@ def _load_config_file():
     return config_file
 
 
-def _valid_config_file(app):
+def _config_from_config_profile(config_file, profile, app):
     """
-    Validates that the configuration file has all the required parameters.
-
-    @param app: The flask application.
+    Configures ec2stack app based on configuration profile.
     """
-    for config_item in ['EC2STACK_BIND_ADDRESS', 'EC2STACK_PORT',
-                        'CLOUDSTACK_HOST', 'CLOUDSTACK_PORT',
-                        'CLOUDSTACK_PROTOCOL', 'CLOUDSTACK_PATH',
-                        'CLOUDSTACK_CUSTOM_DISK_OFFERING',
-                        'CLOUDSTACK_DEFAULT_ZONE']:
-        if config_item not in app.config:
-            sys.exit('Configuration file is missing %s' % config_item)
+    config = SafeConfigParser()
+    config.read(config_file)
 
+    if not config.has_section(profile):
+        sys.exit('No profile matching ' + profile
+                 + ' found in configuration, please run ec2stack-configure -p '
+                 + profile)
+
+    for attribute in config.options(profile):
+        app.config[attribute.upper()] = config.get(profile, attribute)
+
+    instance_type_map = {}
+    instance_section = profile + "instancemap"
+    if config.has_section(instance_section):
+        for attribute in config.options():
+            instance_type_map[attribute] = config.get(instance_section, attribute)
+
+    app.config['INSTANCE_TYPE_MAP'] = instance_type_map
+
+    resource_type_map = {}
+    resource_section = profile + "resourcemap"
+    if config.has_section(resource_section):
+        for attribute in config.options(resource_section):
+            resource_type_map[attribute] = config.get(resource_section, attribute)
+
+    app.config['RESOURCE_TYPE_MAP '] = resource_type_map
 
 def _load_database():
     """

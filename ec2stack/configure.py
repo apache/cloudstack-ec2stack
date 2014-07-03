@@ -51,7 +51,7 @@ def _create_config_file(config_folder):
 
 def _generate_args():
     """
-    Generate command line arguments for configuration.
+    Generate command line arguments for ec2stack-configure.
     """
     parser = argparse.ArgumentParser(
         'Command line utility for configuring ec2stack'
@@ -71,6 +71,9 @@ def _generate_args():
 
 
 def _modify_config_profile(config_file, profile):
+    """
+    Modify configuration profile
+    """
     config = SafeConfigParser()
     config.read(config_file)
 
@@ -133,7 +136,8 @@ def _set_optional_attributes_of_profile(config, profile):
 
 def _read_user_instance_mappings(config, profile):
     instance_section = profile + "instancemap"
-    config.add_section(instance_section)
+    if not config.has_section(instance_section):
+        config.add_section(instance_section)
 
     while True:
         key = raw_input(
@@ -156,7 +160,8 @@ def _read_user_instance_mappings(config, profile):
 
 def _read_user_resource_type_mappings(config, profile):
     resource_section = profile + "resourcemap"
-    config.add_section(resource_section)
+    if not config.has_section(resource_section):
+        config.add_section(resource_section)
 
     while True:
         key = raw_input(
