@@ -5,11 +5,11 @@ EC2STACK
 An EC2 Compatibility Interface For Apache Cloudstack
 ####################################################
 
-.. image:: https://api.travis-ci.org/BroganD1993/ec2stack.png
-    :target: https://travis-ci.org/BroganD1993/ec2stack
 .. image:: https://badge.fury.io/py/ec2stack.png
     :target: https://pypi.python.org/pypi/ec2stack
-.. image:: https://coveralls.io/repos/BroganD1993/ec2stack/badge.png
+.. image:: https://api.travis-ci.org/BroganD1993/ec2stack.png?branch=master
+    :target: https://travis-ci.org/BroganD1993/ec2stack
+.. image:: https://coveralls.io/repos/BroganD1993/ec2stack/badge.png?branch=master
     :target: https://coveralls.io/r/BroganD1993/ec2stack
 
 Description
@@ -26,4 +26,4 @@ Bridging Apache Cloudstack with existing public cloud providers APIs is needed i
 Usage
 -----
 
-Please see the Software User Manual (https://github.com/imduffy15/ec2stack/wiki/Software-User-Manual)
+Please see the Software User Manual (https://github.com/brogand1993/ec2stack/wiki/Software-User-Manual)
