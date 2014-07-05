@@ -72,7 +72,7 @@ def _generate_args():
 
 def _modify_config_profile(config_file, profile):
     """
-    Modify configuration profile
+    Modify configuration profile.
     """
     config = SafeConfigParser()
     config.read(config_file)
@@ -103,11 +103,10 @@ def _modify_config_profile(config_file, profile):
     )
 
     while True:
-        cloudstack_default_zone = raw_input(
-            'Cloudstack default zone name: '
+        config = _set_attribute_of_profile(
+            config, profile, 'cloudstack_default_zone', 'Cloudstack default zone name', ''
         )
-        if cloudstack_default_zone != '':
-            config.set(profile, 'CLOUDSTACK_DEFAULT_ZONE', cloudstack_default_zone)
+        if config.get(profile, 'cloudstack_default_zone') is not '':
             break
 
     config = _set_optional_attributes_of_profile(config, profile)
@@ -116,6 +115,9 @@ def _modify_config_profile(config_file, profile):
 
 
 def _set_optional_attributes_of_profile(config, profile):
+    """
+    Modify optional attributes of profile.
+    """
     configure_instance_type_mapings = raw_input(
         'Do you wish to input instance type mappings? (Yes/No): '
     )
@@ -135,6 +137,9 @@ def _set_optional_attributes_of_profile(config, profile):
 
 
 def _read_user_instance_mappings(config, profile):
+    """
+    Add instance type mappings to profile.
+    """
     instance_section = profile + "instancemap"
     if not config.has_section(instance_section):
         config.add_section(instance_section)
@@ -159,6 +164,9 @@ def _read_user_instance_mappings(config, profile):
 
 
 def _read_user_resource_type_mappings(config, profile):
+    """
+    Add resource type mappings to profile.
+    """
     resource_section = profile + "resourcemap"
     if not config.has_section(resource_section):
         config.add_section(resource_section)

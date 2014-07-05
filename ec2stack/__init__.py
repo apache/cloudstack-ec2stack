@@ -109,7 +109,7 @@ def _config_from_config_profile(config_file, profile, app):
     instance_type_map = {}
     instance_section = profile + "instancemap"
     if config.has_section(instance_section):
-        for attribute in config.options():
+        for attribute in config.options(instance_section):
             instance_type_map[attribute] = config.get(instance_section, attribute)
 
     app.config['INSTANCE_TYPE_MAP'] = instance_type_map
