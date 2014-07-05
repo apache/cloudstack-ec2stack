@@ -122,6 +122,7 @@ def _config_from_config_profile(config_file, profile, app):
 
     app.config['RESOURCE_TYPE_MAP '] = resource_type_map
 
+
 def _load_database():
     """
     Checks that the user's database exists and returns its uri.
