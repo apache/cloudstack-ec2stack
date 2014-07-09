@@ -49,7 +49,9 @@ def create_app(settings=None):
 
 def _generate_args():
     """
-    Generate command line arguments for ec2stack.
+    Generate command line arguments for ec2stack-configure.
+
+    @return: args.
     """
     parser = argparse.ArgumentParser()
 
@@ -94,6 +96,9 @@ def _load_config_file():
 def _config_from_config_profile(config_file, profile, app):
     """
     Configures ec2stack app based on configuration profile.
+
+    @param config_file: current config file configuration.
+    @param profile: the profile to set the attribute in.
     """
     config = SafeConfigParser()
     config.read(config_file)

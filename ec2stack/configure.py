@@ -52,6 +52,8 @@ def _create_config_file(config_folder):
 def _generate_args():
     """
     Generate command line arguments for ec2stack-configure.
+
+    @return: args.
     """
     parser = argparse.ArgumentParser(
         'Command line utility for configuring ec2stack'
@@ -73,6 +75,10 @@ def _generate_args():
 def _modify_config_profile(config_file, profile):
     """
     Modify configuration profile.
+
+    @param config_file: current config file configuration.
+    @param profile: the profile to set the attribute in.
+    @return: configparser configuration.
     """
     config = SafeConfigParser()
     config.read(config_file)
@@ -117,6 +123,10 @@ def _modify_config_profile(config_file, profile):
 def _set_optional_attributes_of_profile(config, profile):
     """
     Modify optional attributes of profile.
+
+    @param config: current configparser configuration.
+    @param profile: the profile to set the attribute in.
+    @return: configparser configuration.
     """
     configure_instance_type_mapings = raw_input(
         'Do you wish to input instance type mappings? (Yes/No): '
@@ -139,6 +149,10 @@ def _set_optional_attributes_of_profile(config, profile):
 def _read_user_instance_mappings(config, profile):
     """
     Add instance type mappings to profile.
+
+    @param config: current configparser configuration.
+    @param profile: the profile to set the attribute in.
+    @return: configparser configuration.
     """
     instance_section = profile + "instancemap"
     if not config.has_section(instance_section):
@@ -166,6 +180,10 @@ def _read_user_instance_mappings(config, profile):
 def _read_user_resource_type_mappings(config, profile):
     """
     Add resource type mappings to profile.
+
+    @param config: current configparser configuration.
+    @param profile: the profile to set the attribute in.
+    @return: configparser configuration.
     """
     resource_section = profile + "resourcemap"
     if not config.has_section(resource_section):
@@ -191,6 +209,16 @@ def _read_user_resource_type_mappings(config, profile):
 
 
 def _set_attribute_of_profile(config, profile, attribute, message, default):
+    """
+    Set attribute of profile
+
+    @param config: current configparser configuration.
+    @param profile: the profile to set the attribute in.
+    @param attribute: the attribute to set.
+    @param message: the message to prompt the user with.
+    @param default: the default value to use if none is entered.
+    @return: configparser configuration.
+    """
     if config.has_option(profile, attribute):
         default = config.get(profile, attribute)
 
@@ -201,6 +229,13 @@ def _set_attribute_of_profile(config, profile, attribute, message, default):
 
 
 def _read_in_config_attribute_or_use_default(message, default):
+    """
+    Add resource type mappings to profile.
+
+    @param message: the message to prompt the user with.
+    @param default: the default value to use if none is entered.
+    @return: configparser configuration.
+    """
     attribute = raw_input(message + ' [' + default + ']: ')
     if attribute == '':
         attribute = default
