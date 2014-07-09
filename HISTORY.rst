@@ -1,6 +1,19 @@
 History
 =======
 
+0.5.0 (9-07-2014)
+__________________
+
+* Add support for configuration profiles
+
+    `$ ec2stack-configure --profile exampleprofile`
+
+    `$ ec2stack --profile exampleprofile`
+
+* Give user the ability to debug app
+
+    `$ ec2stack --debug True`
+
 0.4.0 (9-06-2014)
 __________________
 
