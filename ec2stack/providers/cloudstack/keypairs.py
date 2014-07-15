@@ -6,10 +6,10 @@
 
 from base64 import b64decode
 
-from ec2stack.providers import cloudstack
-from ec2stack import helpers
-from ec2stack.providers.cloudstack import requester
 from ec2stack import errors
+from ec2stack import helpers
+from ec2stack.providers import cloudstack
+from ec2stack.providers.cloudstack import requester
 
 
 @helpers.authentication_required

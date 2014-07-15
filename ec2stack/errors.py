@@ -162,6 +162,18 @@ def invalid_resource_id():
         'The specified ID for the resource you are trying to tag is not valid.'
     )
 
+def invalid_vpc_range():
+    """
+    Invalid cidr block.
+
+    @raise Ec2stackError: Defining a bad request and message.
+    """
+    raise Ec2stackError(
+        '400',
+        'InvalidVpcRange',
+        'The specified CIDR block range is not valid.'
+    )
+
 
 def duplicate_security_group():
     """
