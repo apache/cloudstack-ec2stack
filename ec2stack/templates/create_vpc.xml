@@ -2,7 +2,7 @@
 {% block response_content %}
    <vpc>
       <vpcId>{{ vpc.id }}</vpcId>
-      <state>{{ vpc.state}}</state>
+      <state>{{ vpc.state }}</state>
       <cidrBlock>{{ vpc.cidr }}</cidrBlock>
       <tagSet/>
    </vpc>

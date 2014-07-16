@@ -31,9 +31,10 @@ def _create_vpc_request():
     @return: Response.
     """
     args = {'command': 'createVPC'}
-    name = uuid.uuid()
-    args['name'] = name
-    args['id'] = name
+    id = uuid.uuid1()
+    args['name'] = id
+    args['id'] = id
+    args['displaytext'] = id
     args['cidr'] = helpers.get('CidrBlock')
 
     response = requester.make_request(args)

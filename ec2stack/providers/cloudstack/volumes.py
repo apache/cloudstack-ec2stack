@@ -107,7 +107,7 @@ def _create_volume_request():
 
     args['zoneid'] = zone_id
     args['command'] = 'createVolume'
-    args['name'] = uuid.uuid()
+    args['name'] = uuid.uuid1()
 
     response = requester.make_request_async(args)
 

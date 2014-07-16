@@ -43,8 +43,9 @@ def _create_config_file(config_folder):
     """
     args = _generate_args()
     profile = args.pop('profile')
+    advanced_network_enabled = args.pop('advanced')
     config_file_path = config_folder + '/ec2stack.conf'
-    config = _modify_config_profile(config_file_path, profile)
+    config = _modify_config_profile(config_file_path, profile, advanced_network_enabled)
     config_file = open(config_file_path, 'w+')
     config.write(config_file)
 
@@ -67,12 +68,20 @@ def _generate_args():
         default='initial'
     )
 
+    parser.add_argument(
+        '-a',
+        '--advanced',
+        required=False,
+        help='Turn advanced network config on for application',
+        default=False
+    )
+
     args = parser.parse_args()
 
     return vars(args)
 
 
-def _modify_config_profile(config_file, profile):
+def _modify_config_profile(config_file, profile, advanced_network_enabled):
     """
     Modify configuration profile.
 
@@ -86,6 +95,23 @@ def _modify_config_profile(config_file, profile):
     if not config.has_section(profile):
         config.add_section(profile)
 
+    config = _set_mandatory_attributes_of_profile(config, profile)
+
+    if advanced_network_enabled:
+        config = _set_advanced_network_attributes_of_profile(config, profile)
+
+    config = _set_optional_attributes_of_profile(config, profile)
+
+    return config
+
+def _set_mandatory_attributes_of_profile(config, profile):
+    """
+    Modify mandatory attributes of profile.
+
+    @param config: current configparser configuration.
+    @param profile: the profile to set the attribute in.
+    @return: configparser configuration.
+    """
     config = _set_attribute_of_profile(
         config, profile, 'ec2stack_bind_address', 'EC2Stack bind address', 'localhost'
     )
@@ -115,7 +141,20 @@ def _modify_config_profile(config_file, profile):
         if config.get(profile, 'cloudstack_default_zone') is not '':
             break
 
-    config = _set_optional_attributes_of_profile(config, profile)
+    return config
+
+
+def _set_advanced_network_attributes_of_profile(config, profile):
+    """
+    Modify advanced network attributes of profile.
+
+    @param config: current configparser configuration.
+    @param profile: the profile to set the attribute in.
+    @return: configparser configuration.
+    """
+    config = _set_attribute_of_profile(
+        config, profile, 'vpc_offering_id', 'VPC offering id', ''
+    )
 
     return config
 
