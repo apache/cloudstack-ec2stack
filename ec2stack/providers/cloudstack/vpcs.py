@@ -7,10 +7,12 @@
 
 import uuid
 
+from flask import current_app
+
 from ec2stack import errors
 from ec2stack import helpers
 from ec2stack.providers import cloudstack
-from ec2stack.providers.cloudstack import requester
+from ec2stack.providers.cloudstack import requester, zones
 
 
 @helpers.authentication_required
@@ -35,11 +37,12 @@ def _create_vpc_request():
     args['name'] = id
     args['id'] = id
     args['displaytext'] = id
+    args['zoneid'] = zones.get_zone(
+        current_app.config['CLOUDSTACK_DEFAULT_ZONE'])['id']
+    args['vpcofferingid'] = current_app.config['VPC_OFFERING_ID']
     args['cidr'] = helpers.get('CidrBlock')
 
-    response = requester.make_request(args)
-
-    response = response['createvpcresponse']
+    response = requester.make_request_async(args)
 
     return response
 
@@ -61,6 +64,7 @@ def _create_vpc_response(response):
             'response': response
         }
 
+
 @helpers.authentication_required
 def delete_vpc():
     """
@@ -81,7 +85,7 @@ def _delete_vpc_request():
     """
     args = {'command': 'deleteVPC', 'id': helpers.get('VpcId')}
 
-    response = requester.make_request(args)
+    response = requester.make_request_async(args)
 
     return response
 
@@ -107,7 +111,7 @@ def describe_vpcs():
     """
     args = {'command': 'listVPCs'}
     response = cloudstack.describe_item(
-        args, 'vpc', {}, 'vpcId'
+        args, 'vpc', errors.invalid_vpc_id, 'VpcId'
     )
 
     return _describe_vpc_response(

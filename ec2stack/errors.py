@@ -174,6 +174,18 @@ def invalid_vpc_range():
         'The specified CIDR block range is not valid.'
     )
 
+def invalid_vpc_id():
+    """
+    VPC with this ID does not exist.
+
+    @raise Ec2stackError: Defining a bad request and message.
+    """
+    raise Ec2stackError(
+        '400',
+        'InvalidVpcID.NotFound',
+        'The specified VPC does not exist.'
+    )
+
 
 def duplicate_security_group():
     """
