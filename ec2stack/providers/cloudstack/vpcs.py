@@ -33,10 +33,9 @@ def _create_vpc_request():
     @return: Response.
     """
     args = {'command': 'createVPC'}
-    id = uuid.uuid1()
-    args['name'] = id
-    args['id'] = id
-    args['displaytext'] = id
+    name = uuid.uuid1()
+    args['name'] = name
+    args['displaytext'] = name
     args['zoneid'] = zones.get_zone(
         current_app.config['CLOUDSTACK_DEFAULT_ZONE'])['id']
     args['vpcofferingid'] = current_app.config['VPC_OFFERING_ID']

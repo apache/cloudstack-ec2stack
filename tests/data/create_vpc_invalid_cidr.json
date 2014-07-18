@@ -1,0 +1,8 @@
+{
+    "createvpcresponse": {
+        "errorcode": 431,
+        "uuidlist": [],
+        "cserrorcode": 4350,
+        "errortext": "Invalid CIDR specified 192.168.0.2/33"
+    }
+}

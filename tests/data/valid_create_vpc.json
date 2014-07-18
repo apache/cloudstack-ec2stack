@@ -1,0 +1,112 @@
+{
+    "queryasyncjobresultresponse": {
+        "jobprocstatus": 0,
+        "created": "2014-07-17T20:07:33+0100",
+        "cmd": "org.apache.cloudstack.api.command.admin.vpc.CreateVPCCmdByAdmin",
+        "userid": "7c7fae5a-0d1c-11e4-9f4d-080027939f80",
+        "jobstatus": 1,
+        "jobid": "24158408-b62e-4592-a236-d1f5d27f0f02",
+        "jobresultcode": 0,
+        "jobresulttype": "object",
+        "jobresult": {
+            "vpc": {
+                "account": "admin",
+                "domainid": "7c7c7604-0d1c-11e4-9f4d-080027939f80",
+                "name": "9b68e9ac-0de5-11e4-8bc0-080027b0df8c",
+                "service": [
+                    {
+                        "name": "PortForwarding",
+                        "provider": [
+                            {
+                                "name": "VpcVirtualRouter"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "StaticNat",
+                        "provider": [
+                            {
+                                "name": "VpcVirtualRouter"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "SourceNat",
+                        "provider": [
+                            {
+                                "name": "VpcVirtualRouter"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "UserData",
+                        "provider": [
+                            {
+                                "name": "VpcVirtualRouter"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Dhcp",
+                        "provider": [
+                            {
+                                "name": "VpcVirtualRouter"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "NetworkACL",
+                        "provider": [
+                            {
+                                "name": "VpcVirtualRouter"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Dns",
+                        "provider": [
+                            {
+                                "name": "VpcVirtualRouter"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Vpn",
+                        "provider": [
+                            {
+                                "name": "VpcVirtualRouter"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Lb",
+                        "provider": [
+                            {
+                                "name": "VpcVirtualRouter"
+                            },
+                            {
+                                "name": "InternalLbVm"
+                            }
+                        ]
+                    }
+                ],
+                "fordisplay": true,
+                "id": "af27429e-301c-458c-956b-b67e67c83e34",
+                "tags": [],
+                "domain": "ROOT",
+                "zoneid": "c0d14920-09ae-4943-9717-6ab6c0b52de1",
+                "regionlevelvpc": false,
+                "state": "Enabled",
+                "distributedvpcrouter": false,
+                "displaytext": "9b68e9ac-0de5-11e4-8bc0-080027b0df8c",
+                "networkdomain": "cs2sandbox.simulator",
+                "vpcofferingid": "feef70e6-4d3a-438e-98c4-814527f97850",
+                "cidr": "192.168.0.2/24",
+                "zonename": "Sandbox-simulator",
+                "restartrequired": false,
+                "network": []
+            }
+        },
+        "accountid": "7c7c8e5a-0d1c-11e4-9f4d-080027939f80"
+    }
+}

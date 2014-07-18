@@ -1,0 +1,16 @@
+{
+    "queryasyncjobresultresponse": {
+        "jobprocstatus": 0,
+        "created": "2014-07-17T20:13:24+0100",
+        "cmd": "org.apache.cloudstack.api.command.user.vpc.DeleteVPCCmd",
+        "userid": "7c7fae5a-0d1c-11e4-9f4d-080027939f80",
+        "jobstatus": 1,
+        "jobid": "fa5b1c82-a52c-4d03-947e-3f371e8e02ad",
+        "jobresultcode": 0,
+        "jobresulttype": "object",
+        "jobresult": {
+            "success": true
+        },
+        "accountid": "7c7c8e5a-0d1c-11e4-9f4d-080027939f80"
+    }
+}

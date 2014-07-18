@@ -162,6 +162,7 @@ class ControllerTestCase(Ec2StackAppTestCase):
         data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
+        get.return_value.text = '{}'
         get.return_value.status_code = 401
 
         with mock.patch('requests.get', get):
