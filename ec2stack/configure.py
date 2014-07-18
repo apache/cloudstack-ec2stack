@@ -104,6 +104,7 @@ def _modify_config_profile(config_file, profile, advanced_network_enabled):
 
     return config
 
+
 def _set_mandatory_attributes_of_profile(config, profile):
     """
     Modify mandatory attributes of profile.

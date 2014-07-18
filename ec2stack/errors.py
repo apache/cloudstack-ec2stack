@@ -162,6 +162,7 @@ def invalid_resource_id():
         'The specified ID for the resource you are trying to tag is not valid.'
     )
 
+
 def invalid_vpc_range():
     """
     Invalid cidr block.
@@ -173,6 +174,7 @@ def invalid_vpc_range():
         'InvalidVpcRange',
         'The specified CIDR block range is not valid.'
     )
+
 
 def invalid_vpc_id():
     """

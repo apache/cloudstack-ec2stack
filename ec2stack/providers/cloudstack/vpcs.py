@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python
 # encoding: utf-8
 
@@ -101,6 +100,7 @@ def _delete_vpc_response():
         'return': 'true'
     }
 
+
 @helpers.authentication_required
 def describe_vpcs():
     """
@@ -130,4 +130,3 @@ def _describe_vpc_response(response):
         'response_type': 'DescribeVpcsResponse',
         'response': response
     }
-
