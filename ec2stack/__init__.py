@@ -31,7 +31,6 @@ def create_app(settings=None):
         args = _generate_args()
         profile = args.pop('profile')
         app.config['DEBUG'] = args.pop('debug')
-        app.config['DEBUG'] = True
         config_file = _load_config_file()
         database_uri = _load_database()
         _config_from_config_profile(config_file, profile, app)
