@@ -8,6 +8,8 @@ __________________
     * createVpc
     * deleteVpc
     * listVpc
+* Clean test data
+* Upgrade to Alpha
 
 0.5.0 (9-07-2014)
 _________________

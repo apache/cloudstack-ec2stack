@@ -52,7 +52,7 @@ setup(
     zip_safe=False,
     install_requires=REQUIRES,
     classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 3 - Alpha',
         'Environment :: Console',
         'Intended Audience :: System Administrators',
         'License :: OSI Approved :: Apache Software License',
@@ -67,5 +67,5 @@ setup(
         ec2stack-configure = ec2stack.configure:main
         ec2stack-register = ec2stack.secretkey_manager:register
         ec2stack-remove = ec2stack.secretkey_manager:remove
-    """,
+    """
 )
