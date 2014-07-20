@@ -23,7 +23,7 @@ class TagsTestCase(Ec2StackAppTestCase):
 
         get = mock.Mock()
         get.return_value.text = read_file(
-            'tests/data/create_tag.json'
+            'tests/data/valid_create_tag.json'
         )
         get.return_value.status_code = 200
 
@@ -48,7 +48,7 @@ class TagsTestCase(Ec2StackAppTestCase):
 
         get = mock.Mock()
         get.return_value.text = read_file(
-            'tests/data/create_tag.json'
+            'tests/data/valid_create_tag.json'
         )
         get.return_value.status_code = 200
 
@@ -73,7 +73,7 @@ class TagsTestCase(Ec2StackAppTestCase):
 
         get = mock.Mock()
         get.return_value.text = read_file(
-            'tests/data/invalid_create_tag.json'
+            'tests/data/invalid_create_tag_invalid_id.json'
         )
         get.return_value.status_code = 200
 
@@ -97,7 +97,7 @@ class TagsTestCase(Ec2StackAppTestCase):
 
         get = mock.Mock()
         get.return_value.text = read_file(
-            'tests/data/delete_tag.json'
+            'tests/data/valid_delete_tag.json'
         )
         get.return_value.status_code = 200
 
@@ -121,7 +121,7 @@ class TagsTestCase(Ec2StackAppTestCase):
 
         get = mock.Mock()
         get.return_value.text = read_file(
-            'tests/data/delete_tag.json'
+            'tests/data/valid_delete_tag.json'
         )
         get.return_value.status_code = 200
 
@@ -145,7 +145,7 @@ class TagsTestCase(Ec2StackAppTestCase):
 
         get = mock.Mock()
         get.return_value.text = read_file(
-            'tests/data/invalid_delete_tag.json'
+            'tests/data/invalid_delete_tag_invalid_tag_id.json'
         )
         get.return_value.status_code = 200
 
@@ -154,8 +154,6 @@ class TagsTestCase(Ec2StackAppTestCase):
                 '/',
                 data=data
             )
-
-        print response.data
 
         self.assert_bad_request(response)
         assert 'The specified ID for the resource you are trying to tag is not valid.' in response.data
@@ -168,7 +166,7 @@ class TagsTestCase(Ec2StackAppTestCase):
 
         get = mock.Mock()
         get.return_value.text = read_file(
-            'tests/data/delete_keypair.json'
+            'tests/data/valid_delete_keypair.json'
         )
         get.return_value.status_code = 200
 
@@ -188,7 +186,7 @@ class TagsTestCase(Ec2StackAppTestCase):
 
         get = mock.Mock()
         get.return_value.text = read_file(
-            'tests/data/list_tags.json'
+            'tests/data/valid_describe_tags.json'
         )
         get.return_value.status_code = 200
 

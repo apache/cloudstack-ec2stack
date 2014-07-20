@@ -23,7 +23,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
 
         get = mock.Mock()
         get.return_value.text = read_file(
-            'tests/data/authorize_security_group_ingress.json'
+            'tests/data/valid_authorize_security_group_ingress.json'
         )
         get.return_value.status_code = 200
 
@@ -47,7 +47,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
 
         get = mock.Mock()
         get.return_value.text = read_file(
-            'tests/data/authorize_security_group_ingress.json'
+            'tests/data/valid_authorize_security_group_ingress.json'
         )
         get.return_value.status_code = 200
 
@@ -72,7 +72,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
 
         get = mock.Mock()
         get.return_value.text = read_file(
-            'tests/data/authorize_security_group_egress.json'
+            'tests/data/valid_authorize_security_group_egress.json'
         )
         get.return_value.status_code = 200
 
@@ -96,7 +96,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
 
         get = mock.Mock()
         get.return_value.text = read_file(
-            'tests/data/authorize_security_group_egress.json'
+            'tests/data/valid_authorize_security_group_egress.json'
         )
         get.return_value.status_code = 200
 
@@ -121,7 +121,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
 
         get = mock.Mock()
         get.return_value.text = read_file(
-            'tests/data/duplicate_authorize_security_group_egress.json'
+            'tests/data/invalid_authorize_security_group_egress_duplicate.json'
         )
         get.return_value.status_code = 200
 
@@ -216,7 +216,7 @@ class SecurityGroupTestCase(Ec2StackAppTestCase):
 
         get = mock.Mock()
         get.return_value.text = read_file(
-            'tests/data/duplicate_create_security_group.json'
+            'tests/data/invalid_create_security_group_duplicate.json'
         )
         get.return_value.status_code = 431
 

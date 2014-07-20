@@ -112,7 +112,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
 
         get = mock.Mock()
         get.return_value.text = read_file(
-            'tests/data/create_volume_response.json'
+            'tests/data/valid_create_volume_response.json'
         )
         get.return_value.status_code = 200
 
@@ -152,7 +152,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
 
         get = mock.Mock()
         get.return_value.text = read_file(
-            'tests/data/create_volume_response.json'
+            'tests/data/valid_create_volume_response.json'
         )
         get.return_value.status_code = 200
 
@@ -183,7 +183,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
 
         get_request = mock.Mock()
         get_request.return_value.text = read_file(
-            'tests/data/create_volume_invalid_snapshot_response.json'
+            'tests/data/invalid_create_volume_invalid_snapshot_response.json'
         )
         get_request.return_value.status_code = 431
 
@@ -257,7 +257,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
 
         get_request = mock.Mock()
         get_request.return_value.text = read_file(
-            'tests/data/delete_volume_response.json'
+            'tests/data/valid_delete_volume_response.json'
         )
         get_request.return_value.status_code = 200
 
@@ -278,7 +278,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
 
         get_request = mock.Mock()
         get_request.return_value.text = read_file(
-            'tests/data/invalid_volume_id.json'
+            'tests/data/invalid_delete_volume_invalid_volume_id.json'
         )
         get_request.return_value.status_code = 200
 

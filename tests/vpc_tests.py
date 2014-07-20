@@ -55,7 +55,7 @@ class VpcTestCase(Ec2StackAppTestCase):
 
         get = mock.Mock()
         get.return_value.text = read_file(
-            'tests/data/create_vpc_invalid_cidr.json'
+            'tests/data/invalid_create_vpc_invalid_cidr.json'
         )
         get.return_value.status_code = 200
 
@@ -109,7 +109,7 @@ class VpcTestCase(Ec2StackAppTestCase):
                 '/',
                 data=data
             )
-        print response.data
+
         self.assert_ok(response)
         assert 'DescribeVpcsResponse' in response.data
         assert 'examplevpc' in response.data

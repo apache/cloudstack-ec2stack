@@ -40,7 +40,7 @@ class KeyPairTestCase(Ec2StackAppTestCase):
 
         get = mock.Mock()
         get.return_value.text = read_file(
-            'tests/data/duplicate_create_keypair.json'
+            'tests/data/invalid_create_keypair_duplicate.json'
         )
         get.return_value.status_code = 431
 
@@ -61,7 +61,7 @@ class KeyPairTestCase(Ec2StackAppTestCase):
 
         get = mock.Mock()
         get.return_value.text = read_file(
-            'tests/data/delete_keypair.json'
+            'tests/data/valid_delete_keypair.json'
         )
         get.return_value.status_code = 200
 
@@ -119,7 +119,7 @@ class KeyPairTestCase(Ec2StackAppTestCase):
 
         get = mock.Mock()
         get.return_value.text = read_file(
-            'tests/data/duplicate_import_keypair.json'
+            'tests/data/invalid_import_keypair_duplicate.json'
         )
         get.return_value.status_code = 431
 
