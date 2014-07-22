@@ -114,6 +114,28 @@ class VpcTestCase(Ec2StackAppTestCase):
         assert 'DescribeVpcsResponse' in response.data
         assert 'examplevpc' in response.data
 
+
+    def test_describe_vpc_by_name_invalid_name(self):
+        data = self.get_example_data()
+        data['Action'] = 'DescribeVpcs'
+        data['VpcId'] = 'invalidevpc'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
+
+        get = mock.Mock()
+        get.return_value.text = read_file(
+            'tests/data/valid_describe_vpc.json'
+        )
+        get.return_value.status_code = 200
+
+        with mock.patch('requests.get', get):
+            response = self.post(
+                '/',
+                data=data
+            )
+
+        self.assert_bad_request(response)
+        assert 'InvalidVpcID.NotFound' in response.data
+
     def test_delete_vpc(self):
         data = self.get_example_data()
         data['Action'] = 'DeleteVpc'
