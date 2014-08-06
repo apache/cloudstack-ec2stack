@@ -2,7 +2,7 @@
 {% block response_content %}
    <snapshot>
       <snapshotId>{{ response.id }}</snapshotId>
-      <volumeId>{{ snapshot.volumeid }}</volumeId>
+      <volumeId>{{ response.volumeid }}</volumeId>
       <status>{{ response.state }}</status>
    </snapshot>
 {% endblock %}

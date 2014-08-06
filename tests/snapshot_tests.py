@@ -55,7 +55,7 @@ class SnapshotTestCase(Ec2StackAppTestCase):
 
     def test_describe_snapshot_by_name(self):
         data = self.get_example_data()
-        data['Action'] = 'DescribeVpcs'
+        data['Action'] = 'DescribeSnapshots'
         data['SnapshotId'] = 'examplesnapshot'
         data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
@@ -71,13 +71,14 @@ class SnapshotTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
+        print response.data
         self.assert_ok(response)
         assert 'DescribeSnapshotsResponse' in response.data
         assert 'examplesnapshot' in response.data
 
     def test_describe_snapshot_by_name_invalid_name(self):
         data = self.get_example_data()
-        data['Action'] = 'DescribeVpcs'
+        data['Action'] = 'DescribeSnapshots'
         data['SnapshotId'] = 'invalidsnapshot'
         data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
@@ -94,7 +95,7 @@ class SnapshotTestCase(Ec2StackAppTestCase):
             )
 
         self.assert_bad_request(response)
-        assert 'InvalidSnapshotID.NotFound' in response.data
+        assert 'InvalidSnapshot.NotFound' in response.data
 
     def test_delete_snapshot(self):
         data = self.get_example_data()

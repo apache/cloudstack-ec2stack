@@ -4,14 +4,10 @@
 """This module contains functions for handling requests in relation to snapshots.
 """
 
-import uuid
-
-from flask import current_app
-
 from ec2stack import errors
 from ec2stack import helpers
 from ec2stack.providers import cloudstack
-from ec2stack.providers.cloudstack import requester, zones
+from ec2stack.providers.cloudstack import requester
 
 
 @helpers.authentication_required
@@ -46,7 +42,7 @@ def _create_snapshot_response(response):
     @return: Response.
     """
 
-    response = response['snapshot']
+    response = response['vmsnapshot']
     return {
         'template_name_or_list': 'create_snapshot.xml',
         'response_type': 'CreateSnapshotResponse',
@@ -101,7 +97,7 @@ def describe_snapshots():
     """
     args = {'command': 'listSnapshots'}
     response = cloudstack.describe_item(
-        args, 'snapshot', errors.invalid_snapshot_id, 'SnapshotId'
+        args, 'vmsnapshot', errors.invalid_snapshot_id, 'SnapshotId'
     )
 
     return _describe_snapshot_response(
