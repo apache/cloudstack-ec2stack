@@ -1,0 +1,25 @@
+{
+    "listvmsnapshotresponse": {
+        "count": 2,
+        "vmSnapshot": [{
+            "id": "9f2f067f-3ae7-427d-95d9-3c338dcbd5a3",
+            "name": "i-2-12-VM_VS_20140805203432",
+            "state": "Ready",
+            "displayname": "testsnapshot1",
+            "virtualmachineid": "daa492b4-bd09-46b0-a4ad-142e187ecdbe",
+            "parentName": "testsnapshot",
+            "current": true,
+            "type": "Disk",
+            "created": "2014-08-05T21:34:32+0100"
+        }, {
+            "id": "e0e04b84-6178-49a7-9d2f-a2cc6a82d4e4",
+            "name": "i-2-12-VM_VS_20140805203303",
+            "state": "Ready",
+            "displayname": "testsnapshot",
+            "virtualmachineid": "daa492b4-bd09-46b0-a4ad-142e187ecdbe",
+            "current": false,
+            "type": "Disk",
+            "created": "2014-08-05T21:33:04+0100"
+        }]
+    }
+}

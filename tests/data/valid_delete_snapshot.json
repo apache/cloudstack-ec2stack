@@ -1,0 +1,16 @@
+{
+    "queryasyncjobresultresponse": {
+        "accountid": "f7ca69ba-1cd5-11e4-b589-080027ce083d",
+        "userid": "f7ca8d3c-1cd5-11e4-b589-080027ce083d",
+        "cmd": "org.apache.cloudstack.api.command.user.vmsnapshot.DeleteVMSnapshotCmd",
+        "jobstatus": 1,
+        "jobprocstatus": 0,
+        "jobresultcode": 0,
+        "jobresulttype": "object",
+        "jobresult": {
+            "success": true
+        },
+        "created": "2014-08-05T21:37:50+0100",
+        "jobid": "f94a67b2-e389-4790-ae89-f19968d31318"
+    }
+}

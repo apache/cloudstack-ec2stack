@@ -1,0 +1,25 @@
+{
+    "queryasyncjobresultresponse": {
+        "accountid": "f7ca69ba-1cd5-11e4-b589-080027ce083d",
+        "userid": "f7ca8d3c-1cd5-11e4-b589-080027ce083d",
+        "cmd": "org.apache.cloudstack.api.command.user.vmsnapshot.CreateVMSnapshotCmd",
+        "jobstatus": 1,
+        "jobprocstatus": 0,
+        "jobresultcode": 0,
+        "jobresulttype": "object",
+        "jobresult": {
+            "vmsnapshot": {
+                "id": "e0e04b84-6178-49a7-9d2f-a2cc6a82d4e4",
+                "name": "i-2-12-VM_VS_20140805203303",
+                "state": "Ready",
+                "displayname": "testsnapshot",
+                "virtualmachineid": "daa492b4-bd09-46b0-a4ad-142e187ecdbe",
+                "current": true,
+                "type": "Disk",
+                "created": "2014-08-05T21:33:04+0100"
+            }
+        },
+        "created": "2014-08-05T21:33:04+0100",
+        "jobid": "8f89700a-6bd0-4b4b-a3f9-272fff1e8fc7"
+    }
+}
