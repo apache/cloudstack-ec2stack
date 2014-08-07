@@ -37,7 +37,14 @@ def _create_vpc_request():
     args['displaytext'] = name
     args['zoneid'] = zones.get_zone(
         current_app.config['CLOUDSTACK_DEFAULT_ZONE'])['id']
-    args['vpcofferingid'] = current_app.config['VPC_OFFERING_ID']
+
+    if 'VPC_OFFERING_ID' in current_app.config:
+        args['vpcofferingid'] = current_app.config['VPC_OFFERING_ID']
+    else:
+        errors.invalid_request(
+            str('VPC_OFFERING_ID') + " not found in configuration, " +
+            "please run ec2stack-configure -a True")
+
     args['cidr'] = helpers.get('CidrBlock')
 
     response = requester.make_request_async(args)
