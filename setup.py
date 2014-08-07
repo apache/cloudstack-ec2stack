@@ -20,7 +20,7 @@ def read_file(name):
 
 
 PROJECT = 'ec2stack'
-VERSION = '0.6'
+VERSION = '0.6.1'
 URL = 'http://github.com/imduffy15/ec2stack'
 AUTHOR = 'Darren Brogan, Ian Duffy'
 AUTHOR_EMAIL = 'brogand2@mail.dcu.ie, duffyi3@mail.dcu.ie'

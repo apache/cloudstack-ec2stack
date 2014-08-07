@@ -1,6 +1,11 @@
 History
 =======
 
+0.6.1 (7-08-2014)
+_________________
+
+* Fix bug in VPC creation when ec2stack is configured with a basic zone
+
 0.6.0 (20-07-2014)
 __________________
 
