@@ -1,0 +1,8 @@
+{
+    "deletesnapshotresponse": {
+        "errorcode": 431,
+        "uuidlist": [],
+        "cserrorcode": 9999,
+        "errortext": "Unable to execute API command deletesnapshot due to invalid value. Invalid parameter id value=abdb81fa-f4ac-4ec6-822c-34af7cd461 due to incorrect long value format, or entity does not exist or due to incorrect parameter annotation for the field in api cmd class."
+    }
+}

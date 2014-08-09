@@ -17,6 +17,7 @@ def create_snapshot():
 
     @return: Response.
     """
+    helpers.require_parameters(['VolumeId'])
     response = _create_snapshot_request()
     return _create_snapshot_response(response)
 
@@ -27,7 +28,7 @@ def _create_snapshot_request():
 
     @return: Response.
     """
-    args = {'command': 'createSnapshot'}
+    args = {'command': 'createSnapshot', 'volumeid': helpers.get('VolumeId')}
 
     response = requester.make_request_async(args)
 
@@ -41,8 +42,11 @@ def _create_snapshot_response(response):
     @param response: Response from Cloudstack.
     @return: Response.
     """
-
-    response = response['vmsnapshot']
+    if 'errortext' in response:
+        if 'Invalid parameter volumeid' in response['errortext']:
+            errors.invalid_volume_id()
+    else:
+        response = response['snapshot']
     return {
         'template_name_or_list': 'create_snapshot.xml',
         'response_type': 'CreateSnapshotResponse',
@@ -58,8 +62,8 @@ def delete_snapshot():
     @return: Response.
     """
     helpers.require_parameters(['SnapshotId'])
-    _delete_snapshot_request()
-    return _delete_snapshot_response()
+    response = _delete_snapshot_request()
+    return _delete_snapshot_response(response)
 
 
 def _delete_snapshot_request():
@@ -75,12 +79,15 @@ def _delete_snapshot_request():
     return response
 
 
-def _delete_snapshot_response():
+def _delete_snapshot_response(response):
     """
     Generates a response for delete snapshot request.
 
     @return: Response.
     """
+    if 'errortext' in response:
+        if 'Invalid parameter id' in response['errortext']:
+            errors.invalid_snapshot_id()
     return {
         'template_name_or_list': 'status.xml',
         'response_type': 'DeleteSnapshotResponse',
