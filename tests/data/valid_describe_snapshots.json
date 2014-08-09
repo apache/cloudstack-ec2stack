@@ -1,7 +1,7 @@
 {
     "listvmsnapshotresponse": {
         "count": 2,
-        "vmSnapshot": [{
+        "snapshot": [{
             "id": "9f2f067f-3ae7-427d-95d9-3c338dcbd5a3",
             "name": "i-2-12-VM_VS_20140805203432",
             "state": "Ready",

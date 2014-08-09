@@ -8,7 +8,7 @@
         "jobresultcode": 0,
         "jobresulttype": "object",
         "jobresult": {
-            "vmsnapshot": {
+            "snapshot": {
                 "id": "e0e04b84-6178-49a7-9d2f-a2cc6a82d4e4",
                 "name": "i-2-12-VM_VS_20140805203303",
                 "state": "Ready",
