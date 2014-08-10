@@ -1,0 +1,12 @@
+{% extends "response.xml" %}
+{% block response_content %}
+    <snapshotSet>
+        {% for snapshot in response.snapshot %}
+        <item>
+            <snapshotId>{{ snapshot.id }}</snapshotId>
+            <volumeId>{{ snapshot.volumeid }}</volumeId>
+            <status>{{ response.state }}</status>
+        </item>
+        {% endfor %}
+    </snapshotSet>
+{% endblock %}

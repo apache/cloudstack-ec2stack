@@ -1,0 +1,16 @@
+{
+    "listvmsnapshotresponse": {
+        "count": 1,
+        "snapshot": [{
+            "id": "examplesnapshot",
+            "name": "i-2-12-VM_VS_20140805203432",
+            "state": "Ready",
+            "displayname": "testsnapshot1",
+            "virtualmachineid": "daa492b4-bd09-46b0-a4ad-142e187ecdbe",
+            "parentName": "testsnapshot",
+            "current": true,
+            "type": "Disk",
+            "created": "2014-08-05T21:34:32+0100"
+        }]
+    }
+}

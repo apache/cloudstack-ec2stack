@@ -112,7 +112,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
 
         get = mock.Mock()
         get.return_value.text = read_file(
-            'tests/data/valid_create_volume_response.json'
+            'tests/data/valid_create_volume.json'
         )
         get.return_value.status_code = 200
 
@@ -152,7 +152,7 @@ class VolumeTestCase(Ec2StackAppTestCase):
 
         get = mock.Mock()
         get.return_value.text = read_file(
-            'tests/data/valid_create_volume_response.json'
+            'tests/data/valid_create_volume.json'
         )
         get.return_value.status_code = 200
 

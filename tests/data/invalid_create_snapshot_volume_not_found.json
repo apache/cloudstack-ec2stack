@@ -1,0 +1,8 @@
+{
+    "createsnapshotresponse": {
+        "errorcode": 431,
+        "uuidlist": [],
+        "cserrorcode": 9999,
+        "errortext": "Unable to execute API command createsnapshot due to invalid value. Invalid parameter volumeid value=120a5425-6092-4700-baaf-600fcbaa10 due to incorrect long value format, or entity does not exist or due to incorrect parameter annotation for the field in api cmd class."
+    }
+}

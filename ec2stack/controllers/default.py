@@ -8,7 +8,7 @@ from ec2stack.helpers import get, error_response, \
 from ec2stack.core import Ec2stackError
 from ec2stack.services import USERS
 from ec2stack.providers.cloudstack import images, instances, keypairs, \
-    passwords, security_groups, zones, volumes, tags, vpcs
+    passwords, security_groups, zones, volumes, tags, vpcs, snapshots
 
 
 DEFAULT = Blueprint('default', __name__)
@@ -45,11 +45,13 @@ def _get_action(action):
         security_groups.authenticate_security_group_ingress,
         'CreateKeyPair': keypairs.create_keypair,
         'CreateSecurityGroup': security_groups.create_security_group,
+        'CreateSnapshot': snapshots.create_snapshot,
         'CreateTags': tags.create_tags,
         'CreateVolume': volumes.create_volume,
         'CreateVpc': vpcs.create_vpc,
         'DeleteKeyPair': keypairs.delete_keypair,
         'DeleteSecurityGroup': security_groups.delete_security_group,
+        'DeleteSnapshot': snapshots.delete_snapshot,
         'DeleteTags': tags.delete_tags,
         'DeleteVolume': volumes.delete_volume,
         'DeleteVpc': vpcs.delete_vpc,
@@ -60,6 +62,7 @@ def _get_action(action):
         'DescribeInstances': instances.describe_instances,
         'DescribeKeyPairs': keypairs.describe_keypairs,
         'DescribeSecurityGroups': security_groups.describe_security_groups,
+        'DescribeSnapshots': snapshots.describe_snapshots,
         'DescribeTags': tags.describe_tags,
         'DescribeVolumes': volumes.describe_volumes,
         'DescribeVpcs': vpcs.describe_vpcs,
