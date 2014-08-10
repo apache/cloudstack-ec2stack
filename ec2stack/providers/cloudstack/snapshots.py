@@ -104,7 +104,7 @@ def describe_snapshots():
     """
     args = {'command': 'listSnapshots'}
     response = cloudstack.describe_item(
-        args, 'vmsnapshot', errors.invalid_snapshot_id, 'SnapshotId'
+        args, 'snapshot', errors.invalid_snapshot_id, 'SnapshotId'
     )
 
     return _describe_snapshot_response(
