@@ -33,6 +33,27 @@ class SnapshotTestCase(Ec2StackAppTestCase):
         self.assert_ok(response)
         assert 'CreateSnapshotResponse' in response.data
 
+    def test_create_snapshot_invalid_volume(self):
+        data = self.get_example_data()
+        data['Action'] = 'CreateSnapshot'
+        data['VolumeId'] = 'invalidvolumeid'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
+
+        get = mock.Mock()
+        get.return_value.text = read_file(
+            'tests/data/invalid_create_snapshot_volume_not_found.json'
+        )
+        get.return_value.status_code = 200
+
+        with mock.patch('requests.get', get):
+            response = self.post(
+                '/',
+                data=data
+            )
+
+        self.assert_bad_request(response)
+        assert 'InvalidVolume.NotFound' in response.data
+
     def test_describe_snapshots(self):
         data = self.get_example_data()
         data['Action'] = 'DescribeSnapshots'
@@ -71,7 +92,6 @@ class SnapshotTestCase(Ec2StackAppTestCase):
                 data=data
             )
 
-        print response.data
         self.assert_ok(response)
         assert 'DescribeSnapshotsResponse' in response.data
         assert 'examplesnapshot' in response.data
@@ -100,7 +120,7 @@ class SnapshotTestCase(Ec2StackAppTestCase):
     def test_delete_snapshot(self):
         data = self.get_example_data()
         data['Action'] = 'DeleteSnapshot'
-        data['SnapshotId'] = 'Test'
+        data['SnapshotId'] = 'snapshotid'
         data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
@@ -117,3 +137,24 @@ class SnapshotTestCase(Ec2StackAppTestCase):
 
         self.assert_ok(response)
         assert 'DeleteSnapshotResponse' in response.data
+
+    def test_delete_snapshot(self):
+        data = self.get_example_data()
+        data['Action'] = 'DeleteSnapshot'
+        data['SnapshotId'] = 'invalidsnapshotid'
+        data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
+
+        get = mock.Mock()
+        get.return_value.text = read_file(
+            'tests/data/invalid_delete_snapshot_snapshot_not_found.json'
+        )
+        get.return_value.status_code = 200
+
+        with mock.patch('requests.get', get):
+            response = self.post(
+                '/',
+                data=data
+            )
+
+        self.assert_bad_request(response)
+        assert 'InvalidSnapshot.NotFound' in response.data
