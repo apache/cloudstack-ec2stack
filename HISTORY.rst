@@ -1,6 +1,14 @@
 History
 =======
 
+0.7.0 (11-08-2014)
+__________________
+
+* Added support for snapshot operations
+    * createSnapshot
+    * deleteSnapshot
+    * listSnapshots
+
 0.6.1 (7-08-2014)
 _________________
 
