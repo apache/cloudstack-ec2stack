@@ -240,11 +240,20 @@ class VolumeTestCase(Ec2StackAppTestCase):
         )
         get_request.return_value.status_code = 200
 
+        get_zone = mock.Mock()
+        get_zone.return_value = json.loads(read_file(
+            'tests/data/zones_search.json'
+        ))
+
         with mock.patch('requests.get', get_request):
-            response = self.post(
-                '/',
-                data=data
-            )
+            with mock.patch(
+                'ec2stack.providers.cloudstack.zones.get_zone',
+                get_zone
+            ):
+                response = self.post(
+                    '/',
+                    data=data
+                )
 
         self.assert_bad_request(response)
         assert 'InvalidDiskOffering.NotFound' in response.data

@@ -170,7 +170,7 @@ def _set_optional_attributes_of_profile(config, profile):
     """
 
     configure_instance_type_mapings = raw_input(
-        'Do you wish to input a local custom storage disk? (Yes/No): '
+        'Do you wish to input a local custom storage disk for instances? (Yes/No): '
     )
 
     if configure_instance_type_mapings.lower() in ['yes', 'y']:

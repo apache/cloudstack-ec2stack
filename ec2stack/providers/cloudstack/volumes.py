@@ -92,26 +92,39 @@ def _create_volume_request():
     """
     args = {}
 
-    if helpers.contains_parameter('SnapshotId'):
-        args['snapshotid'] = helpers.get('SnapshotId')
-
-    else:
-        helpers.require_parameters(['Size'])
-        args['size'] = helpers.get('Size')
-        args['diskofferingid'] = disk_offerings.get_disk_offering(
-            current_app.config['CLOUDSTACK_CUSTOM_DISK_OFFERING']
-        )['id']
-
     zone_name = helpers.get('AvailabilityZone')
     zone_id = zones.get_zone(zone_name)['id']
 
     args['zoneid'] = zone_id
-    args['command'] = 'createVolume'
-    args['name'] = uuid.uuid1()
 
-    response = requester.make_request_async(args)
+    if helpers.contains_parameter('SnapshotId'):
+        args['snapshotid'] = helpers.get('SnapshotId')
+        args['name'] = uuid.uuid1()
+        args['command'] = 'createVolume'
+        response = requester.make_request_async(args)
+
+    else:
+        helpers.require_parameters(['Size'])
+        size = helpers.get('Size')
+        disk_id = disk_offerings.get_disk_offering(
+            current_app.config['CLOUDSTACK_CUSTOM_DISK_OFFERING']
+        )['id']
+        response = create_cloudstack_volume_from_disk(disk_id, size, args)
 
     return response
+
+def create_cloudstack_volume_from_disk(disk_id, size, args):
+    """
+    Create a volume from disk offering.
+
+    @return: Response.
+    """
+    args['command'] = 'createVolume'
+    args['diskofferingid'] = disk_id
+    args['name'] = uuid.uuid1()
+    args['size'] = size
+
+    return requester.make_request_async(args)
 
 
 def _create_volume_response(response):

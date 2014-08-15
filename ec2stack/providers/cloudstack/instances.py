@@ -8,7 +8,7 @@ instances.
 from flask import current_app
 
 from ec2stack.providers import cloudstack
-from ec2stack.providers.cloudstack import requester, service_offerings, zones
+from ec2stack.providers.cloudstack import requester, service_offerings, zones, disk_offerings
 from ec2stack import helpers, errors
 
 
@@ -122,7 +122,21 @@ def _run_instance_request():
 
     @return: Response.
     """
+
     args = {}
+    if helpers.contains_parameter('Placement.AvailabilityZone'):
+        zone_id = zones.get_zone(
+            helpers.get('Placement.AvailabilityZone')
+        )
+    else:
+        zone_id = zones.get_zone(
+            current_app.config['CLOUDSTACK_DEFAULT_ZONE']
+        )['id']
+
+    if helpers.get('BlockDeviceMapping.1.Ebs.VolumeType') is not None:
+        args = _get_simulated_combination_instance_storage_args(zone_id)
+    else:
+        args['zoneid'] = zone_id
 
     if helpers.get('InstanceType') is None:
         instance_type = 'm1.small'
@@ -138,15 +152,6 @@ def _run_instance_request():
     args['serviceofferingid'] = \
         service_offerings.get_service_offering(instance_type)['id']
     args['templateid'] = helpers.get('ImageId')
-
-    if helpers.contains_parameter('Placement.AvailabilityZone'):
-        args['zoneid'] = zones.get_zone(
-            helpers.get('Placement.AvailabilityZone')
-        )
-    else:
-        args['zoneid'] = zones.get_zone(
-            current_app.config['CLOUDSTACK_DEFAULT_ZONE']
-        )['id']
 
     if helpers.contains_parameter('KeyName'):
         args['keypair'] = helpers.get('KeyName')
@@ -177,6 +182,25 @@ def _run_instance_request():
     response = requester.make_request_async(args)
 
     return response
+
+def _get_simulated_combination_instance_storage_args(zone_id):
+    args = {}
+    disk_type = helpers.get('BlockDeviceMapping.1.Ebs.VolumeType')
+    if disk_type == 'gp2':
+        if 'CLOUDSTACK_LOCAL_CUSTOM_DISK_OFFERING' in current_app.config:
+            args['diskofferingid'] = disk_offerings.get_disk_offering(
+                current_app.config['CLOUDSTACK_LOCAL_CUSTOM_DISK_OFFERING']
+            )['id']
+        else:
+            errors.invalid_request(
+                str('CLOUDSTACK_LOCAL_CUSTOM_DISK_OFFERING') + " not found in "
+                "configuration, no able to configure gp2 disk, please run ec2stack-configure and chose to configure "
+                "a local disk")
+
+    if helpers.get('BlockDeviceMapping.1.Ebs.VolumeSize') is None:
+        errors.invalid_request("VolumeSize not found in BlockDeviceMapping")
+    else:
+        args['size'] = helpers.get('BlockDeviceMapping.1.Ebs.VolumeSize')
 
 
 def _run_instance_response(response):
