@@ -8,7 +8,8 @@ instances.
 from flask import current_app
 
 from ec2stack.providers import cloudstack
-from ec2stack.providers.cloudstack import requester, service_offerings, zones, disk_offerings
+from ec2stack.providers.cloudstack import requester, service_offerings, zones, \
+    disk_offerings, volumes
 from ec2stack import helpers, errors
 
 
@@ -104,6 +105,48 @@ def _describe_instances_response(response):
 
 
 @helpers.authentication_required
+def reboot_instance():
+    """
+    Reboot an instance.
+
+    @return: Response.
+    """
+    helpers.require_parameters(['InstanceId.1'])
+    instance_id = helpers.get('InstanceId.1')
+    _reboot_instance_request(instance_id)
+    return _reboot_instance_response()
+
+
+def _reboot_instance_request(instance_id):
+    """
+    Request to reboot an instance.
+
+    @param instance_id: Id of instance to be rebooted.
+    @return: Response.
+    """
+    args = {'command': 'rebootVirtualMachine',
+            'id': instance_id}
+    response = requester.make_request_async(args)
+    response = response['virtualmachine']
+    return response
+
+
+def _reboot_instance_response():
+    """
+    Generates a response for a reboot instance request.
+
+    @return: Response.
+    """
+    response = {
+        'template_name_or_list': 'status.xml',
+        'response_type': 'RebootInstancesResponse',
+        'return': 'true'
+    }
+
+    return response
+
+
+@helpers.authentication_required
 def run_instance():
     """
     Run a instance.
@@ -122,21 +165,26 @@ def _run_instance_request():
 
     @return: Response.
     """
-
     args = {}
     if helpers.contains_parameter('Placement.AvailabilityZone'):
-        zone_id = zones.get_zone(
+        args['zoneid'] = zones.get_zone(
             helpers.get('Placement.AvailabilityZone')
         )
     else:
-        zone_id = zones.get_zone(
+        args['zoneid'] = zones.get_zone(
             current_app.config['CLOUDSTACK_DEFAULT_ZONE']
         )['id']
 
     if helpers.get('BlockDeviceMapping.1.Ebs.VolumeType') is not None:
-        args = _get_simulated_combination_instance_storage_args(zone_id)
-    else:
-        args['zoneid'] = zone_id
+        disk_type = helpers.get('BlockDeviceMapping.1.Ebs.VolumeType')
+        if disk_type == 'gp2':
+            args['diskofferingid'] = disk_offerings.get_disk_offering(
+                current_app.config['CLOUDSTACK_LOCAL_CUSTOM_DISK_OFFERING']
+            )['id']
+        if helpers.get('BlockDeviceMapping.1.Ebs.VolumeSize') is None:
+            errors.invalid_request("VolumeSize not found in BlockDeviceMapping")
+        else:
+            args['size'] = helpers.get('BlockDeviceMapping.1.Ebs.VolumeSize')
 
     if helpers.get('InstanceType') is None:
         instance_type = 'm1.small'
@@ -183,25 +231,6 @@ def _run_instance_request():
 
     return response
 
-def _get_simulated_combination_instance_storage_args(zone_id):
-    args = {}
-    disk_type = helpers.get('BlockDeviceMapping.1.Ebs.VolumeType')
-    if disk_type == 'gp2':
-        if 'CLOUDSTACK_LOCAL_CUSTOM_DISK_OFFERING' in current_app.config:
-            args['diskofferingid'] = disk_offerings.get_disk_offering(
-                current_app.config['CLOUDSTACK_LOCAL_CUSTOM_DISK_OFFERING']
-            )['id']
-        else:
-            errors.invalid_request(
-                str('CLOUDSTACK_LOCAL_CUSTOM_DISK_OFFERING') + " not found in "
-                "configuration, no able to configure gp2 disk, please run ec2stack-configure and chose to configure "
-                "a local disk")
-
-    if helpers.get('BlockDeviceMapping.1.Ebs.VolumeSize') is None:
-        errors.invalid_request("VolumeSize not found in BlockDeviceMapping")
-    else:
-        args['size'] = helpers.get('BlockDeviceMapping.1.Ebs.VolumeSize')
-
 
 def _run_instance_response(response):
     """
@@ -226,48 +255,6 @@ def _run_instance_response(response):
             'response_type': 'RunInstancesResponse',
             'response': response
         }
-
-    return response
-
-
-@helpers.authentication_required
-def reboot_instance():
-    """
-    Reboot an instance.
-
-    @return: Response.
-    """
-    helpers.require_parameters(['InstanceId.1'])
-    instance_id = helpers.get('InstanceId.1')
-    _reboot_instance_request(instance_id)
-    return _reboot_instance_response()
-
-
-def _reboot_instance_request(instance_id):
-    """
-    Request to reboot an instance.
-
-    @param instance_id: Id of instance to be rebooted.
-    @return: Response.
-    """
-    args = {'command': 'rebootVirtualMachine',
-            'id': instance_id}
-    response = requester.make_request_async(args)
-    response = response['virtualmachine']
-    return response
-
-
-def _reboot_instance_response():
-    """
-    Generates a response for a reboot instance request.
-
-    @return: Response.
-    """
-    response = {
-        'template_name_or_list': 'status.xml',
-        'response_type': 'RebootInstancesResponse',
-        'return': 'true'
-    }
 
     return response
 
