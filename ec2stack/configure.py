@@ -169,13 +169,13 @@ def _set_optional_attributes_of_profile(config, profile):
     @return: configparser configuration.
     """
 
-    configure_instance_type_mapings = raw_input(
-        'Do you wish to input a local custom storage disk for instances? (Yes/No): '
+    configure_instance_disk = raw_input(
+        'Do you wish to input a second custom storage disk for instances? (Yes/No): '
     )
 
-    if configure_instance_type_mapings.lower() in ['yes', 'y']:
+    if configure_instance_disk.lower() in ['yes', 'y']:
         config = _set_attribute_of_profile(
-            config, profile, 'cloudstack_local_custom_disk_offering', 'Cloudstack custom local disk offering name', 'CustomLocal'
+            config, profile, 'cloudstack_instance_custom_disk_offering', 'Cloudstack custom instance disk offering name', 'CustomInstance'
         )
 
     configure_instance_type_mapings = raw_input(
