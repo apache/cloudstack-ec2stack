@@ -178,14 +178,9 @@ def _run_instance_request():
     if helpers.get('BlockDeviceMapping.1.Ebs.VolumeType') is not None:
         disk_type = helpers.get('BlockDeviceMapping.1.Ebs.VolumeType')
         if disk_type == 'gp2':
-             if 'CLOUDSTACK_INSTANCE_CUSTOM_DISK_OFFERING' in current_app.config:
-                args['diskofferingid'] = disk_offerings.get_disk_offering(
-                    current_app.config['CLOUDSTACK_INSTANCE_CUSTOM_DISK_OFFERING']
-                )['id']
-             else:
-                errors.invalid_request(
-                    "Unable to configure secondary disk, please run ec2stack-configure and choose to "
-                    "configure an instance disk")
+            args['diskofferingid'] = disk_offerings.get_disk_offering(
+                current_app.config['CLOUDSTACK_CUSTOM_DISK_OFFERING']
+            )['id']
 
         if helpers.get('BlockDeviceMapping.1.Ebs.VolumeSize') is None:
             errors.invalid_request("VolumeSize not found in BlockDeviceMapping")
