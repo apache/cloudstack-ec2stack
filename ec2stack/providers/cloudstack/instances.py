@@ -226,6 +226,9 @@ def _run_instance_request():
 
         args['securitygroupnames'] = ",".join(securitygroupnames)
 
+    if helpers.get('SubnetId') is not None:
+        args['networkids'] = helpers.get('SubnetId')
+
     args['command'] = 'deployVirtualMachine'
 
     response = requester.make_request_async(args)
