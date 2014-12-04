@@ -2,7 +2,7 @@
 EC2STACK
 ========
 
-An EC2 Compatibility Interface For Apache Cloudstack
+An EC2 Compatibility Interface For Apache CloudStack
 ####################################################
 
 .. image:: https://badge.fury.io/py/ec2stack.png
@@ -15,15 +15,55 @@ An EC2 Compatibility Interface For Apache Cloudstack
 Description
 -----------
 
-Apache Cloudstack is open source software designed to deploy and manage large networks of virtual machines, as highly available, highly scalable Infrastructure as a Service(laaS) cloud computing platform. Apache Cloudstack is used by a number of service providers to offer public cloud services, and by many companies to provide an on-premises (private) cloud offering.
+Apache CloudStack_ is an open source software designed to deploy and manage large networks of virtual machines, as highly available, highly scalable Infrastructure as a Service (IaaS) cloud computing platform.
 
-Users can manage their Apache Cloudstack cloud with an easy to use web interface, command line tools and/or a full featured RESTful API.
+ec2stack takes Amazon EC2 API requests, maps these requests to the appropriate CloudStack API calls and parses the responses as required. This allows utilities created for the Amazon EC2 API to be used against Apache CloudStack.
 
-Amazon web services(AWS) is a collection of “web services” that together make up Amazon’s cloud computing platform. The service is there to provide a large compute capacity much faster and cheaper than building a physical server farm. One of the most popular services offered is their elastic compute cloud service, better known as Amazon EC2. This service allows users to rent virtual machines in which they can run their own applications. Amazon’s EC2 service was one of the first cloud computing services brought out and as such the API Amazon exposed for the configuration and management of their virtual machines became a de facto standard for many cloud based utilities.
+Easy setup with Docker_
+-----------------------
 
-Bridging Apache Cloudstack with existing public cloud providers APIs is needed in order to help users work across clouds. Our project’s aim is to create an application that will sit above the Apache Cloudstack API. The application will take in common Amazon EC2 API requests, execute the necessary Cloudstack Calls and parse the responses as required. This would allow utilities created for the Amazon EC2 API to be used against Apache Cloudstack. This effectively gives users their own private Amazon EC2-like Infrastructure.
+The easiest way to run ec2stack is to use a docker container. Pull the image from docker hub.
+
+::
+
+    docker pull runseb/ec2stack
+
+Run an interactive container and configure ec2stack for your CloudStack endpoint.
+Be careful to use 0.0.0.0 as the address for ec2stack server.
+
+::
+
+    docker run -t -i ec2stack ec2stack-configure
+
+Commit the configured container into a new image specific to your cloud.
+
+::
+
+    docker commit <container id> ec2stack:yourcloud
+
+Run an container with the ec2stack command
+
+::
+
+    docker run -d -p 5000:5000 ec2stack:yourcloud ec2stack
+
+Register a user
+
+::
+
+    curl -d AWSSecretKey=yoursecretkey -d AWSAccessKeyId=yourapikey -d Action=RegisterSecretKey http://localhost:5000
+
+You now just need to configure your aws cli and use the local ec2stack point:
+
+::
+
+    aws ec2 describe-images --endpoint=http://localhost:5000
 
 Usage
 -----
 
-Please see the User Guide (https://github.com/BroganD1993/ec2stack/wiki/User-Guide)
+Please see the User Guide_.
+
+.. _Guide: https://github.com/BroganD1993/ec2stack/wiki/User-Guide
+.. _CloudStack: http://cloudstack.apache.org
+.. _Docker: http://www.docker.com
