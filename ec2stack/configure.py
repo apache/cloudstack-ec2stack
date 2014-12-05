@@ -19,7 +19,6 @@ def main():
     """
     config_folder = _create_config_folder()
     _create_config_file(config_folder)
-    _create_database()
 
 
 def _create_config_folder():
@@ -281,16 +280,3 @@ def _read_in_config_attribute_or_use_default(message, default):
         attribute = default
 
     return attribute
-
-
-def _create_database():
-    """
-    Creates/Updates the database.
-    """
-    directory = os.path.join(os.path.dirname(__file__), '../migrations')
-    config = AlembicConfig(os.path.join(
-        directory,
-        'alembic.ini'
-    ))
-    config.set_main_option('script_location', directory)
-    command.upgrade(config, 'head', sql=False, tag=None)

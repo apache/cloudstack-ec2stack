@@ -8,6 +8,9 @@ import os
 import sys
 import argparse
 
+from alembic import command
+from alembic.config import Config as AlembicConfig
+
 from flask import Flask
 from ConfigParser import SafeConfigParser
 
@@ -140,6 +143,12 @@ def _load_database():
     )
 
     if not os.path.exists(database_file):
-        sys.exit('No database found, please run ec2stack-configure')
+        directory = os.path.join(os.path.dirname(__file__), '../migrations')
+        config = AlembicConfig(os.path.join(
+            directory,
+            'alembic.ini'
+        ))
+        config.set_main_option('script_location', directory)
+        command.upgrade(config, 'head', sql=False, tag=None)
 
     return 'sqlite:///' + database_file
