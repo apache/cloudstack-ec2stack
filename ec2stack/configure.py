@@ -7,9 +7,7 @@
 import os
 import argparse
 
-from alembic import command
 from ConfigParser import SafeConfigParser
-from alembic.config import Config as AlembicConfig
 
 
 def main():
