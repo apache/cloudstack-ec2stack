@@ -8,9 +8,9 @@
 #  to you under the Apache License, Version 2.0 (the
 #  "License"); you may not use this file except in compliance
 #  with the License.  You may obtain a copy of the License at
-#  
+#
 #    http://www.apache.org/licenses/LICENSE-2.0
-#  
+#
 #  Unless required by applicable law or agreed to in writing,
 #  software distributed under the License is distributed on an
 #  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -130,7 +130,6 @@ class VpcTestCase(Ec2StackAppTestCase):
         self.assert_ok(response)
         assert 'DescribeVpcsResponse' in response.data
         assert 'examplevpc' in response.data
-
 
     def test_describe_vpc_by_name_invalid_name(self):
         data = self.get_example_data()

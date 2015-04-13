@@ -8,9 +8,9 @@
 #  to you under the Apache License, Version 2.0 (the
 #  "License"); you may not use this file except in compliance
 #  with the License.  You may obtain a copy of the License at
-#  
+#
 #    http://www.apache.org/licenses/LICENSE-2.0
-#  
+#
 #  Unless required by applicable law or agreed to in writing,
 #  software distributed under the License is distributed on an
 #  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -136,7 +136,8 @@ def _config_from_config_profile(config_file, profile, app):
     instance_section = profile + "instancemap"
     if config.has_section(instance_section):
         for attribute in config.options(instance_section):
-            instance_type_map[attribute] = config.get(instance_section, attribute)
+            instance_type_map[attribute] = config.get(
+                instance_section, attribute)
 
     app.config['INSTANCE_TYPE_MAP'] = instance_type_map
 
@@ -144,7 +145,8 @@ def _config_from_config_profile(config_file, profile, app):
     resource_section = profile + "resourcemap"
     if config.has_section(resource_section):
         for attribute in config.options(resource_section):
-            resource_type_map[attribute] = config.get(resource_section, attribute)
+            resource_type_map[attribute] = config.get(
+                resource_section, attribute)
 
     app.config['RESOURCE_TYPE_MAP '] = resource_type_map
 

@@ -8,9 +8,9 @@
 #  to you under the Apache License, Version 2.0 (the
 #  "License"); you may not use this file except in compliance
 #  with the License.  You may obtain a copy of the License at
-#  
+#
 #    http://www.apache.org/licenses/LICENSE-2.0
-#  
+#
 #  Unless required by applicable law or agreed to in writing,
 #  software distributed under the License is distributed on an
 #  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -60,7 +60,8 @@ def _create_config_file(config_folder):
     profile = args.pop('profile')
     advanced_network_enabled = args.pop('advanced')
     config_file_path = config_folder + '/ec2stack.conf'
-    config = _modify_config_profile(config_file_path, profile, advanced_network_enabled)
+    config = _modify_config_profile(
+        config_file_path, profile, advanced_network_enabled)
     config_file = open(config_file_path, 'w+')
     config.write(config_file)
 
@@ -277,7 +278,8 @@ def _set_attribute_of_profile(config, profile, attribute, message, default):
     if config.has_option(profile, attribute):
         default = config.get(profile, attribute)
 
-    attribute_value = _read_in_config_attribute_or_use_default(message, default)
+    attribute_value = _read_in_config_attribute_or_use_default(
+        message, default)
 
     config.set(profile, attribute, attribute_value)
     return config

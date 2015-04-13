@@ -8,9 +8,9 @@
 #  to you under the Apache License, Version 2.0 (the
 #  "License"); you may not use this file except in compliance
 #  with the License.  You may obtain a copy of the License at
-#  
+#
 #    http://www.apache.org/licenses/LICENSE-2.0
-#  
+#
 #  Unless required by applicable law or agreed to in writing,
 #  software distributed under the License is distributed on an
 #  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -36,7 +36,6 @@ class TagsTestCase(Ec2StackAppTestCase):
         data['Tag.1.value'] = 'examplevalue'
         data['ResourceId.1'] = 'exampleresourceid'
 
-
         data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
@@ -60,7 +59,6 @@ class TagsTestCase(Ec2StackAppTestCase):
         data['Tag.1.Key'] = 'examplekey'
         data['Tag.1.value'] = 'examplevalue'
         data['ResourceId.1'] = 'exampleunconfigredresourceid'
-
 
         data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
@@ -86,7 +84,6 @@ class TagsTestCase(Ec2StackAppTestCase):
         data['Tag.1.value'] = 'examplevalue'
         data['ResourceId.1'] = 'exampleresourceid'
 
-
         data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
@@ -109,7 +106,6 @@ class TagsTestCase(Ec2StackAppTestCase):
         data['Action'] = 'DeleteTags'
         data['Tag.1.Key'] = 'examplekey'
         data['ResourceId.1'] = 'exampleresourceid'
-
 
         data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
@@ -134,7 +130,6 @@ class TagsTestCase(Ec2StackAppTestCase):
         data['Tag.1.Key'] = 'examplekey'
         data['ResourceId.1'] = 'exampleunconfigredresourceid'
 
-
         data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
         get = mock.Mock()
@@ -157,7 +152,6 @@ class TagsTestCase(Ec2StackAppTestCase):
         data['Action'] = 'DeleteTags'
         data['Tag.1.Key'] = 'examplekey'
         data['ResourceId.1'] = 'exampleresourceid'
-
 
         data['Signature'] = generate_signature(data, 'POST', 'localhost', '/')
 
@@ -216,5 +210,3 @@ class TagsTestCase(Ec2StackAppTestCase):
 
         self.assert_ok(response)
         assert 'DescribeTagsResponse' in response.data
-
-
