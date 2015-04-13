@@ -125,9 +125,7 @@ def _config_from_config_profile(config_file, profile, app):
     config.read(config_file)
 
     if not config.has_section(profile):
-        sys.exit('No profile matching ' + profile
-                 + ' found in configuration, please run ec2stack-configure -p '
-                 + profile)
+        sys.exit('No profile matching ' + profile + ' found in configuration, please run ec2stack-configure -p ' + profile)
 
     for attribute in config.options(profile):
         app.config[attribute.upper()] = config.get(profile, attribute)
