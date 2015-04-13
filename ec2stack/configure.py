@@ -192,7 +192,8 @@ def _set_optional_attributes_of_profile(config, profile):
         config = _read_user_instance_mappings(config, profile)
 
     configure_resource_type_mapings = raw_input(
-        'Do you wish to input resource type to resource id mappings' + ' for tag support? (Yes/No): '
+        'Do you wish to input resource type to resource id mappings' +
+        ' for tag support? (Yes/No): '
     )
 
     if configure_resource_type_mapings.lower() in ['yes', 'y']:
