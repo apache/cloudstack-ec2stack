@@ -7,10 +7,8 @@ An EC2 Compatibility Interface For Apache CloudStack
 
 .. image:: https://badge.fury.io/py/ec2stack.png
     :target: https://pypi.python.org/pypi/ec2stack
-.. image:: https://api.travis-ci.org/BroganD1993/ec2stack.png?branch=master
-    :target: https://travis-ci.org/BroganD1993/ec2stack
-.. image:: https://coveralls.io/repos/BroganD1993/ec2stack/badge.png?branch=master
-    :target: https://coveralls.io/r/BroganD1993/ec2stack
+.. image:: https://api.travis-ci.org/apache/cloudstack-ec2stack.png?branch=master
+    :target: https://travis-ci.org/apache/cloudstack-ec2stack
 
 Description
 -----------
