@@ -60,7 +60,22 @@ You now just need to configure your aws cli and use the local ec2stack point:
 Usage
 -----
 
-Please see the User Guide_.
+**IMPORTANT**: Please note that the current version of ec2stack only supports AWS Signature Version 2 and therefore will NOT work with the current AWS CLI unless you explicitly tell it to use Version 2.  You can set the signature version for your default AWS CLI profile with:
+
+::
+
+    aws configure set default.ec2.signature_version v2
+
+If you are using named profiles then you can set the version for the specific profile with:
+
+::
+
+    aws configure set profile.<your profile name>.ec2.signature_version v2
+
+Both of the above commands will update your *~/.aws/config* file.
+
+
+For usage information please see the User Guide_.
 
 .. _Guide: https://github.com/BroganD1993/ec2stack/wiki/User-Guide
 .. _CloudStack: http://cloudstack.apache.org
