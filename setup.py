@@ -38,10 +38,10 @@ def read_file(name):
 
 
 PROJECT = 'ec2stack'
-VERSION = '0.7.2'
-URL = 'http://github.com/BroganD1993/ec2stack'
-AUTHOR = 'Darren Brogan, Ian Duffy'
-AUTHOR_EMAIL = 'brogand2@mail.dcu.ie, duffyi3@mail.dcu.ie'
+VERSION = '1.0.0'
+URL = 'https://git-wip-us.apache.org/repos/asf?p=cloudstack-ec2stack.git'
+AUTHOR = 'Apache Software Foundation'
+AUTHOR_EMAIL = 'dev@cloudstack.apache.org'
 DESC = "EC2 compatibility interface for Apache Cloudstack"
 LONG_DESC = read_file('README.rst')
 REQUIRES = [
