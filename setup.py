@@ -43,7 +43,7 @@ URL = 'https://git-wip-us.apache.org/repos/asf?p=cloudstack-ec2stack.git'
 AUTHOR = 'Apache Software Foundation'
 AUTHOR_EMAIL = 'dev@cloudstack.apache.org'
 DESC = "EC2 compatibility interface for Apache Cloudstack"
-LONG_DESC = read_file('README.rst')
+LONG_DESC = read_file('README.md')
 REQUIRES = [
     'Flask-SQLAlchemy', 'flask', 'requests', 'alembic'
 ]
