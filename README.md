@@ -3,10 +3,7 @@ Apache CloudStack EC2stack
 
 **An EC2 Compatibility Interface For Apache CloudStack**
 
-.. image:: https://badge.fury.io/py/ec2stack.png
-    :target: https://pypi.python.org/pypi/ec2stack
-.. image:: https://api.travis-ci.org/apache/cloudstack-ec2stack.png?branch=master
-    :target: https://travis-ci.org/apache/cloudstack-ec2stack
+[![Build Status](https://travis-ci.org/apache/cloudstack-ec2stack.svg?branch=master)](https://travis-ci.org/apache/cloudstack-ec2stack)
 
 Description
 -----------
