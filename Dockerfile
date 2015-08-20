@@ -24,14 +24,17 @@ LABEL Vendor="apache.org"
 LABEL License=ApacheV2
 LABEL Version=1.0.0
 
-RUN apt-get update
-RUN apt-get install -y python
-RUN apt-get install -y python-dev
-RUN apt-get install -y python-pip
-RUN apt-get clean all
-
-RUN pip install ec2stack
+RUN apt-get update && apt-get install -y \
+    python \
+    python-dev \
+    python-pip 
 RUN pip install --upgrade requests
+RUN apt-get clean
+
+COPY . /tmp/ec2stack
+WORKDIR /tmp/ec2stack
+
+RUN python ./setup.py install
 
 EXPOSE 5000
 
