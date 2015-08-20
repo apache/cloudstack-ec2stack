@@ -26,6 +26,7 @@ LABEL Version=1.0.0
 
 RUN apt-get update
 RUN apt-get install -y python
+RUN apt-get install -y python-dev
 RUN apt-get install -y python-pip
 RUN apt-get clean all
 
