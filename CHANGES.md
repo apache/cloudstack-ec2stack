@@ -19,6 +19,11 @@
 History
 =======
 
+0.8.0 (26-08-2015)
+------------------
+
+* First release under Apache CloudStack project
+
 0.7.1 (20-08-2014)
 ------------------
 
