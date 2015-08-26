@@ -35,13 +35,13 @@ Easy setup with [Docker](http://docker.com)
 
 The easiest way to run ec2stack is to use a docker container. Pull the image from docker hub.
 
-    $ docker pull runseb/ec2stack
+    $ docker pull cloudstack/cloudstack-ec2stack
 
 Run an interactive container and configure ec2stack for your CloudStack endpoint.
 Be careful to use 0.0.0.0 as the address for ec2stack server.
 
 
-    $ docker run -t -i ec2stack ec2stack-configure
+    $ docker run -t -i cloudstack/ec2stack ec2stack-configure
 
 Commit the configured container into a new image specific to your cloud.
 
