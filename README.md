@@ -38,10 +38,9 @@ The easiest way to run ec2stack is to use a docker container. Pull the image fro
     $ docker pull cloudstack/cloudstack-ec2stack
 
 Run an interactive container and configure ec2stack for your CloudStack endpoint.
-Be careful to use 0.0.0.0 as the address for ec2stack server.
+Be careful to use 0.0.0.0 as the bind address for ec2stack server.
 
-
-    $ docker run -t -i cloudstack/ec2stack ec2stack-configure
+    $ docker run -ti cloudstack/cloudstack-ec2stack ec2stack-configure
 
 Commit the configured container into a new image specific to your cloud.
 
@@ -53,8 +52,19 @@ Run an container with the ec2stack command
 
 Register a user
 
-
     $ curl -d AWSSecretKey=yoursecretkey -d AWSAccessKeyId=yourapikey -d Action=RegisterSecretKey http://localhost:5000
+
+This should return an xml response with the message "Successfully Registered"
+
+On Ubuntu systems install _pip_ and _awscli_ like so:
+
+    $ sudo apt-get install python-pip
+    $ sudo pip install awscli
+
+Configure the AWS cli by entreing your CloudStack cloud API keys, and the name of the zone. Set the signature version to be _v2_:
+
+    $ aws configure
+    $ aws configure set default.ec2.signature_version v2
 
 You now just need to configure your aws cli and use the local ec2stack point:
 
