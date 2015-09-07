@@ -38,7 +38,7 @@ def read_file(name):
 
 
 PROJECT = 'ec2stack'
-VERSION = '0.8.0'
+VERSION = '0.8.1'
 URL = 'https://git-wip-us.apache.org/repos/asf?p=cloudstack-ec2stack.git'
 AUTHOR = 'Apache Software Foundation'
 AUTHOR_EMAIL = 'dev@cloudstack.apache.org'
