@@ -21,7 +21,7 @@ Apache CloudStack EC2stack
 
 **An EC2 Compatibility Interface For Apache CloudStack**
 
-[![Build Status](https://travis-ci.org/apache/cloudstack-ec2stack.svg?branch=master)](https://travis-ci.org/apache/cloudstack-ec2stack)
+[![Build Status](https://travis-ci.org/apache/cloudstack-ec2stack.svg?branch=main)](https://travis-ci.org/apache/cloudstack-ec2stack)
 
 Description
 -----------
