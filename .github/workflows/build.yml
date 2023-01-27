@@ -28,5 +28,5 @@ jobs:
       - run: pip install mock
       - run: pip install coveralls      
       - run: pep8 --ignore=E501 *.py ec2stack      
-      - run: nosetests --with-coverage --cover-erase --cover-package=ec2stack --cover-html    
+      - run: nosetests3 --with-coverage --cover-erase --cover-package=ec2stack --cover-html    
       - run: coveralls       
