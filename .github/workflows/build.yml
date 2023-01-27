@@ -35,9 +35,4 @@ jobs:
           - nosetests --with-coverage --cover-erase --cover-package=ec2stack --cover-html
           
       - name: after success 
-          - coveralls
-    
-      
-    
-
-
+          - coveralls       
